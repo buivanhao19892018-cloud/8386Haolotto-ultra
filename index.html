@@ -1,15 +1,15 @@
 <!doctype html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Bùi Hào — Lotto ULTRA PRO (Web • OCR)</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Bùi Hào — Lotto ULTRA PRO (OCR Batch)</title>
 
   <style>
     :root{
       --b:#0f172a; --m:#64748b;
       --bd:rgba(15,23,42,.10);
-      --card:#ffffff; --card2:rgba(255,255,255,.70);
+      --card:rgba(255,255,255,.86);
       --ok:#0a7; --warn:#c80; --bad:#c22;
     }
     *{box-sizing:border-box}
@@ -27,7 +27,7 @@
     .topbar{
       display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
       padding:14px; border:1px solid var(--bd); border-radius:18px;
-      background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.72));
+      background:rgba(255,255,255,.80);
       backdrop-filter: blur(8px);
       box-shadow: 0 12px 30px rgba(2,8,23,.06);
       margin-bottom:12px;
@@ -46,12 +46,10 @@
       border-radius:18px;
       padding:14px;
       margin:12px 0;
-      background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.76));
+      background:var(--card);
       backdrop-filter: blur(8px);
       box-shadow: 0 10px 28px rgba(2,8,23,.06);
     }
-    .card.pro{border:1px solid rgba(15,23,42,.12)}
-    h1{font-size:16px; margin:0 0 6px;}
     h2{font-size:14.5px; margin:0 0 8px;}
     .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
     .between{justify-content:space-between;}
@@ -64,13 +62,13 @@
     }
     .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;}
     textarea{
-      width:100%; min-height:190px;
+      width:100%; min-height:170px;
       border:1px solid rgba(15,23,42,.12);
       border-radius:16px;
       padding:12px;
       font-size:14px;
       resize:vertical;
-      background:rgba(255,255,255,.85);
+      background:rgba(255,255,255,.92);
       outline:none;
     }
     input,select{
@@ -78,7 +76,7 @@
       border-radius:14px;
       padding:9px 10px;
       font-size:13px;
-      background:rgba(255,255,255,.85);
+      background:rgba(255,255,255,.92);
       outline:none;
     }
     button{
@@ -86,34 +84,34 @@
       border-radius:14px;
       padding:10px 14px;
       cursor:pointer;
-      font-weight:800;
+      font-weight:900;
       background:#0f172a;
       color:#fff;
       box-shadow: 0 10px 20px rgba(15,23,42,.16);
     }
-    button:disabled{opacity:.5; cursor:not-allowed}
     button.secondary{
-      background:rgba(255,255,255,.80);
+      background:rgba(255,255,255,.92);
       color:#0f172a;
       border:1px solid rgba(15,23,42,.12);
       box-shadow:none;
-    }
-    .grid{display:grid; grid-template-columns:1fr; gap:12px;}
-    @media (min-width: 980px){ .grid{grid-template-columns:1fr 1fr;} }
-    table{width:100%; border-collapse:collapse;}
-    th,td{
-      border-bottom:1px solid rgba(15,23,42,.08);
-      padding:8px 6px;
-      font-size:12.8px;
-      text-align:left;
-      vertical-align:top;
-      color:#0f172a;
-    }
-    th{
-      background:rgba(255,255,255,.85);
-      position:sticky; top:0; z-index:1;
       font-weight:800;
     }
+    button:disabled{opacity:.55; cursor:not-allowed}
+    .grid{display:grid; grid-template-columns:1fr; gap:12px;}
+    @media (min-width: 980px){ .grid{grid-template-columns:1fr 1fr;} }
+
+    .canvasWrap{
+      border:1px solid rgba(15,23,42,.12);
+      border-radius:16px;
+      background:rgba(255,255,255,.92);
+      overflow:hidden;
+    }
+    #imgCanvas{width:100%; height:auto; display:block; touch-action:none;}
+
+    table{width:100%; border-collapse:collapse;}
+    th,td{border-bottom:1px solid rgba(15,23,42,.08); padding:8px 6px; font-size:12.8px; text-align:left;}
+    th{background:rgba(255,255,255,.92); position:sticky; top:0; z-index:1; font-weight:900;}
+
     .tag{
       display:inline-block;
       padding:4px 10px;
@@ -121,690 +119,701 @@
       font-size:12px;
       border:1px solid rgba(15,23,42,.12);
       background:rgba(255,255,255,.72);
-      font-weight:800;
+      font-weight:900;
     }
     .tag.ok{border-color:rgba(0,170,120,.25); color:var(--ok); background:rgba(0,170,120,.06);}
     .tag.warn{border-color:rgba(204,136,0,.25); color:var(--warn); background:rgba(204,136,0,.06);}
     .tag.bad{border-color:rgba(204,34,34,.25); color:var(--bad); background:rgba(204,34,34,.06);}
+
     .kpi{display:flex; gap:10px; flex-wrap:wrap;}
     .kpi .box{
       flex:1; min-width:200px;
       border:1px solid rgba(15,23,42,.10);
       border-radius:16px;
       padding:10px;
-      background:rgba(255,255,255,.70);
+      background:rgba(255,255,255,.75);
     }
-    .big{font-size:20px; font-weight:900;}
+    .big{font-size:20px; font-weight:950;}
     .small{font-size:12.5px; color:var(--m);}
     .sep{height:1px; background:rgba(15,23,42,.08); margin:10px 0;}
     .note{font-size:12px; color:var(--m);}
     .good{font-weight:900;}
-
-    /* Canvas crop */
-    .canvasWrap{
-      border:1px solid rgba(15,23,42,.12);
-      border-radius:16px;
-      background:rgba(255,255,255,.88);
-      overflow:hidden;
-    }
-    #imgCanvas{width:100%; height:auto; display:block; touch-action:none;}
   </style>
 </head>
 
 <body>
-  <div class="wrap">
-    <div class="topbar">
-      <div class="brand">
-        <div class="title">Bùi Hào — Lotto ULTRA PRO</div>
-        <div class="badge">WEB • OCR • PASCAL • PHA • TRỤC • ANTI-BẪY</div>
-        <div class="muted" style="margin-top:8px;">
-          Chụp ảnh / tải ảnh → crop vùng số → <b>tự OCR</b> → <b>tự chạy FULL</b>.
-          (*Tool thống kê hỗ trợ phân tích, không đảm bảo kết quả.)
-        </div>
-      </div>
-      <div class="row">
-        <button class="secondary" id="btnSample">Dán mẫu</button>
-        <button class="secondary" id="btnClear">Xóa</button>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand">
+      <div class="title">Bùi Hào — Lotto ULTRA PRO</div>
+      <div class="badge">WEB • AI SCAN • BATCH • PASCAL • PHA • TRỤC • ANTI-BẪY</div>
+      <div class="muted" style="margin-top:8px;">
+        Upload nhiều ảnh (mỗi ảnh = 1 ngày) → AI tự bóc DB/G7/G6 → tự chạy FULL.
+        <b>*Tool thống kê hỗ trợ phân tích. Không đảm bảo kết quả.</b>
       </div>
     </div>
-
-    <!-- OCR PRO CARD -->
-    <div class="card pro">
-      <h2>📷 Ảnh → OCR tự đọc → tự chạy FULL</h2>
-      <div class="muted">
-        Bấm <b>Camera</b> hoặc <b>Tải từ tệp</b>. Kéo khung để crop sát vùng có số (DB/G7/G6).
-        Tool sẽ tự OCR và tự phân tích.
-      </div>
-
-      <div class="row" style="margin-top:10px;">
-        <button class="secondary" id="btnCamera">📷 Camera</button>
-        <button class="secondary" id="btnUpload">🖼️ Tải từ tệp</button>
-        <span class="pill" id="ocrStatus">Chưa có ảnh.</span>
-        <span class="pill">Auto: OCR → Đổ dữ liệu → Chạy FULL</span>
-      </div>
-
-      <input id="fileCamera" type="file" accept="image/*" capture="environment" hidden />
-      <input id="fileUpload" type="file" accept="image/*" hidden />
-
-      <div class="grid" style="margin-top:12px;">
-        <div>
-          <div class="muted good">Preview (kéo để crop)</div>
-          <div class="canvasWrap" style="margin-top:8px;">
-            <canvas id="imgCanvas"></canvas>
-          </div>
-          <div class="note" style="margin-top:8px;">
-            Tip: crop sát vùng số 2 chữ số, tránh tiêu đề/quảng cáo để OCR chuẩn.
-          </div>
-        </div>
-
-        <div>
-          <div class="muted good">Text OCR (để kiểm tra)</div>
-          <textarea id="ocrText" placeholder="OCR text sẽ hiện ở đây..." style="min-height:160px;"></textarea>
-          <div class="row" style="margin-top:10px;">
-            <span class="pill">Bóc 00–99:</span>
-            <span class="mono" id="ocrPairs">--</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- INPUT -->
-    <div class="card">
-      <div class="row between">
-        <div class="row">
-          <span class="pill">Input: KQXS</span>
-          <span class="pill">Output: Pascal • Pha • Trục • Chốt</span>
-        </div>
-        <div class="row">
-          <button id="btnRun">Chạy FULL</button>
-        </div>
-      </div>
-
-      <textarea id="input" placeholder="Mỗi dòng = 1 ngày. Có thể ghi DB/G7/G6… tùy bạn, miễn có số 2 chữ số.
-Ví dụ:
-29/01: DB 63 | G7: 03 14 59 87 | G6: 21 02 14 59 66
-28/01: DB 59 | G7: 21 41 02 14 | G6: 03 63 87 90"></textarea>
-
-      <div class="row" style="margin-top:10px;">
-        <span class="pill">Cửa sổ ngày:</span>
-        <input id="windowDays" type="number" min="5" max="120" value="30" style="width:90px;">
-        <span class="pill">Top hiển thị:</span>
-        <input id="topN" type="number" min="5" max="40" value="15" style="width:90px;">
-        <span class="pill">Pascal tầng:</span>
-        <select id="pascalDepth">
-          <option value="2">2 tầng</option>
-          <option value="3" selected>3 tầng</option>
-          <option value="4">4 tầng</option>
-        </select>
-        <span class="pill">Trọng số (hot/gan/pascal):</span>
-        <input id="wHot" type="number" min="0" max="5" step="0.5" value="2" style="width:75px;">
-        <input id="wGan" type="number" min="0" max="5" step="0.5" value="1.5" style="width:75px;">
-        <input id="wPas" type="number" min="0" max="5" step="0.5" value="2" style="width:75px;">
-      </div>
-    </div>
-
-    <!-- KPI + PICKS -->
-    <div class="grid">
-      <div class="card">
-        <h2>KPI nhanh</h2>
-        <div class="kpi" id="kpi"></div>
-        <div class="sep"></div>
-        <div id="phaseBox" class="muted">Chưa có dữ liệu.</div>
-      </div>
-
-      <div class="card">
-        <h2>CHỐT (FULL)</h2>
-        <div id="pickBox" class="muted">Chưa có dữ liệu.</div>
-        <div class="sep"></div>
-        <div id="antiBox" class="muted">Anti-bẫy sẽ hiện tại đây.</div>
-      </div>
-    </div>
-
-    <!-- PASCAL + AXIS -->
-    <div class="grid">
-      <div class="card">
-        <h2>Pascal (2 chữ số) — trùng tầng</h2>
-        <div class="muted">Seed Pascal: ưu tiên “DB xx” nếu bạn có ghi, nếu không thì lấy số cuối dòng.</div>
-        <div class="sep"></div>
-        <div id="pascalBox" class="mono muted"></div>
-      </div>
-
-      <div class="card">
-        <h2>Trục (a↔b) & Đầu/Đuôi</h2>
-        <div id="axisBox" class="muted"></div>
-        <div class="sep"></div>
-        <div class="grid">
-          <div>
-            <div class="muted good">Đầu (0–9)</div>
-            <div id="heads" class="mono muted"></div>
-          </div>
-          <div>
-            <div class="muted good">Đuôi (0–9)</div>
-            <div id="tails" class="mono muted"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TABLES -->
-    <div class="grid">
-      <div class="card">
-        <h2>Hot pairs</h2>
-        <div style="max-height:340px; overflow:auto;">
-          <table>
-            <thead><tr><th>#</th><th>Cặp</th><th>Lần</th><th>Gan</th><th>Điểm</th><th>Lý do</th></tr></thead>
-            <tbody id="tblHot"></tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>Gan pairs</h2>
-        <div style="max-height:340px; overflow:auto;">
-          <table>
-            <thead><tr><th>#</th><th>Cặp</th><th>Gan (ngày)</th><th>Lần</th><th>Điểm</th><th>Lý do</th></tr></thead>
-            <tbody id="tblGan"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <div class="card muted" style="text-align:center;">
-      © Bùi Hào — Lotto ULTRA PRO • Web OCR
+    <div class="row">
+      <button class="secondary" id="btnSample">Dán mẫu</button>
+      <button class="secondary" id="btnClear">Xóa</button>
     </div>
   </div>
 
-  <!-- OCR LIB -->
-  <script src="https://unpkg.com/tesseract.js@5/dist/tesseract.min.js"></script>
+  <div class="card">
+    <h2>📷 AI Scan PRO (App KQXS Miền Bắc) — Upload nhiều ảnh</h2>
+    <div class="muted">
+      Ảnh mẫu của bạn là bảng MB có hàng: <b>ĐB, 1, 2, 3, 4, 5, 6, 7</b>.
+      AI sẽ lấy: <b>DB = 2 số cuối giải ĐB</b>, <b>G6 = 3 số</b>, <b>G7 = 4 số</b>.
+    </div>
 
-  <script>
-  (() => {
-    const $ = (id) => document.getElementById(id);
+    <div class="row" style="margin-top:10px;">
+      <button class="secondary" id="btnCamera">📷 Camera</button>
+      <button class="secondary" id="btnUpload">🖼️ Tải từ tệp (multi)</button>
+      <span class="pill" id="ocrStatus">Chưa có ảnh.</span>
+      <span class="pill">Auto: OCR → tạo dòng chuẩn → chạy FULL</span>
+    </div>
 
-    // ====== UI elements ======
-    const inputEl = $("input");
-    const kpiEl = $("kpi");
-    const phaseBox = $("phaseBox");
-    const pickBox = $("pickBox");
-    const antiBox = $("antiBox");
-    const pascalBox = $("pascalBox");
-    const axisBox = $("axisBox");
-    const headsEl = $("heads");
-    const tailsEl = $("tails");
-    const tblHot = $("tblHot");
-    const tblGan = $("tblGan");
+    <input id="fileCamera" type="file" accept="image/*" capture="environment" hidden />
+    <input id="fileUpload" type="file" accept="image/*" multiple hidden />
 
-    $("btnSample").addEventListener("click", () => {
-      inputEl.value =
-`29/01: DB 63 | G7: 03 14 59 87 | G6: 21 02 14 59 66
-28/01: DB 59 | G7: 21 41 02 14 | G6: 03 63 87 90
-27/01: DB 14 | G7: 59 63 21 02 | G6: 03 87 66 10
-26/01: DB 87 | G7: 14 59 03 21 | G6: 02 63 66 90
-25/01: DB 02 | G7: 63 87 14 59 | G6: 03 21 66 10
-24/01: DB 90 | G7: 10 66 21 03 | G6: 02 14 59 87
-23/01: DB 21 | G7: 90 10 66 03 | G6: 02 14 59 87
-22/01: DB 03 | G7: 21 90 10 66 | G6: 02 14 59 87`;
+    <div class="grid" style="margin-top:12px;">
+      <div>
+        <div class="muted good">Preview (kéo để crop nếu cần)</div>
+        <div class="canvasWrap" style="margin-top:8px;">
+          <canvas id="imgCanvas"></canvas>
+        </div>
+        <div class="note" style="margin-top:8px;">
+          Tip: nếu OCR hụt, crop sát phần từ “ĐB” đến “7”.
+        </div>
+      </div>
+
+      <div>
+        <div class="muted good">Text OCR (để kiểm tra)</div>
+        <textarea id="ocrText" placeholder="OCR text sẽ hiện ở đây..."></textarea>
+        <div class="row" style="margin-top:10px;">
+          <span class="pill">Bóc 00–99:</span>
+          <span class="mono" id="ocrPairs">--</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="row between">
+      <div class="row">
+        <span class="pill">Input: KQXS (mỗi dòng = 1 ngày)</span>
+        <span class="pill">Output: Pascal • Pha • Trục • Chốt</span>
+      </div>
+      <div class="row">
+        <button id="btnRun">Chạy FULL</button>
+      </div>
+    </div>
+
+    <textarea id="input" placeholder="Sau khi upload ảnh, tool sẽ tự đổ vào đây.
+Ví dụ:
+29/01: DB 14 | G7: 81 87 60 32 | G6: 06 00 71
+28/01: DB 59 | G7: 21 41 02 14 | G6: 03 63 87"></textarea>
+
+    <div class="row" style="margin-top:10px;">
+      <span class="pill">Cửa sổ ngày:</span>
+      <input id="windowDays" type="number" min="5" max="120" value="30" style="width:90px;">
+      <span class="pill">Top hiển thị:</span>
+      <input id="topN" type="number" min="5" max="40" value="15" style="width:90px;">
+      <span class="pill">Pascal tầng:</span>
+      <select id="pascalDepth">
+        <option value="2">2 tầng</option>
+        <option value="3" selected>3 tầng</option>
+        <option value="4">4 tầng</option>
+      </select>
+      <span class="pill">Trọng số (hot/gan/pascal):</span>
+      <input id="wHot" type="number" min="0" max="5" step="0.5" value="2" style="width:75px;">
+      <input id="wGan" type="number" min="0" max="5" step="0.5" value="1.5" style="width:75px;">
+      <input id="wPas" type="number" min="0" max="5" step="0.5" value="2" style="width:75px;">
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>KPI nhanh</h2>
+      <div class="kpi" id="kpi"></div>
+      <div class="sep"></div>
+      <div id="phaseBox" class="muted">Chưa có dữ liệu.</div>
+    </div>
+
+    <div class="card">
+      <h2>CHỐT (FULL)</h2>
+      <div id="pickBox" class="muted">Chưa có dữ liệu.</div>
+      <div class="sep"></div>
+      <div id="antiBox" class="muted">Anti-bẫy sẽ hiện tại đây.</div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Pascal (2 chữ số) — trùng tầng</h2>
+      <div class="muted">Seed Pascal: ưu tiên DB xx theo từng ngày.</div>
+      <div class="sep"></div>
+      <div id="pascalBox" class="mono muted"></div>
+    </div>
+
+    <div class="card">
+      <h2>Trục (a↔b) & Đầu/Đuôi</h2>
+      <div id="axisBox" class="muted"></div>
+      <div class="sep"></div>
+      <div class="grid">
+        <div>
+          <div class="muted good">Đầu (0–9)</div>
+          <div id="heads" class="mono muted"></div>
+        </div>
+        <div>
+          <div class="muted good">Đuôi (0–9)</div>
+          <div id="tails" class="mono muted"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Hot pairs</h2>
+      <div style="max-height:340px; overflow:auto;">
+        <table>
+          <thead><tr><th>#</th><th>Cặp</th><th>Lần</th><th>Gan</th><th>Điểm</th><th>Lý do</th></tr></thead>
+          <tbody id="tblHot"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Gan pairs</h2>
+      <div style="max-height:340px; overflow:auto;">
+        <table>
+          <thead><tr><th>#</th><th>Cặp</th><th>Gan (ngày)</th><th>Lần</th><th>Điểm</th><th>Lý do</th></tr></thead>
+          <tbody id="tblGan"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card muted" style="text-align:center;">
+    © Bùi Hào — Lotto ULTRA PRO • Web AI Scan Batch
+  </div>
+</div>
+
+<script src="https://unpkg.com/tesseract.js@5/dist/tesseract.min.js"></script>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+
+  // UI
+  const inputEl = $("input");
+  const kpiEl = $("kpi");
+  const phaseBox = $("phaseBox");
+  const pickBox = $("pickBox");
+  const antiBox = $("antiBox");
+  const pascalBox = $("pascalBox");
+  const axisBox = $("axisBox");
+  const headsEl = $("heads");
+  const tailsEl = $("tails");
+  const tblHot = $("tblHot");
+  const tblGan = $("tblGan");
+
+  // OCR UI
+  const btnCamera = $("btnCamera");
+  const btnUpload = $("btnUpload");
+  const fileCamera = $("fileCamera");
+  const fileUpload = $("fileUpload");
+  const imgCanvas = $("imgCanvas");
+  const ctxImg = imgCanvas.getContext("2d");
+  const ocrStatus = $("ocrStatus");
+  const ocrText = $("ocrText");
+  const ocrPairs = $("ocrPairs");
+
+  function setStatus(msg){ ocrStatus.textContent = msg; }
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[c])); }
+  function clampInt(n, min, max){ n = Number.isFinite(n) ? n : min; return Math.max(min, Math.min(max, Math.floor(n))); }
+  function clampNum(n, min, max){ n = Number.isFinite(n) ? n : min; return Math.max(min, Math.min(max, n)); }
+  function round2(x){ return Math.round(x*100)/100; }
+
+  // sample / clear
+  $("btnSample").addEventListener("click", () => {
+    inputEl.value =
+`29/01: DB 14 | G7: 81 87 60 32 | G6: 06 00 71
+28/01: DB 59 | G7: 21 41 02 14 | G6: 03 63 87
+27/01: DB 63 | G7: 03 14 59 87 | G6: 21 02 14`;
+  });
+
+  $("btnClear").addEventListener("click", () => {
+    inputEl.value = "";
+    renderEmpty();
+    setStatus("Chưa có ảnh.");
+    clearCanvas();
+    ocrText.value = "";
+    ocrPairs.textContent = "--";
+  });
+
+  $("btnRun").addEventListener("click", () => runFull());
+  window.runFull = runFull;
+
+  function renderEmpty(){
+    kpiEl.innerHTML = "";
+    phaseBox.textContent = "Chưa có dữ liệu.";
+    pickBox.textContent = "Chưa có dữ liệu.";
+    antiBox.textContent = "Anti-bẫy sẽ hiện tại đây.";
+    pascalBox.textContent = "";
+    axisBox.textContent = "";
+    headsEl.textContent = "";
+    tailsEl.textContent = "";
+    tblHot.innerHTML = "";
+    tblGan.innerHTML = "";
+  }
+
+  // ===== Data parse =====
+  function parseDays(raw){
+    const lines = raw.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+    return lines.map((line, idx) => {
+      const pairs = (line.match(/\b\d{2}\b/g) || []);
+      const uniqPairs = Array.from(new Set(pairs));
+
+      let db = null;
+      const m = line.match(/\bDB\b[^0-9]*?(\d{2})\b/i);
+      if (m) db = m[1];
+
+      const seed = db ?? (pairs.length ? pairs[pairs.length - 1] : null);
+      return { dayIndex: idx, line, pairs: uniqPairs, db, seed };
     });
+  }
 
-    $("btnClear").addEventListener("click", () => {
-      inputEl.value = "";
-      renderEmpty();
-      setStatus("Chưa có ảnh.");
-      clearCanvas();
-      $("ocrText").value = "";
-      $("ocrPairs").textContent = "--";
-    });
+  function countStats(days){
+    const freq = new Map();
+    const lastSeen = new Map();
+    const headCnt = Array(10).fill(0);
+    const tailCnt = Array(10).fill(0);
+    const axisCnt = new Map();
 
-    $("btnRun").addEventListener("click", () => runFull());
+    days.forEach((d, dayIndex) => {
+      d.pairs.forEach(p => {
+        freq.set(p, (freq.get(p) || 0) + 1);
+        if (!lastSeen.has(p)) lastSeen.set(p, dayIndex);
 
-    function renderEmpty() {
-      kpiEl.innerHTML = "";
-      phaseBox.textContent = "Chưa có dữ liệu.";
-      pickBox.textContent = "Chưa có dữ liệu.";
-      antiBox.textContent = "Anti-bẫy sẽ hiện tại đây.";
-      pascalBox.textContent = "";
-      axisBox.textContent = "";
-      headsEl.textContent = "";
-      tailsEl.textContent = "";
-      tblHot.innerHTML = "";
-      tblGan.innerHTML = "";
-    }
+        const h = +p[0], t = +p[1];
+        headCnt[h]++; tailCnt[t]++;
 
-    // ===== Parsing =====
-    // Each line is a day, from newest (top) -> oldest (bottom)
-    function parseDays(raw) {
-      const lines = raw.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
-      return lines.map((line, idx) => {
-        const pairs = (line.match(/\b\d{2}\b/g) || []).map(x => x);
-        const uniqPairs = Array.from(new Set(pairs));
-
-        // Try detect DB number if "DB 63" exists:
-        let db = null;
-        const m = line.match(/\bDB\b[^0-9]*?(\d{2})\b/i);
-        if (m) db = m[1];
-
-        // For pascal seed: prefer DB else last 2-digit in line
-        const seed = db ?? (pairs.length ? pairs[pairs.length - 1] : null);
-
-        return { dayIndex: idx, line, pairs: uniqPairs, db, seed };
-      });
-    }
-
-    function countStats(days) {
-      const freq = new Map();      // pair -> count (unique-per-day counted)
-      const lastSeen = new Map();  // pair -> first dayIndex it appears (0 newest) => gan = dayIndex
-      const headCnt = Array(10).fill(0);
-      const tailCnt = Array(10).fill(0);
-      const axisCnt = new Map();   // "a-b" normalized sorted => count
-
-      days.forEach((d, dayIndex) => {
-        d.pairs.forEach(p => {
-          freq.set(p, (freq.get(p) || 0) + 1);
-          if (!lastSeen.has(p)) lastSeen.set(p, dayIndex);
-
-          const h = +p[0], t = +p[1];
-          headCnt[h]++; tailCnt[t]++;
-
-          const a = Math.min(h,t), b = Math.max(h,t);
-          const key = `${a}-${b}`;
-          axisCnt.set(key, (axisCnt.get(key) || 0) + 1);
-        });
-      });
-
-      return { freq, lastSeen, headCnt, tailCnt, axisCnt };
-    }
-
-    function sortMapDesc(map) {
-      return Array.from(map.entries()).sort((a,b) => b[1] - a[1]);
-    }
-
-    // ===== Pascal (2-digit) =====
-    // Stream interleave heads/tails of seed pairs => make Pascal layers
-    function buildPascal(days, depth) {
-      const seeds = days.map(d => d.seed).filter(Boolean).slice(0, Math.max(6, depth + 3));
-      if (seeds.length < 4) return { ok:false, msg:"Thiếu seed Pascal (cần ít nhất 4 ngày có seed).", layers:[], candidates:new Map() };
-
-      const digits = seeds.map(s => [ +s[0], +s[1] ]);
-      const stream = [];
-      digits.forEach(([h,t]) => { stream.push(h,t); });
-
-      let layer = stream.slice();
-      const layers = [{ name:"L0", arr: layer.slice(0, 20) }];
-      for (let k=1;k<=depth;k++){
-        const next = [];
-        for (let i=0;i<layer.length-1;i++){
-          next.push((layer[i] + layer[i+1]) % 10);
-        }
-        layer = next;
-        layers.push({ name:`L${k}`, arr: layer.slice(0, 20) });
-      }
-
-      const digitLayerCount = new Map();
-      layers.forEach((L, idx) => {
-        if (idx === 0) return;
-        const set = new Set(L.arr);
-        set.forEach(d => digitLayerCount.set(d, (digitLayerCount.get(d)||0)+1));
-      });
-
-      const digitRank = Array.from(digitLayerCount.entries()).sort((a,b)=>b[1]-a[1]);
-      const topDigits = digitRank.slice(0, 6).map(x=>x[0]);
-
-      const candidates = new Map();
-      for (let i=0;i<topDigits.length;i++){
-        for (let j=0;j<topDigits.length;j++){
-          const h = topDigits[i], t = topDigits[j];
-          const pair = `${h}${t}`;
-          const score = (digitLayerCount.get(h)||0) + (digitLayerCount.get(t)||0);
-          candidates.set(pair, Math.max(candidates.get(pair)||0, score));
-        }
-      }
-
-      return { ok:true, seeds, layers, digitRank, candidates };
-    }
-
-    // ===== Phase heuristic (MASTER+++) =====
-    function variance(arr){
-      const n = arr.length;
-      const mean = arr.reduce((a,b)=>a+b,0)/n;
-      const v = arr.reduce((s,x)=>s+(x-mean)*(x-mean),0)/n;
-      return v;
-    }
-
-    function inferPhase(days, stats) {
-      const dbs = days.map(d=>d.db).filter(Boolean).slice(0, 14);
-      const uniqDB = new Set(dbs);
-      const hotPairs = sortMapDesc(stats.freq).slice(0, 5);
-      const topHotCount = hotPairs[0]?.[1] || 0;
-
-      const headVar = variance(stats.headCnt);
-      const tailVar = variance(stats.tailCnt);
-
-      const repRate = topHotCount / Math.max(1, days.length);
-      const uniqRate = uniqDB.size / Math.max(1, dbs.length);
-
-      const last3 = days.slice(0,3);
-      let ganHits = 0;
-      last3.forEach(d=>{
-        d.pairs.forEach(p=>{
-          const g = stats.lastSeen.get(p);
-          if (g !== undefined && g >= Math.min(10, days.length-1)) ganHits++;
-        });
-      });
-
-      let phase = "CHẠY";
-      let tag = "ok";
-      let reason = [];
-
-      if (days.length < 10) reason.push("Dữ liệu ít → pha chỉ tham khảo.");
-
-      if (uniqRate >= 0.75 && repRate < 0.20) { phase = "MỞ"; tag="ok"; reason.push("DB đa dạng, độ lặp thấp."); }
-      if (repRate >= 0.35 || headVar < 2.0 || tailVar < 2.0) { phase = "XẢ"; tag="warn"; reason.push("Độ lặp cao / đầu-đuôi dồn cụm."); }
-      if (ganHits >= 6 && repRate >= 0.25) { phase = "HỒI"; tag="ok"; reason.push("Gan-hit tăng trong 3 ngày gần → dấu hồi."); }
-
-      if (repRate >= 0.45) { phase="XẢ"; tag="bad"; reason.push("Top lặp quá mạnh → dễ nhiễu/bẫy."); }
-
-      return {
-        phase, tag,
-        uniqRate: round2(uniqRate),
-        repRate: round2(repRate),
-        ganHits,
-        reason
-      };
-    }
-
-    // ===== Scoring & Picks =====
-    function scorePairs(days, stats, pas) {
-      const window = days.length;
-      const wHot = clampNum(+$("wHot").value, 0, 5);
-      const wGan = clampNum(+$("wGan").value, 0, 5);
-      const wPas = clampNum(+$("wPas").value, 0, 5);
-
-      const scored = [];
-
-      const axisRank = sortMapDesc(stats.axisCnt);
-      const axisTop = new Set(axisRank.slice(0, 8).map(x=>x[0]));
-
-      const universe = new Set([...stats.freq.keys(), ...(pas?.candidates ? pas.candidates.keys() : [])]);
-
-      universe.forEach(pair => {
-        const hot = stats.freq.get(pair) || 0;
-        const gan = stats.lastSeen.has(pair) ? stats.lastSeen.get(pair) : window;
-        const pasScore = pas?.candidates?.get(pair) || 0;
-
-        const h = +pair[0], t = +pair[1];
         const a = Math.min(h,t), b = Math.max(h,t);
-        const axisKey = `${a}-${b}`;
-        const axis = stats.axisCnt.get(axisKey) || 0;
-
-        const hotN = hot / Math.max(1, window);
-        const ganN = gan / Math.max(1, window);
-        const pasN = pasScore / 10;
-        const axisN = axis / Math.max(1, window);
-
-        let penalty = 0;
-        if (gan === 0 && hot >= Math.max(3, Math.floor(window*0.18))) penalty += 0.25;
-        if (hotN > 0.35) penalty += 0.20;
-
-        const score = (wHot*hotN) + (wGan*ganN) + (wPas*pasN) + (0.8*axisN) - penalty;
-
-        const why = [];
-        if (hot) why.push(`hot:${hot}`);
-        why.push(`gan:${gan}`);
-        if (pasScore) why.push(`pas:${pasScore}`);
-        if (axisTop.has(axisKey)) why.push(`trục:${axisKey}`);
-        if (penalty>0) why.push(`-bẫy:${round2(penalty)}`);
-
-        scored.push({ pair, hot, gan, pas: pasScore, axis: axisKey, score, why: why.join(" • ") });
+        const key = `${a}-${b}`;
+        axisCnt.set(key, (axisCnt.get(key) || 0) + 1);
       });
+    });
 
-      scored.sort((a,b)=>b.score-a.score);
-      return scored;
+    return { freq, lastSeen, headCnt, tailCnt, axisCnt };
+  }
+
+  function sortMapDesc(map){
+    return Array.from(map.entries()).sort((a,b) => b[1] - a[1]);
+  }
+
+  // ===== Pascal =====
+  function buildPascal(days, depth){
+    const seeds = days.map(d => d.seed).filter(Boolean).slice(0, Math.max(6, depth + 3));
+    if (seeds.length < 4) return { ok:false, msg:"Thiếu seed Pascal (cần ít nhất 4 ngày có DB)." };
+
+    const digits = seeds.map(s => [ +s[0], +s[1] ]);
+    const stream = [];
+    digits.forEach(([h,t]) => { stream.push(h,t); });
+
+    let layer = stream.slice();
+    const layers = [{ name:"L0", arr: layer.slice(0, 20) }];
+    for (let k=1;k<=depth;k++){
+      const next = [];
+      for (let i=0;i<layer.length-1;i++){
+        next.push((layer[i] + layer[i+1]) % 10);
+      }
+      layer = next;
+      layers.push({ name:`L${k}`, arr: layer.slice(0, 20) });
     }
 
-    function pickFinal(scored, phaseInfo) {
-      const phase = phaseInfo.phase;
-      const isTooSpam = (x) => (x.gan === 0 && x.hot >= 3);
+    const digitLayerCount = new Map();
+    layers.forEach((L, idx) => {
+      if (idx === 0) return;
+      const set = new Set(L.arr);
+      set.forEach(d => digitLayerCount.set(d, (digitLayerCount.get(d)||0)+1));
+    });
 
-      let main = scored.find(x => phase==="XẢ" ? !isTooSpam(x) : true) || scored[0];
-      if (!main) return null;
+    const digitRank = Array.from(digitLayerCount.entries()).sort((a,b)=>b[1]-a[1]);
+    const topDigits = digitRank.slice(0, 6).map(x=>x[0]);
 
-      const mh = main.pair[0], mt = main.pair[1];
-      let side = scored.find(x => x.pair !== main.pair && (x.pair[0] !== mh || x.pair[1] !== mt)) || scored[1] || main;
-
-      const top60 = scored.slice(0, 60);
-      let hedge = top60.sort((a,b)=>b.gan-a.gan)[0] || side;
-
-      return { main, side, hedge };
+    const candidates = new Map();
+    for (let i=0;i<topDigits.length;i++){
+      for (let j=0;j<topDigits.length;j++){
+        const h = topDigits[i], t = topDigits[j];
+        const pair = `${h}${t}`;
+        const score = (digitLayerCount.get(h)||0) + (digitLayerCount.get(t)||0);
+        candidates.set(pair, Math.max(candidates.get(pair)||0, score));
+      }
     }
 
-    function antiWarnings(days, stats, phaseInfo, picks) {
-      const warn = [];
-      if (days.length < 10) warn.push({t:"warn", m:"Dữ liệu < 10 ngày: kết luận dễ lệch. Nên tăng cửa sổ 20–30 ngày."});
+    return { ok:true, seeds, layers, digitRank, candidates };
+  }
 
-      const maxHead = Math.max(...stats.headCnt), maxTail = Math.max(...stats.tailCnt);
-      const sum = stats.headCnt.reduce((a,b)=>a+b,0);
-      if (sum>0) {
-        if (maxHead/sum > 0.20) warn.push({t:"warn", m:"ĐẦU bị dồn cụm mạnh → dễ nhiễu (bẫy cụm)."});
-        if (maxTail/sum > 0.20) warn.push({t:"warn", m:"ĐUÔI bị dồn cụm mạnh → dễ nhiễu (bẫy cụm)."});
-      }
+  // ===== Phase (MASTER+++) heuristic =====
+  function variance(arr){
+    const n = arr.length;
+    const mean = arr.reduce((a,b)=>a+b,0)/n;
+    const v = arr.reduce((s,x)=>s+(x-mean)*(x-mean),0)/n;
+    return v;
+  }
 
-      const hotTop = sortMapDesc(stats.freq).slice(0, 1)[0];
-      if (hotTop && hotTop[1] >= Math.max(4, Math.floor(days.length*0.22))) {
-        warn.push({t:"bad", m:`Cặp top (${hotTop[0]}) lặp quá dày → dễ bẫy lặp. Hạn chế “đuổi” đúng 1 số.`});
-      }
+  function inferPhase(days, stats){
+    const dbs = days.map(d=>d.db).filter(Boolean).slice(0, 14);
+    const uniqDB = new Set(dbs);
+    const hotPairs = sortMapDesc(stats.freq).slice(0, 5);
+    const topHotCount = hotPairs[0]?.[1] || 0;
 
-      if (phaseInfo.phase === "XẢ") warn.push({t:"warn", m:"Pha XẢ: ưu tiên số cân bằng, tránh số vừa ra hôm nay."});
-      if (phaseInfo.phase === "MỞ") warn.push({t:"ok", m:"Pha MỞ: số mới/gan vừa phải dễ có cửa."});
-      if (phaseInfo.phase === "HỒI") warn.push({t:"ok", m:"Pha HỒI: ưu tiên số gan có xác nhận Pascal/trục."});
+    const headVar = variance(stats.headCnt);
+    const tailVar = variance(stats.tailCnt);
 
-      if (picks?.main?.gan === 0 && picks?.main?.hot >= 3) warn.push({t:"warn", m:"Số CHÍNH vừa ra sát + hot → nếu thấy nhiễu, cân nhắc chuyển sang số PHỤ."});
+    const repRate = topHotCount / Math.max(1, days.length);
+    const uniqRate = uniqDB.size / Math.max(1, dbs.length);
 
-      return warn;
+    const last3 = days.slice(0,3);
+    let ganHits = 0;
+    last3.forEach(d=>{
+      d.pairs.forEach(p=>{
+        const g = stats.lastSeen.get(p);
+        if (g !== undefined && g >= Math.min(10, days.length-1)) ganHits++;
+      });
+    });
+
+    let phase = "CHẠY";
+    let tag = "ok";
+    let reason = [];
+
+    if (days.length < 10) reason.push("Dữ liệu ít → pha chỉ tham khảo.");
+
+    if (uniqRate >= 0.75 && repRate < 0.20) { phase = "MỞ"; tag="ok"; reason.push("DB đa dạng, độ lặp thấp."); }
+    if (repRate >= 0.35 || headVar < 2.0 || tailVar < 2.0) { phase = "XẢ"; tag="warn"; reason.push("Độ lặp cao / đầu-đuôi dồn cụm."); }
+    if (ganHits >= 6 && repRate >= 0.25) { phase = "HỒI"; tag="ok"; reason.push("Gan-hit tăng trong 3 ngày gần → dấu hồi."); }
+    if (repRate >= 0.45) { phase="XẢ"; tag="bad"; reason.push("Top lặp quá mạnh → dễ nhiễu/bẫy."); }
+
+    return { phase, tag, uniqRate: round2(uniqRate), repRate: round2(repRate), ganHits, reason };
+  }
+
+  // ===== Score / Picks =====
+  function scorePairs(days, stats, pas){
+    const window = days.length;
+    const wHot = clampNum(+$("wHot").value, 0, 5);
+    const wGan = clampNum(+$("wGan").value, 0, 5);
+    const wPas = clampNum(+$("wPas").value, 0, 5);
+
+    const scored = [];
+    const axisRank = sortMapDesc(stats.axisCnt);
+    const axisTop = new Set(axisRank.slice(0, 8).map(x=>x[0]));
+
+    const universe = new Set([...stats.freq.keys(), ...(pas?.candidates ? pas.candidates.keys() : [])]);
+
+    universe.forEach(pair => {
+      const hot = stats.freq.get(pair) || 0;
+      const gan = stats.lastSeen.has(pair) ? stats.lastSeen.get(pair) : window;
+      const pasScore = pas?.candidates?.get(pair) || 0;
+
+      const h = +pair[0], t = +pair[1];
+      const a = Math.min(h,t), b = Math.max(h,t);
+      const axisKey = `${a}-${b}`;
+      const axis = stats.axisCnt.get(axisKey) || 0;
+
+      const hotN = hot / Math.max(1, window);
+      const ganN = gan / Math.max(1, window);
+      const pasN = pasScore / 10;
+      const axisN = axis / Math.max(1, window);
+
+      let penalty = 0;
+      if (gan === 0 && hot >= Math.max(3, Math.floor(window*0.18))) penalty += 0.25;
+      if (hotN > 0.35) penalty += 0.20;
+
+      const score = (wHot*hotN) + (wGan*ganN) + (wPas*pasN) + (0.8*axisN) - penalty;
+
+      const why = [];
+      if (hot) why.push(`hot:${hot}`);
+      why.push(`gan:${gan}`);
+      if (pasScore) why.push(`pas:${pasScore}`);
+      if (axisTop.has(axisKey)) why.push(`trục:${axisKey}`);
+      if (penalty>0) why.push(`-bẫy:${round2(penalty)}`);
+
+      scored.push({ pair, hot, gan, pas: pasScore, axis: axisKey, score, why: why.join(" • ") });
+    });
+
+    scored.sort((a,b)=>b.score-a.score);
+    return scored;
+  }
+
+  function pickFinal(scored, phaseInfo){
+    const phase = phaseInfo.phase;
+    const isTooSpam = (x) => (x.gan === 0 && x.hot >= 3);
+
+    let main = scored.find(x => phase==="XẢ" ? !isTooSpam(x) : true) || scored[0];
+    if (!main) return null;
+
+    const mh = main.pair[0], mt = main.pair[1];
+    let side = scored.find(x => x.pair !== main.pair && (x.pair[0] !== mh || x.pair[1] !== mt)) || scored[1] || main;
+
+    const top60 = scored.slice(0, 60);
+    let hedge = top60.sort((a,b)=>b.gan-a.gan)[0] || side;
+
+    return { main, side, hedge };
+  }
+
+  function antiWarnings(days, stats, phaseInfo, picks){
+    const warn = [];
+    if (days.length < 10) warn.push({t:"warn", m:"Dữ liệu < 10 ngày: kết luận dễ lệch. Nên tăng cửa sổ 20–30 ngày."});
+
+    const maxHead = Math.max(...stats.headCnt), maxTail = Math.max(...stats.tailCnt);
+    const sum = stats.headCnt.reduce((a,b)=>a+b,0);
+    if (sum>0){
+      if (maxHead/sum > 0.20) warn.push({t:"warn", m:"ĐẦU bị dồn cụm mạnh → dễ nhiễu (bẫy cụm)."});
+      if (maxTail/sum > 0.20) warn.push({t:"warn", m:"ĐUÔI bị dồn cụm mạnh → dễ nhiễu (bẫy cụm)."});
     }
 
-    // ===== MAIN RUN =====
-    // Expose to OCR auto-run:
-    window.runFull = runFull;
+    const hotTop = sortMapDesc(stats.freq).slice(0, 1)[0];
+    if (hotTop && hotTop[1] >= Math.max(4, Math.floor(days.length*0.22))){
+      warn.push({t:"bad", m:`Cặp top (${hotTop[0]}) lặp quá dày → dễ bẫy lặp. Hạn chế “đuổi” đúng 1 số.`});
+    }
 
-    function runFull() {
-      const raw = inputEl.value || "";
-      const allDays = parseDays(raw);
+    if (phaseInfo.phase === "XẢ") warn.push({t:"warn", m:"Pha XẢ: ưu tiên số cân bằng, tránh số vừa ra hôm nay."});
+    if (phaseInfo.phase === "MỞ") warn.push({t:"ok", m:"Pha MỞ: số mới/gan vừa phải dễ có cửa."});
+    if (phaseInfo.phase === "HỒI") warn.push({t:"ok", m:"Pha HỒI: ưu tiên số gan có xác nhận Pascal/trục."});
 
-      const windowDays = clampInt(+$("windowDays").value, 5, 120);
-      const topN = clampInt(+$("topN").value, 5, 40);
-      const depth = clampInt(+$("pascalDepth").value, 2, 4);
+    if (picks?.main?.gan === 0 && picks?.main?.hot >= 3) warn.push({t:"warn", m:"Số CHÍNH vừa ra sát + hot → nếu thấy nhiễu, cân nhắc chuyển sang số PHỤ."});
+    return warn;
+  }
 
-      const days = allDays.slice(0, windowDays);
-      if (days.length < 5) {
-        renderEmpty();
-        phaseBox.innerHTML = `<span class="tag bad">Thiếu dữ liệu</span> Cần ít nhất 5 dòng (5 ngày).`;
-        return;
-      }
+  function runFull(){
+    const raw = inputEl.value || "";
+    const allDays = parseDays(raw);
 
-      const stats = countStats(days);
-      const pas = buildPascal(days, depth);
-      const phaseInfo = inferPhase(days, stats);
-      const scored = scorePairs(days, stats, pas.ok ? pas : null);
-      const picks = pickFinal(scored, phaseInfo);
-      const warnings = antiWarnings(days, stats, phaseInfo, picks);
+    const windowDays = clampInt(+$("windowDays").value, 5, 120);
+    const topN = clampInt(+$("topN").value, 5, 40);
+    const depth = clampInt(+$("pascalDepth").value, 2, 4);
 
-      const totalPairs = stats.freq.size;
-      const hotTop = sortMapDesc(stats.freq)[0] || ["--", 0];
-      const ganTop = Array.from(stats.lastSeen.entries()).map(([p,g])=>({p,g,hot:stats.freq.get(p)||0}))
-        .sort((a,b)=>b.g-a.g)[0] || {p:"--", g:0, hot:0};
+    const days = allDays.slice(0, windowDays);
+    if (days.length < 5){
+      renderEmpty();
+      phaseBox.innerHTML = `<span class="tag bad">Thiếu dữ liệu</span> Cần ít nhất 5 dòng (5 ngày).`;
+      return;
+    }
 
-      kpiEl.innerHTML = `
-        <div class="box">
-          <div class="small">Số ngày phân tích</div>
-          <div class="big">${days.length}</div>
-          <div class="small">Cửa sổ: ${windowDays} ngày</div>
-        </div>
-        <div class="box">
-          <div class="small">Tổng cặp unique</div>
-          <div class="big">${totalPairs}</div>
-          <div class="small">Bóc từ các dòng</div>
-        </div>
-        <div class="box">
-          <div class="small">Hot #1</div>
-          <div class="big mono">${hotTop[0]}</div>
-          <div class="small">${hotTop[1]} lần</div>
-        </div>
-        <div class="box">
-          <div class="small">Gan #1</div>
-          <div class="big mono">${ganTop.p}</div>
-          <div class="small">gan ${ganTop.g} ngày • hot ${ganTop.hot}</div>
-        </div>
-      `;
+    const stats = countStats(days);
+    const pas = buildPascal(days, depth);
+    const phaseInfo = inferPhase(days, stats);
+    const scored = scorePairs(days, stats, pas.ok ? pas : null);
+    const picks = pickFinal(scored, phaseInfo);
+    const warnings = antiWarnings(days, stats, phaseInfo, picks);
 
-      phaseBox.innerHTML = `
-        <div class="row">
-          <span class="tag ${phaseInfo.tag}">PHA: ${phaseInfo.phase}</span>
-          <span class="pill">DB đa dạng: ${phaseInfo.uniqRate}</span>
-          <span class="pill">Độ lặp: ${phaseInfo.repRate}</span>
-          <span class="pill">Gan-hit 3 ngày: ${phaseInfo.ganHits}</span>
-        </div>
-        <div class="muted" style="margin-top:6px;">${phaseInfo.reason.length ? escapeHtml(phaseInfo.reason.join(" ")) : "—"}</div>
-      `;
+    const totalPairs = stats.freq.size;
+    const hotTop = sortMapDesc(stats.freq)[0] || ["--", 0];
+    const ganTop = Array.from(stats.lastSeen.entries()).map(([p,g])=>({p,g,hot:stats.freq.get(p)||0}))
+      .sort((a,b)=>b.g-a.g)[0] || {p:"--", g:0, hot:0};
 
-      if (!pas.ok) {
-        pascalBox.innerHTML = `<span class="tag bad">Pascal</span> ${escapeHtml(pas.msg)}`;
-      } else {
-        const seedStr = pas.seeds.slice(0, 10).join(" ");
-        const layerStr = pas.layers.map(L => `${L.name}: [${L.arr.join(" ")}${L.arr.length>=20?" …":""}]`).join("\n");
-        const topDigits = pas.digitRank.slice(0, 10).map(([d,c]) => `${d}(${c})`).join("  ");
-        const topPasPairs = Array.from(pas.candidates.entries()).sort((a,b)=>b[1]-a[1]).slice(0, 12)
-          .map(([p,s]) => `${p}(${s})`).join("  ");
+    kpiEl.innerHTML = `
+      <div class="box"><div class="small">Số ngày phân tích</div><div class="big">${days.length}</div><div class="small">Cửa sổ: ${windowDays} ngày</div></div>
+      <div class="box"><div class="small">Tổng cặp unique</div><div class="big">${totalPairs}</div><div class="small">Bóc từ DB/G6/G7</div></div>
+      <div class="box"><div class="small">Hot #1</div><div class="big mono">${hotTop[0]}</div><div class="small">${hotTop[1]} lần</div></div>
+      <div class="box"><div class="small">Gan #1</div><div class="big mono">${ganTop.p}</div><div class="small">gan ${ganTop.g} ngày • hot ${ganTop.hot}</div></div>
+    `;
 
-        pascalBox.textContent =
-`SEED (ưu tiên DB): ${seedStr}
-DIGIT rank (qua tầng): ${topDigits}
-CANDIDATES (top): ${topPasPairs}
+    phaseBox.innerHTML = `
+      <div class="row">
+        <span class="tag ${phaseInfo.tag}">PHA: ${phaseInfo.phase}</span>
+        <span class="pill">DB đa dạng: ${phaseInfo.uniqRate}</span>
+        <span class="pill">Độ lặp: ${phaseInfo.repRate}</span>
+        <span class="pill">Gan-hit 3 ngày: ${phaseInfo.ganHits}</span>
+      </div>
+      <div class="muted" style="margin-top:6px;">${escapeHtml(phaseInfo.reason.join(" ")) || "—"}</div>
+    `;
+
+    if (!pas.ok){
+      pascalBox.innerHTML = `<span class="tag bad">Pascal</span> ${escapeHtml(pas.msg)}`;
+    } else {
+      const seedStr = pas.seeds.slice(0, 10).join(" ");
+      const layerStr = pas.layers.map(L => `${L.name}: [${L.arr.join(" ")}${L.arr.length>=20?" …":""}]`).join("\n");
+      const topDigits = pas.digitRank.slice(0, 10).map(([d,c]) => `${d}(${c})`).join("  ");
+      const topPasPairs = Array.from(pas.candidates.entries()).sort((a,b)=>b[1]-a[1]).slice(0, 12)
+        .map(([p,s]) => `${p}(${s})`).join("  ");
+      pascalBox.textContent =
+`SEED (DB): ${seedStr}
+DIGIT rank: ${topDigits}
+CANDIDATES: ${topPasPairs}
 
 ${layerStr}`;
-      }
+    }
 
-      const axisRank = sortMapDesc(stats.axisCnt).slice(0, 12);
-      const axisText = axisRank.map(([k,c]) => `${k}:${c}`).join("  |  ");
+    const headRank = stats.headCnt.map((c,i)=>({d:i,c})).sort((a,b)=>b.c-a.c);
+    const tailRank = stats.tailCnt.map((c,i)=>({d:i,c})).sort((a,b)=>b.c-a.c);
+    headsEl.textContent = headRank.map(x=>`${x.d}:${x.c}`).join("  |  ");
+    tailsEl.textContent = tailRank.map(x=>`${x.d}:${x.c}`).join("  |  ");
 
-      const headRank = stats.headCnt.map((c,i)=>({d:i,c})).sort((a,b)=>b.c-a.c);
-      const tailRank = stats.tailCnt.map((c,i)=>({d:i,c})).sort((a,b)=>b.c-a.c);
-      headsEl.textContent = headRank.map(x=>`${x.d}:${x.c}`).join("  |  ");
-      tailsEl.textContent = tailRank.map(x=>`${x.d}:${x.c}`).join("  |  ");
+    const axisRank = sortMapDesc(stats.axisCnt).slice(0, 12);
+    axisBox.innerHTML = `<div class="muted good">Top trục (a-b):</div><div class="mono muted">${axisRank.map(([k,c])=>`${k}:${c}`).join("  |  ") || "--"}</div>`;
 
-      axisBox.innerHTML = `
-        <div class="muted good">Top trục (a-b):</div>
-        <div class="mono muted">${axisText || "--"}</div>
-        <div class="note">* Trục = (min(đầu,đuôi) - max(đầu,đuôi)) để nhìn cụm chạy.</div>
+    tblHot.innerHTML = "";
+    scored.slice(0, topN).forEach((x,i)=>{
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td>${i+1}</td><td class="mono good">${x.pair}</td><td>${x.hot}</td><td>${x.gan}</td><td>${round2(x.score)}</td><td class="muted">${escapeHtml(x.why)}</td>`;
+      tblHot.appendChild(tr);
+    });
+
+    tblGan.innerHTML = "";
+    scored.slice().sort((a,b)=>b.gan-a.gan).slice(0, topN).forEach((x,i)=>{
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td>${i+1}</td><td class="mono good">${x.pair}</td><td>${x.gan}</td><td>${x.hot}</td><td>${round2(x.score)}</td><td class="muted">${escapeHtml(x.why)}</td>`;
+      tblGan.appendChild(tr);
+    });
+
+    if(!picks){
+      pickBox.innerHTML = `<span class="tag bad">Chưa chốt</span> Không đủ dữ liệu để chốt.`;
+    } else {
+      pickBox.innerHTML = `
+        <div class="row"><span class="tag ok">CHÍNH</span><span class="mono big">${picks.main.pair}</span><span class="pill">score ${round2(picks.main.score)}</span><span class="pill">${escapeHtml(picks.main.why)}</span></div>
+        <div class="sep"></div>
+        <div class="row"><span class="tag warn">PHỤ</span><span class="mono big">${picks.side.pair}</span><span class="pill">score ${round2(picks.side.score)}</span><span class="pill">${escapeHtml(picks.side.why)}</span></div>
+        <div class="sep"></div>
+        <div class="row"><span class="tag bad">PHÒNG THỦ</span><span class="mono big">${picks.hedge.pair}</span><span class="pill">score ${round2(picks.hedge.score)}</span><span class="pill">${escapeHtml(picks.hedge.why)}</span></div>
       `;
+    }
 
-      tblHot.innerHTML = "";
-      scored.slice(0, topN).forEach((x, i) => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${i+1}</td>
-          <td class="mono good">${x.pair}</td>
-          <td>${x.hot}</td>
-          <td>${x.gan}</td>
-          <td>${round2(x.score)}</td>
-          <td class="muted">${escapeHtml(x.why)}</td>
-        `;
-        tblHot.appendChild(tr);
-      });
+    antiBox.innerHTML = warnings.map(w => `<div class="row"><span class="tag ${w.t}">${w.t.toUpperCase()}</span><span class="muted">${escapeHtml(w.m)}</span></div>`).join("")
+      || `<span class="tag ok">OK</span> Không thấy cảnh báo lớn.`;
+  }
 
-      tblGan.innerHTML = "";
-      const ganSorted = scored.slice().sort((a,b)=>b.gan-a.gan).slice(0, topN);
-      ganSorted.forEach((x, i) => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${i+1}</td>
-          <td class="mono good">${x.pair}</td>
-          <td>${x.gan}</td>
-          <td>${x.hot}</td>
-          <td>${round2(x.score)}</td>
-          <td class="muted">${escapeHtml(x.why)}</td>
-        `;
-        tblGan.appendChild(tr);
-      });
+  // ===== OCR + CROP =====
+  let loadedImg = null;
+  let crop = { x: 20, y: 20, w: 200, h: 120 };
+  let dragging = false;
+  let dragOffset = { x: 0, y: 0 };
+  let resizing = false;
+  let activeHandle = null;
 
-      if (!picks) {
-        pickBox.innerHTML = `<span class="tag bad">Chưa chốt</span> Không đủ dữ liệu để chốt.`;
-      } else {
-        pickBox.innerHTML = `
-          <div class="row">
-            <span class="tag ok">CHÍNH</span>
-            <span class="mono big">${picks.main.pair}</span>
-            <span class="pill">score ${round2(picks.main.score)}</span>
-            <span class="pill">${escapeHtml(picks.main.why)}</span>
-          </div>
-          <div class="sep"></div>
-          <div class="row">
-            <span class="tag warn">PHỤ</span>
-            <span class="mono big">${picks.side.pair}</span>
-            <span class="pill">score ${round2(picks.side.score)}</span>
-            <span class="pill">${escapeHtml(picks.side.why)}</span>
-          </div>
-          <div class="sep"></div>
-          <div class="row">
-            <span class="tag bad">PHÒNG THỦ</span>
-            <span class="mono big">${picks.hedge.pair}</span>
-            <span class="pill">score ${round2(picks.hedge.score)}</span>
-            <span class="pill">${escapeHtml(picks.hedge.why)}</span>
-          </div>
-          <div class="note" style="margin-top:10px;">
-            Logic chốt: điểm tổng (hot+gan+pascal+trục) + né bẫy theo pha.
-          </div>
-        `;
+  function clearCanvas(){ ctxImg.clearRect(0,0,imgCanvas.width,imgCanvas.height); }
+
+  btnCamera.addEventListener("click", () => fileCamera.click());
+  btnUpload.addEventListener("click", () => fileUpload.click());
+
+  fileCamera.addEventListener("change", async (e) => {
+    const file = e.target.files?.[0];
+    if(!file) return;
+    await processBatch([file]);
+  });
+
+  fileUpload.addEventListener("change", async (e) => {
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
+    await processBatch(files);
+  });
+
+  function drawPreview(){
+    if(!loadedImg){ clearCanvas(); return; }
+    ctxImg.clearRect(0,0,imgCanvas.width,imgCanvas.height);
+    ctxImg.drawImage(loadedImg, 0, 0, imgCanvas.width, imgCanvas.height);
+
+    ctxImg.save();
+    ctxImg.fillStyle = "rgba(0,0,0,0.35)";
+    ctxImg.beginPath();
+    ctxImg.rect(0,0,imgCanvas.width,imgCanvas.height);
+    ctxImg.rect(crop.x, crop.y, crop.w, crop.h);
+    ctxImg.fill("evenodd");
+    ctxImg.restore();
+
+    ctxImg.save();
+    ctxImg.strokeStyle = "rgba(255,255,255,0.95)";
+    ctxImg.lineWidth = 2;
+    ctxImg.strokeRect(crop.x, crop.y, crop.w, crop.h);
+
+    const hs = 10;
+    const handles = getHandles();
+    ctxImg.fillStyle = "#fff";
+    Object.values(handles).forEach(h=> ctxImg.fillRect(h.x - hs/2, h.y - hs/2, hs, hs));
+    ctxImg.restore();
+  }
+
+  function getHandles(){
+    return {
+      tl:{x:crop.x,y:crop.y},
+      tr:{x:crop.x+crop.w,y:crop.y},
+      bl:{x:crop.x,y:crop.y+crop.h},
+      br:{x:crop.x+crop.w,y:crop.y+crop.h},
+    };
+  }
+  function hitHandle(px,py){
+    const hs = 14;
+    const handles = getHandles();
+    for (const k of Object.keys(handles)){
+      const h = handles[k];
+      if (Math.abs(px-h.x)<=hs && Math.abs(py-h.y)<=hs) return k;
+    }
+    return null;
+  }
+  function inCrop(px,py){
+    return px>=crop.x && px<=crop.x+crop.w && py>=crop.y && py<=crop.y+crop.h;
+  }
+  function clamp(v,a,b){ return Math.max(a, Math.min(b, v)); }
+
+  imgCanvas.addEventListener("pointerdown",(e)=>{
+    if(!loadedImg) return;
+    const r = imgCanvas.getBoundingClientRect();
+    const px = (e.clientX - r.left) * (imgCanvas.width / r.width);
+    const py = (e.clientY - r.top) * (imgCanvas.height / r.height);
+
+    const h = hitHandle(px,py);
+    if(h){ resizing = true; activeHandle = h; }
+    else if(inCrop(px,py)){ dragging = true; dragOffset.x = px - crop.x; dragOffset.y = py - crop.y; }
+    imgCanvas.setPointerCapture(e.pointerId);
+  });
+
+  imgCanvas.addEventListener("pointermove",(e)=>{
+    if(!loadedImg) return;
+    if(!dragging && !resizing) return;
+
+    const r = imgCanvas.getBoundingClientRect();
+    const px = (e.clientX - r.left) * (imgCanvas.width / r.width);
+    const py = (e.clientY - r.top) * (imgCanvas.height / r.height);
+
+    if(dragging){
+      crop.x = clamp(px - dragOffset.x, 0, imgCanvas.width - crop.w);
+      crop.y = clamp(py - dragOffset.y, 0, imgCanvas.height - crop.h);
+    }
+
+    if(resizing){
+      const minW = 120, minH = 120;
+      let x=crop.x, y=crop.y, w=crop.w, h=crop.h;
+
+      if(activeHandle==="br"){
+        w = clamp(px - x, minW, imgCanvas.width - x);
+        h = clamp(py - y, minH, imgCanvas.height - y);
+      } else if(activeHandle==="tr"){
+        w = clamp(px - x, minW, imgCanvas.width - x);
+        const ny = clamp(py, 0, y + h - minH);
+        h = (y + h) - ny; y = ny;
+      } else if(activeHandle==="bl"){
+        const nx = clamp(px, 0, x + w - minW);
+        w = (x + w) - nx; x = nx;
+        h = clamp(py - y, minH, imgCanvas.height - y);
+      } else if(activeHandle==="tl"){
+        const nx = clamp(px, 0, x + w - minW);
+        const ny = clamp(py, 0, y + h - minH);
+        w = (x + w) - nx; x = nx;
+        h = (y + h) - ny; y = ny;
       }
-
-      antiBox.innerHTML = warnings.map(w => `<div class="row"><span class="tag ${w.t}">${w.t.toUpperCase()}</span><span class="muted">${escapeHtml(w.m)}</span></div>`).join("")
-        || `<span class="tag ok">OK</span> Không thấy cảnh báo lớn.`;
+      crop = {x,y,w,h};
     }
 
-    // ===== Utils =====
-    function clampInt(n, min, max) {
-      n = Number.isFinite(n) ? n : min;
-      return Math.max(min, Math.min(max, Math.floor(n)));
-    }
-    function clampNum(n, min, max) {
-      n = Number.isFinite(n) ? n : min;
-      return Math.max(min, Math.min(max, n));
-    }
-    function round2(x){ return Math.round(x*100)/100; }
-    function escapeHtml(s){
-      return String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[c]));
-    }
+    drawPreview();
+  });
 
-    // ===== OCR + CROP + AUTO RUN =====
-    const btnCamera = $("btnCamera");
-    const btnUpload = $("btnUpload");
-    const fileCamera = $("fileCamera");
-    const fileUpload = $("fileUpload");
-    const imgCanvas = $("imgCanvas");
-    const ctxImg = imgCanvas.getContext("2d");
-    const ocrStatus = $("ocrStatus");
-    const ocrText = $("ocrText");
-    const ocrPairs = $("ocrPairs");
+  imgCanvas.addEventListener("pointerup",()=>{
+    dragging = false; resizing = false; activeHandle = null;
+  });
 
-    let loadedImg = null;
-    let crop = { x: 20, y: 20, w: 200, h: 120 };
-    let dragging = false;
-    let dragOffset = { x: 0, y: 0 };
-    let resizing = false;
-    let activeHandle = null;
-
-    function setStatus(msg){ ocrStatus.textContent = msg; }
-
-    btnCamera.addEventListener("click", () => fileCamera.click());
-    btnUpload.addEventListener("click", () => fileUpload.click());
-    fileCamera.addEventListener("change", (e) => loadFile(e.target.files?.[0]));
-    fileUpload.addEventListener("change", (e) => loadFile(e.target.files?.[0]));
-
-    function clearCanvas(){
-      ctxImg.clearRect(0,0,imgCanvas.width,imgCanvas.height);
-    }
-
-    function loadFile(file){
-      if(!file) return;
+  function loadFileAsync(file){
+    return new Promise((resolve) => {
       const url = URL.createObjectURL(file);
       const img = new Image();
       img.onload = () => {
@@ -815,225 +824,119 @@ ${layerStr}`;
         imgCanvas.width = Math.floor(img.width * scale);
         imgCanvas.height = Math.floor(img.height * scale);
 
-        crop.w = Math.floor(imgCanvas.width * 0.70);
-        crop.h = Math.floor(imgCanvas.height * 0.28);
+        // crop mặc định tối ưu ảnh app bạn (từ tiêu đề xuống hàng 7)
+        crop.w = Math.floor(imgCanvas.width * 0.92);
+        crop.h = Math.floor(imgCanvas.height * 0.82);
         crop.x = Math.floor((imgCanvas.width - crop.w)/2);
-        crop.y = Math.floor((imgCanvas.height - crop.h)/2);
+        crop.y = Math.floor(imgCanvas.height * 0.10);
 
         drawPreview();
-        setStatus("Đã có ảnh. Crop sát vùng số → tool sẽ tự OCR & chạy FULL.");
-
-        // Auto OCR after a short delay (user can drag crop quickly)
-        autoOCRAfterLoad();
+        resolve();
       };
-      img.onerror = () => setStatus("Không đọc được ảnh. Thử ảnh khác.");
+      img.onerror = () => resolve();
       img.src = url;
-    }
-
-    function drawPreview(){
-      if(!loadedImg){
-        clearCanvas();
-        return;
-      }
-      ctxImg.clearRect(0,0,imgCanvas.width,imgCanvas.height);
-      ctxImg.drawImage(loadedImg, 0, 0, imgCanvas.width, imgCanvas.height);
-
-      // Dim outside crop
-      ctxImg.save();
-      ctxImg.fillStyle = "rgba(0,0,0,0.35)";
-      ctxImg.beginPath();
-      ctxImg.rect(0,0,imgCanvas.width,imgCanvas.height);
-      ctxImg.rect(crop.x, crop.y, crop.w, crop.h);
-      ctxImg.fill("evenodd");
-      ctxImg.restore();
-
-      // Crop border
-      ctxImg.save();
-      ctxImg.strokeStyle = "rgba(255,255,255,0.95)";
-      ctxImg.lineWidth = 2;
-      ctxImg.strokeRect(crop.x, crop.y, crop.w, crop.h);
-
-      // Handles
-      const hs = 10;
-      const handles = getHandles();
-      ctxImg.fillStyle = "#fff";
-      Object.values(handles).forEach(h=>{
-        ctxImg.fillRect(h.x - hs/2, h.y - hs/2, hs, hs);
-      });
-      ctxImg.restore();
-    }
-
-    function getHandles(){
-      return {
-        tl:{x:crop.x,y:crop.y},
-        tr:{x:crop.x+crop.w,y:crop.y},
-        bl:{x:crop.x,y:crop.y+crop.h},
-        br:{x:crop.x+crop.w,y:crop.y+crop.h},
-      };
-    }
-
-    function hitHandle(px,py){
-      const hs = 14;
-      const handles = getHandles();
-      for (const k of Object.keys(handles)){
-        const h = handles[k];
-        if (Math.abs(px-h.x)<=hs && Math.abs(py-h.y)<=hs) return k;
-      }
-      return null;
-    }
-
-    function inCrop(px,py){
-      return px>=crop.x && px<=crop.x+crop.w && py>=crop.y && py<=crop.y+crop.h;
-    }
-
-    imgCanvas.addEventListener("pointerdown", (e)=>{
-      if(!loadedImg) return;
-      const r = imgCanvas.getBoundingClientRect();
-      const px = (e.clientX - r.left) * (imgCanvas.width / r.width);
-      const py = (e.clientY - r.top) * (imgCanvas.height / r.height);
-
-      const h = hitHandle(px,py);
-      if(h){
-        resizing = true;
-        activeHandle = h;
-      } else if(inCrop(px,py)){
-        dragging = true;
-        dragOffset.x = px - crop.x;
-        dragOffset.y = py - crop.y;
-      }
-      imgCanvas.setPointerCapture(e.pointerId);
     });
+  }
 
-    imgCanvas.addEventListener("pointermove",(e)=>{
-      if(!loadedImg) return;
-      if(!dragging && !resizing) return;
-
-      const r = imgCanvas.getBoundingClientRect();
-      const px = (e.clientX - r.left) * (imgCanvas.width / r.width);
-      const py = (e.clientY - r.top) * (imgCanvas.height / r.height);
-
-      if(dragging){
-        crop.x = clamp(px - dragOffset.x, 0, imgCanvas.width - crop.w);
-        crop.y = clamp(py - dragOffset.y, 0, imgCanvas.height - crop.h);
-      }
-
-      if(resizing){
-        const minW = 80, minH = 50;
-        let x=crop.x, y=crop.y, w=crop.w, h=crop.h;
-
-        if(activeHandle==="br"){
-          w = clamp(px - x, minW, imgCanvas.width - x);
-          h = clamp(py - y, minH, imgCanvas.height - y);
-        } else if(activeHandle==="tr"){
-          w = clamp(px - x, minW, imgCanvas.width - x);
-          const ny = clamp(py, 0, y + h - minH);
-          h = (y + h) - ny;
-          y = ny;
-        } else if(activeHandle==="bl"){
-          const nx = clamp(px, 0, x + w - minW);
-          w = (x + w) - nx;
-          x = nx;
-          h = clamp(py - y, minH, imgCanvas.height - y);
-        } else if(activeHandle==="tl"){
-          const nx = clamp(px, 0, x + w - minW);
-          const ny = clamp(py, 0, y + h - minH);
-          w = (x + w) - nx; x = nx;
-          h = (y + h) - ny; y = ny;
-        }
-
-        crop = {x,y,w,h};
-      }
-
-      drawPreview();
-    });
-
-    imgCanvas.addEventListener("pointerup",()=>{
-      dragging = false;
-      resizing = false;
-      activeHandle = null;
-      // user just adjusted crop -> auto OCR again after short delay
-      if(loadedImg) autoOCRAfterLoad();
-    });
-
-    function clamp(v, a, b){ return Math.max(a, Math.min(b, v)); }
-
-    let ocrTimer = null;
-
-    function autoOCRAfterLoad(){
-      if (ocrTimer) clearTimeout(ocrTimer);
-      ocrTimer = setTimeout(async () => {
-        if(!loadedImg) return;
-        await doOCR();
-        applyOCRToInput();
-        runFull();
-      }, 650); // đủ để kéo crop
-    }
-
-    async function doOCR(){
-      try{
-        setStatus("Đang OCR… (lần đầu có thể hơi lâu)");
-        ocrText.value = "";
-        ocrPairs.textContent = "--";
-
-        // Crop area -> temp canvas, upscale + contrast for screenshots
-        const scale = 2.5;
-        const tmp = document.createElement("canvas");
-        tmp.width = Math.floor(crop.w * scale);
-        tmp.height = Math.floor(crop.h * scale);
-        const tctx = tmp.getContext("2d");
-
-        tctx.drawImage(
-          imgCanvas,
-          crop.x, crop.y, crop.w, crop.h,
-          0, 0, tmp.width, tmp.height
-        );
-
-        // grayscale + contrast
-        const imgData = tctx.getImageData(0, 0, tmp.width, tmp.height);
-        const d = imgData.data;
-        for (let i = 0; i < d.length; i += 4) {
-          const g = 0.299*d[i] + 0.587*d[i+1] + 0.114*d[i+2];
-          const c = (g - 128) * 1.25 + 128;
-          const v = Math.max(0, Math.min(255, c));
-          d[i] = d[i+1] = d[i+2] = v;
-        }
-        tctx.putImageData(imgData, 0, 0);
-
-        const result = await Tesseract.recognize(tmp, "eng", {
-          logger: (m) => {
-            if (m.status) setStatus(`OCR: ${m.status} ${Math.round((m.progress||0)*100)}%`);
-          }
-        });
-
-        const text = (result?.data?.text || "").trim();
-        ocrText.value = text || "(Không đọc được chữ. Hãy crop sát hơn hoặc ảnh nét hơn.)";
-
-        const pairs = (text.match(/\b\d{2}\b/g) || []);
-        const uniq = Array.from(new Set(pairs));
-        ocrPairs.textContent = uniq.length ? uniq.join(" ") : "--";
-
-        setStatus(uniq.length ? `OCR xong: bóc ${uniq.length} cặp. Đang chạy FULL…` : "OCR xong nhưng không thấy số 2 chữ số.");
-      } catch(err){
-        console.error(err);
-        setStatus("OCR lỗi. Thử crop sát hơn hoặc ảnh khác.");
-      }
-    }
-
-    function applyOCRToInput(){
-      const text = (ocrText.value || "");
-      const pairs = (text.match(/\b\d{2}\b/g) || []);
-      const uniq = Array.from(new Set(pairs));
-      if(!uniq.length) return;
-
-      // Ghi đè để không lẫn dữ liệu cũ
-      inputEl.value = `OCR: ${uniq.join(" ")}`;
-    }
-
-    // init
+  async function processBatch(files){
+    inputEl.value = "";
     renderEmpty();
-    setStatus("Chưa có ảnh.");
+    setStatus(`Batch: ${files.length} ảnh. Đang xử lý…`);
 
-  })();
-  </script>
+    for (let i=0;i<files.length;i++){
+      setStatus(`Batch ${i+1}/${files.length}: load…`);
+      await loadFileAsync(files[i]);
+
+      await doOCR_AI();
+      const line = buildLineFromAppMB(ocrText.value);
+
+      if(line){
+        inputEl.value += (inputEl.value ? "\n" : "") + line;
+      }
+    }
+
+    setStatus(`Batch xong: ${files.length} ngày. Đang chạy FULL…`);
+    runFull();
+  }
+
+  async function doOCR_AI(){
+    try{
+      setStatus("AI Scan: làm sạch ảnh → OCR…");
+      ocrText.value = "";
+      ocrPairs.textContent = "--";
+
+      const scale = 3.0;
+      const tmp = document.createElement("canvas");
+      tmp.width = Math.floor(crop.w * scale);
+      tmp.height = Math.floor(crop.h * scale);
+      const tctx = tmp.getContext("2d");
+
+      tctx.drawImage(imgCanvas, crop.x, crop.y, crop.w, crop.h, 0, 0, tmp.width, tmp.height);
+
+      // preprocess threshold (hợp ảnh app KQXS)
+      const imgData = tctx.getImageData(0, 0, tmp.width, tmp.height);
+      const d = imgData.data;
+      for(let i=0;i<d.length;i+=4){
+        const g = 0.299*d[i] + 0.587*d[i+1] + 0.114*d[i+2];
+        const c = (g - 128) * 1.45 + 128;
+        const v = c > 160 ? 255 : 0;
+        d[i]=d[i+1]=d[i+2]=v;
+      }
+      tctx.putImageData(imgData, 0, 0);
+
+      const result = await Tesseract.recognize(tmp, "eng", {
+        logger: (m) => {
+          if (m.status) setStatus(`AI Scan: ${m.status} ${Math.round((m.progress||0)*100)}%`);
+        }
+      });
+
+      const text = (result?.data?.text || "").trim();
+      ocrText.value = text || "";
+      const pairs = smartExtractPairs(text);
+      ocrPairs.textContent = pairs.length ? pairs.join(" ") : "--";
+      setStatus(pairs.length ? `AI Scan xong: bóc ${pairs.length} cặp.` : "AI Scan xong nhưng chưa thấy số.");
+    } catch(e){
+      console.error(e);
+      setStatus("AI Scan lỗi. Thử crop sát hơn.");
+    }
+  }
+
+  function smartExtractPairs(text){
+    const nums = (String(text).match(/\d{2,6}/g) || []);
+    const pairs = nums.map(n => n.slice(-2));
+    return Array.from(new Set(pairs)).filter(p => /^\d{2}$/.test(p));
+  }
+
+  // === Map đúng app Miền Bắc như ảnh bạn gửi ===
+  function buildLineFromAppMB(text){
+    const t = String(text || "");
+    const nums = (t.match(/\d{2,6}/g) || []);
+    if(!nums.length) return "";
+
+    // date: dd/mm/yyyy
+    let date = "";
+    const dm = t.match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
+    if(dm) date = `${dm[1]}/${dm[2]}`;
+
+    // DB: số 5 chữ số lớn nhất/đầu bảng, lấy 2 số cuối
+    let DB = "";
+    const dbLong = nums.find(n => n.length >= 5);
+    DB = (dbLong ? dbLong.slice(-2) : nums[0].slice(-2));
+
+    // Với app này: G7 là 4 số 2 chữ số đỏ ở cuối => 4 last2 cuối
+    const allLast2 = nums.map(n => n.slice(-2));
+    const G7 = allLast2.slice(-4);
+
+    // G6 là 3 số 3 chữ số: 206 200 971 => last2: 06 00 71
+    const G6 = allLast2.slice(-7, -4);
+
+    return `${date ? date + ": " : ""}DB ${DB} | G7: ${G7.join(" ")} | G6: ${G6.join(" ")}`;
+  }
+
+  // init
+  renderEmpty();
+  setStatus("Chưa có ảnh.");
+})();
+</script>
 </body>
 </html>
