@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
-  <title>Bùi Hào — Lotto ULTRA MASTER (OCR Gate FINAL v2.1)</title>
+  <title>Bùi Hào — Lotto ULTRA MASTER (OCR Gate FINAL v2)</title>
   <meta name="theme-color" content="#0b1220"/>
   <style>
     :root{
@@ -171,7 +171,7 @@
 <div class="wrap">
 
   <div class="card">
-    <h1>Bùi Hào — Lotto ULTRA MASTER (OCR Gate FINAL v2.1)</h1>
+    <h1>Bùi Hào — Lotto ULTRA MASTER (OCR Gate FINAL v2)</h1>
     <div class="pillrow">
       <div class="pill"><span class="dot g"></span>OpenCV</div>
       <div class="pill"><span class="dot g"></span>Tesseract OCR</div>
@@ -342,6 +342,7 @@ function onOpenCvReady(){
   cvReady = true;
   setStatus();
 }
+
 setStatus();
 
 /* ---------------------------
@@ -358,6 +359,7 @@ function canvasFromMat(mat){
 }
 
 function preprocess(mat){
+  // grayscale + blur + adaptive threshold
   const gray = new cv.Mat();
   cv.cvtColor(mat, gray, cv.COLOR_RGBA2GRAY, 0);
   const blur = new cv.Mat();
@@ -383,74 +385,62 @@ async function ocrText(canvas){
   return (res.data.text || "");
 }
 
-/* ✅ V2.1: Clean digits + giảm rác ngày tháng nhưng vẫn giữ line breaks */
 function cleanOCRDigits(txt){
-  let t = String(txt || "")
+  return String(txt)
     .replace(/[Oo]/g,"0")
     .replace(/[Il|]/g,"1")
     .replace(/S/g,"5")
     .replace(/B/g,"8")
     .replace(/[^\d\s\n]/g," ")
+    .replace(/\s+\n/g,"\n")
+    .replace(/\n\s+/g,"\n")
     .replace(/[ \t]+/g," ")
-    .replace(/\n{3,}/g,"\n\n")
     .trim();
-
-  const lines = t.split("\n").map(line=>{
-    const toks = (line.match(/\d{1,4}/g) || []).filter(x=>{
-      // bỏ năm
-      if(/^(19|20)\d{2}$/.test(x)) return false;
-      return true;
-    });
-    return toks.join(" ");
-  });
-
-  return lines.map(s=>s.trim()).filter(Boolean).join("\n");
 }
 
-/* ✅ V2.1: DB bắt chắc hơn */
 function extractDB5_fromLabel(text){
-  const t = String(text || "").replace(/\s+/g," ");
-
+  // tìm đoạn có nhãn ĐB / DB, sau đó bắt 5 số ngay sau
+  // OCR có thể mất dấu Đ => vẫn ưu tiên bắt "DB"
+  // dùng regex mềm: (D|Đ)\s*B\s* + 5digits
+  const t = text.replace(/\s+/g," ");
   let m = t.match(/(?:Đ\s*B|D\s*B)\s*(\d{5})/);
   if(m) return m[1];
 
-  // fallback: nếu dính 6 số -> lấy 5 số cuối
-  m = t.match(/\b\d{6}\b/);
-  if(m) return m[0].slice(-5);
-
+  // fallback: tìm 1 số 5 chữ số "đậm" nhất gần top: lấy số 5 chữ số đầu tiên
   m = t.match(/\b\d{5}\b/);
   return m ? m[0] : "";
 }
 
-/* ✅ V2.1: G7 lấy 4 số 2 chữ số CUỐI dòng (anti nhầm date) */
 function findG7Line(lines){
   for(let i=lines.length-1;i>=0;i--){
     const nums2 = (lines[i].match(/\b\d{2}\b/g) || []);
     if(nums2.length >= 4){
-      return {arr: nums2.slice(-4), idx:i, line:lines[i]};
+      return {arr: nums2.slice(0,4), idx:i, line:lines[i]};
     }
   }
   return {arr:[], idx:-1, line:""};
 }
 
-/* ✅ V2.1: G6 lấy 3 số 3 chữ số CUỐI dòng */
 function findG6Line(lines, g7Index){
   for(let i=g7Index-1;i>=0;i--){
     const nums3 = (lines[i].match(/\b\d{3}\b/g) || []);
     if(nums3.length >= 3){
-      return {arr: nums3.slice(-3), idx:i, line:lines[i]};
+      return {arr: nums3.slice(0,3), idx:i, line:lines[i]};
     }
   }
   for(let i=lines.length-1;i>=0;i--){
     const nums3 = (lines[i].match(/\b\d{3}\b/g) || []);
     if(nums3.length >= 3){
-      return {arr: nums3.slice(-3), idx:i, line:lines[i]};
+      return {arr: nums3.slice(0,3), idx:i, line:lines[i]};
     }
   }
   return {arr:[], idx:-1, line:""};
 }
 
 function gateCheck(db5, g6_3, g7_4){
+  // DB: phải có 5 số, db2 là 2 số cuối
+  // G6: 3 số, mỗi số 3 chữ số
+  // G7: 4 số, mỗi số 2 chữ số
   if(!/^\d{5}$/.test(db5)) return {ok:false, reason:"DB không đủ 5 số"};
   if(!g7_4 || g7_4.length!==4 || !g7_4.every(x=>/^\d{2}$/.test(x))) return {ok:false, reason:"G7 phải đúng 4 số (2 chữ số)"};
   if(!g6_3 || g6_3.length!==3 || !g6_3.every(x=>/^\d{3}$/.test(x))) return {ok:false, reason:"G6 phải đúng 3 số (3 chữ số)"};
@@ -478,6 +468,7 @@ async function runOCRFromBlob(blob){
   setBadge("stGate", "● Gate: checking…", "warn");
   showKPI("", [], [], "--");
 
+  // load image
   const url = URL.createObjectURL(blob);
   el("imgPreview").src = url;
 
@@ -485,6 +476,7 @@ async function runOCRFromBlob(blob){
     el("imgPreview").onload = ()=>r();
   });
 
+  // draw to canvas
   const img = el("imgPreview");
   const canvas = el("cvCanvas");
   canvas.style.display = "none";
@@ -493,8 +485,9 @@ async function runOCRFromBlob(blob){
   const ctx = canvas.getContext("2d");
   ctx.drawImage(img,0,0);
 
+  // OpenCV read
   let src = cv.imread(canvas); // RGBA
-
+  // crop nhẹ biên để giảm footer/header dính
   const W = src.cols, H = src.rows;
   const crop = src.roi(new cv.Rect(
     Math.floor(W*0.02),
@@ -504,15 +497,17 @@ async function runOCRFromBlob(blob){
   ));
   src.delete(); src = crop;
 
+  // tách vùng DB (upper) và vùng bảng dưới (body)
   const upH = Math.floor(src.rows * 0.55);
   const upper = src.roi(new cv.Rect(0,0, src.cols, upH));
   const body  = src.roi(new cv.Rect(0, Math.floor(src.rows*0.35), src.cols, Math.floor(src.rows*0.65)));
 
-  // OCR upper: DB
+  // OCR upper để lấy DB theo nhãn ĐB/DB
   const upperBin = preprocess(upper);
   const upperCanvas = canvasFromMat(upperBin);
   const upperTxt1 = await ocrText(upperCanvas);
 
+  // invert pass upper
   const upperInv = new cv.Mat(); cv.bitwise_not(upperBin, upperInv);
   const upperCanvas2 = canvasFromMat(upperInv);
   const upperTxt2 = await ocrText(upperCanvas2);
@@ -522,7 +517,7 @@ async function runOCRFromBlob(blob){
 
   upper.delete(); upperBin.delete(); upperInv.delete();
 
-  // OCR body: G6/G7
+  // OCR body để lấy G6/G7 theo pattern, 2-pass
   const bodyBin = preprocess(body);
   const bodyCanvas = canvasFromMat(bodyBin);
   const bodyTxt1 = await ocrText(bodyCanvas);
@@ -544,12 +539,11 @@ async function runOCRFromBlob(blob){
   src.delete();
   URL.revokeObjectURL(url);
 
+  // Gate
   const gate = gateCheck(db5, g6, g7);
   const db2 = (/^\d{5}$/.test(db5)) ? db5.slice(-2) : "";
 
-  // ✅ Debug token + gate reason
-  const tokensAll = ((upperTxt||"") + "\n" + (bodyTxt||"")).match(/\d{2,5}/g) || [];
-
+  // Debug box
   el("dbg").textContent =
 `[UPPER_OCR]
 ${upperTxt || "(empty)"}
@@ -560,22 +554,15 @@ ${db5 || "(none)"}
 [LOWER_OCR]
 ${bodyTxt || "(empty)"}
 
-[TOKENS_2to5]
-${tokensAll.join(" ") || "(none)"}
-
 [G7_LINE]
 ${g7Found.line || "(none)"}
 
 [G6_LINE]
 ${g6Found.line || "(none)"}
-
-[GATE_REASON]
-${gate.ok ? "PASS" : gate.reason}
 `;
 
   showKPI(db2, g6, g7, gate.ok ? "PASS" : "FAIL");
   setBadge("stOcr", "● OCR: done", "ok");
-
   if(gate.ok){
     setBadge("stGate", "● Gate: PASS", "ok");
     addLineToInput(db5, g7, g6);
@@ -584,6 +571,7 @@ ${gate.ok ? "PASS" : gate.reason}
     setBadge("stGate", `● Gate: FAIL — ${gate.reason}`, "fail");
     batchFail++;
 
+    // gợi ý manual điền sẵn (nếu có)
     el("manualDB").value = db2 || "";
     el("manualG6").value = g6.length ? g6.join(" ") : "";
     el("manualG7").value = g7.length ? g7.join(" ") : "";
@@ -602,6 +590,7 @@ function parseManual(){
   if(g6.length<3) return {ok:false, msg:"G6 manual phải đủ 3 số (3 chữ số)"};
   if(g7.length<4) return {ok:false, msg:"G7 manual phải đủ 4 số (2 chữ số)"};
 
+  // DB5 giả lập (để thống nhất format), chỉ cần db2 cho tool full
   const fakeDB5 = "000" + db2;
   return {ok:true, fakeDB5, g6:g6.slice(0,3), g7:g7.slice(0,4)};
 }
@@ -624,12 +613,14 @@ el("fileMulti").addEventListener("change", async (e)=>{
   if(!files.length) return;
 
   setBadge("stOcr","● OCR: batch running…","warn");
+  // reset batch counters for this run
   batchOK = 0; batchFail = 0;
   setStatus();
 
+  // chạy tuần tự để đỡ crash trên Android
   for(const f of files){
     await runOCRFromBlob(f);
-    await new Promise(r=>setTimeout(r, 120));
+    await new Promise(r=>setTimeout(r, 120)); // thở nhẹ
   }
   setBadge("stOcr","● OCR: batch done","ok");
 });
@@ -667,14 +658,16 @@ DB 59 | G7: 21 41 02 14 | G6: 03 63 87`;
 
 /* ---------------------------
    FULL analysis (basic): hot/gan + score + suggest main/sub
+   (Bạn muốn Pascal/pha/trục sâu thì mình sẽ thêm ở bản v3.)
 ---------------------------- */
 function parseLines(){
   const raw = el("inputData").value.trim().split("\n").map(s=>s.trim()).filter(Boolean);
   const win = Math.max(5, parseInt(el("winDays").value||"30",10));
-  const slice = raw.slice(0, win);
+  const slice = raw.slice(0, win); // nếu bạn dán newest ở trên
   const days = [];
 
   for(const line of slice){
+    // format: DB xx | G7: a b c d | G6: xxx yyy zzz
     const dbm = line.match(/DB\s+(\d{2})/);
     const g7m = line.match(/G7:\s*([0-9 ]+)/);
     const g6m = line.match(/G6:\s*([0-9 ]+)/);
@@ -685,7 +678,9 @@ function parseLines(){
     const g7 = (g7m[1].match(/\b\d{2}\b/g)||[]).slice(0,4);
     const g6 = (g6m[1].match(/\b\d{3}\b/g)||[]).slice(0,3);
 
+    // bóc 00-99 từ g6 (3 chữ số -> lấy 2 số cuối)
     const g6_2 = g6.map(x=>x.slice(-2));
+
     const pool = [db2, ...g7, ...g6_2].map(pad2);
     days.push({db2, g7, g6_2, pool});
   }
@@ -704,13 +699,15 @@ function runFULL(){
   const wGan = parseFloat(el("wGan").value||"1.5");
   const wPas = parseFloat(el("wPas").value||"2"); // chưa dùng sâu bản này
 
+  // freq (hot)
   const freq = {};
   days.forEach(d=>d.pool.forEach(n=>freq[n]=(freq[n]||0)+1));
 
+  // gan: số ngày kể từ lần xuất hiện gần nhất (trong window)
   const lastSeen = {};
   days.forEach((d, idx)=>{
     d.pool.forEach(n=>{
-      if(lastSeen[n]===undefined) lastSeen[n]=idx;
+      if(lastSeen[n]===undefined) lastSeen[n]=idx; // idx 0 là newest
     });
   });
   const gan = {};
@@ -719,15 +716,18 @@ function runFULL(){
     gan[n] = (lastSeen[n]===undefined) ? 999 : lastSeen[n];
   }
 
+  // score: hot cao + gan vừa phải (không quá 999)
   const score = {};
   for(let i=0;i<100;i++){
     const n = pad2(i);
     const hot = freq[n]||0;
     const g = gan[n];
+    // gan ưu tiên 2..9, phạt gan quá dài
     const ganScore = (g===999) ? -2 : (g>=2 && g<=9 ? 2 : (g===0 ? -1 : 0));
     score[n] = hot*wHot + ganScore*wGan;
   }
 
+  // sort
   const hotSorted = Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,topN);
   const scoreSorted = Object.entries(score).sort((a,b)=>b[1]-a[1]).slice(0,topN);
 
