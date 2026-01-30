@@ -1,74 +1,170 @@
 <!doctype html>
 <html lang="vi">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Bùi Hào — Lotto ULTRA MASTER • OCR Gate FINAL v2</title>
-
-<script async src="https://docs.opencv.org/4.x/opencv.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-
-<style>
-  :root{
-    --bg:#070b14; --stroke:rgba(255,255,255,.08);
-    --muted:rgba(255,255,255,.72); --text:#fff;
-    --blue:#2563eb; --green:#16a34a; --red:#ef4444; --amber:#f59e0b;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:
-    radial-gradient(1200px 700px at 20% 0%, rgba(37,99,235,.25), transparent 55%),
-    radial-gradient(900px 600px at 100% 20%, rgba(22,163,74,.18), transparent 50%),
-    radial-gradient(700px 450px at 40% 100%, rgba(239,68,68,.12), transparent 55%),
-    var(--bg);
-    color:var(--text); padding:14px;
-  }
-  .wrap{max-width:980px;margin:0 auto}
-  .card{
-    background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-    border:1px solid var(--stroke);
-    border-radius:18px; padding:14px; margin:12px 0;
-    box-shadow:0 18px 50px rgba(0,0,0,.35);
-    backdrop-filter: blur(10px);
-  }
-  h1{margin:0 0 6px;font-size:18px}
-  h2{margin:0 0 10px;font-size:16px}
-  p{margin:6px 0;color:var(--muted);font-size:13px;line-height:1.35}
-  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-  .badge{
-    display:inline-flex;gap:8px;align-items:center;
-    padding:7px 10px;border-radius:999px;
-    background:rgba(15,23,42,.75);
-    border:1px solid var(--stroke);
-    font-size:12px;color:rgba(255,255,255,.85);
-  }
-  .dot{width:8px;height:8px;border-radius:50%}
-  .dot.ok{background:var(--green)}
-  .dot.bad{background:var(--red)}
-  .dot.warn{background:var(--amber)}
-  .btn{
-    padding:10px 12px;border-radius:14px;border:1px solid var(--stroke);
-    background:rgba(15,23,42,.65); color:var(--text);
-    font-weight:800; cursor:pointer;
-  }
-  .btn.primary{background:linear-gradient(180deg, rgba(37,99,235,.95), rgba(37,99,235,.78));border:none}
-  .btn.danger{background:linear-gradient(180deg, rgba(239,68,68,.95), rgba(239,68,68,.78));border:none}
-  .btn.ghost{background:rgba(15,23,42,.35)}
-  .btn:active{transform:translateY(1px)}
-  textarea, input{
-    width:100%; padding:10px 12px;border-radius:14px;
-    border:1px solid var(--stroke);
-    background:rgba(2,6,23,.65); color:var(--text);
-    font-size:13px; outline:none;
-  }
-  textarea{min-height:120px;resize:vertical}
-  .grid{display:grid;grid-template-columns:1fr;gap:10px}
-  @media(min-width:860px){.grid{grid-template-columns:1.1fr .9fr}}
-  canvas{width:100%;border-radius:14px;border:1px solid var(--stroke);background:#020617}
-  pre{white-space:pre-wrap;word-break:break-word;margin:0;color:rgba(255,255,255,.88);font-size:13px;line-height:1.35}
-  .small{font-size:12px;color:rgba(255,255,255,.7)}
-  .kv{display:grid;grid-template-columns:120px 1fr;gap:8px;align-items:center}
-  .sep{height:1px;background:var(--stroke);margin:10px 0}
-</style>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+  <title>Bùi Hào — Lotto ULTRA MASTER (OCR Gate FINAL v2)</title>
+  <meta name="theme-color" content="#0b1220"/>
+  <style>
+    :root{
+      --bg:#07101d;
+      --card:#0b1730;
+      --card2:#0a1427;
+      --text:#e8f0ff;
+      --muted:#a8b7d6;
+      --line:rgba(255,255,255,.08);
+      --good:#32d583;
+      --warn:#fdb022;
+      --bad:#ff4d4f;
+      --btn:#1e5eff;
+      --btn2:#1a3fa8;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+      background:
+        radial-gradient(1200px 600px at 10% -20%, rgba(30,94,255,.25), transparent 60%),
+        radial-gradient(900px 500px at 110% 10%, rgba(50,213,131,.18), transparent 55%),
+        linear-gradient(180deg, #06101f, #050b16 45%, #050a13);
+      color:var(--text);
+      padding:18px;
+    }
+    .wrap{max-width:920px;margin:0 auto}
+    .card{
+      background:linear-gradient(180deg,var(--card),var(--card2));
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:16px;
+      box-shadow:0 10px 30px rgba(0,0,0,.35);
+      margin-bottom:14px;
+    }
+    h1{margin:0 0 8px;font-size:22px;letter-spacing:.2px}
+    .pillrow{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}
+    .pill{
+      padding:7px 10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      color:var(--muted);
+      font-size:12px;
+      white-space:nowrap;
+    }
+    .dot{display:inline-block;width:8px;height:8px;border-radius:99px;margin-right:6px;vertical-align:middle}
+    .g{background:var(--good)} .y{background:var(--warn)} .r{background:var(--bad)}
+    .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px}
+    .btn{
+      appearance:none;border:0;cursor:pointer;
+      background:linear-gradient(180deg,var(--btn),var(--btn2));
+      color:white;font-weight:700;
+      padding:12px 14px;border-radius:14px;
+      box-shadow:0 10px 18px rgba(30,94,255,.25);
+    }
+    .btn:active{transform:translateY(1px)}
+    .btn.ghost{
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      box-shadow:none;
+      color:var(--text);
+    }
+    .btn.danger{
+      background:linear-gradient(180deg,#ff4d4f,#b42318);
+      box-shadow:0 10px 18px rgba(255,77,79,.18);
+    }
+    .hint{color:var(--muted);line-height:1.4;font-size:13px;margin-top:6px}
+    .small{font-size:12px;color:var(--muted)}
+    .grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:12px;
+      margin-top:12px;
+    }
+    @media(min-width:860px){
+      .grid{grid-template-columns:1.2fr .8fr}
+    }
+    .preview{
+      width:100%;
+      border-radius:16px;
+      border:1px solid var(--line);
+      background:#060b13;
+      overflow:hidden;
+    }
+    canvas, img{display:block;width:100%;height:auto}
+    .status{
+      display:flex;flex-wrap:wrap;gap:8px;margin-top:10px
+    }
+    .badge{
+      padding:8px 10px;border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.06);
+      font-weight:700;font-size:12px
+    }
+    .badge.ok{color:var(--good)}
+    .badge.fail{color:var(--bad)}
+    .badge.warn{color:var(--warn)}
+    .sectionTitle{
+      font-size:18px;margin:0 0 6px;
+    }
+    .mono{
+      font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:12.5px;
+      color:#d7e2ff;
+      background:rgba(0,0,0,.25);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:12px;
+      overflow:auto;
+      white-space:pre-wrap;
+      word-break:break-word;
+    }
+    .inputs{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+      margin-top:10px;
+    }
+    @media(min-width:700px){
+      .inputs{grid-template-columns:1fr 1fr}
+    }
+    .field{
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:10px;
+    }
+    .field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+    .field input, .field textarea, .field select{
+      width:100%;
+      border:0;
+      outline:none;
+      background:transparent;
+      color:var(--text);
+      font-size:14px;
+      padding:6px 0;
+    }
+    textarea{min-height:150px;resize:vertical}
+    .split{
+      display:flex;gap:10px;flex-wrap:wrap
+    }
+    .split .field{flex:1;min-width:180px}
+    .kpi{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:10px;
+      margin-top:10px;
+    }
+    @media(min-width:700px){
+      .kpi{grid-template-columns:repeat(4,minmax(0,1fr))}
+    }
+    .kpi .box{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.06);
+      border-radius:14px;
+      padding:10px;
+    }
+    .kpi .box .t{font-size:12px;color:var(--muted)}
+    .kpi .box .v{font-size:16px;font-weight:800;margin-top:4px}
+  </style>
 </head>
 
 <body>
@@ -76,468 +172,588 @@
 
   <div class="card">
     <h1>Bùi Hào — Lotto ULTRA MASTER (OCR Gate FINAL v2)</h1>
+    <div class="pillrow">
+      <div class="pill"><span class="dot g"></span>OpenCV</div>
+      <div class="pill"><span class="dot g"></span>Tesseract OCR</div>
+      <div class="pill"><span class="dot y"></span>Gate cứng</div>
+      <div class="pill"><span class="dot y"></span>Batch nhiều ảnh</div>
+      <div class="pill"><span class="dot y"></span>DB theo nhãn “ĐB/DB” + 5 số</div>
+      <div class="pill"><span class="dot y"></span>G7/G6 theo pattern (không cần số 6/7)</div>
+    </div>
+
+    <div class="hint">
+      Luồng chuẩn: <b>Upload nhiều ảnh</b> → tool tự cắt vùng bảng → <b>DB: tìm nhãn ĐB/DB + 5 số</b> →
+      <b>G7: dòng gần cuối có 4 số 2 chữ số</b> → <b>G6: dòng phía trên có 3 số 3 chữ số</b> →
+      <b>Gate pass</b> mới đổ vào dữ liệu → chạy FULL. <br/>
+      (*Tool thống kê hỗ trợ phân tích, không đảm bảo kết quả.)
+    </div>
+
     <div class="row">
-      <div class="badge"><span class="dot ok"></span>OpenCV</div>
-      <div class="badge"><span class="dot ok"></span>Tesseract OCR</div>
-      <div class="badge"><span class="dot warn"></span>Gate cứng</div>
-      <div class="badge"><span class="dot warn"></span>Batch nhiều ảnh</div>
-      <div class="badge"><span class="dot warn"></span>DB theo nhãn “ĐB/DB” + 5 số</div>
-      <div class="badge"><span class="dot warn"></span>G7/G6 theo hàng 7/6 (không cần đỏ)</div>
-    </div>
-    <p>
-      Luồng chuẩn: <b>Upload ảnh</b> → Tool tự cắt vùng bảng → <b>DB: tìm chữ ĐB/DB + 5 số</b> →
-      <b>G7: đọc theo hàng “7” (4 số 2 chữ số)</b> →
-      <b>G6: đọc theo hàng “6” (3 số 3 chữ số)</b> →
-      Gate pass mới đổ dữ liệu.
-      <br><span class="small">(*Tool thống kê hỗ trợ phân tích, không đảm bảo kết quả.)</span>
-    </p>
-
-    <div class="row" style="margin-top:8px">
-      <button class="btn primary" id="btnUpload">📸 Upload nhiều ảnh</button>
-      <button class="btn ghost" id="btnPasteSample">Dán mẫu</button>
-      <button class="btn danger" id="btnClearAll">Xóa</button>
-      <span class="badge" id="cvBadge"><span class="dot warn"></span>Đang tải OpenCV...</span>
-      <span class="badge" id="runBadge"><span class="dot warn"></span>Chưa chạy</span>
+      <button class="btn" id="btnMulti">📸 Upload nhiều ảnh</button>
+      <button class="btn ghost" id="btnCam">📷 Camera</button>
+      <button class="btn ghost" id="btnSample">Dán mẫu</button>
+      <button class="btn danger" id="btnClear">Xóa</button>
+      <input id="fileMulti" type="file" accept="image/*" multiple hidden />
+      <input id="fileCam" type="file" accept="image/*" capture="environment" hidden />
     </div>
 
-    <input id="fileInput" type="file" accept="image/*" multiple hidden />
+    <div class="status">
+      <div class="badge ok" id="stCv">● OpenCV: loading…</div>
+      <div class="badge ok" id="stOcr">● OCR: idle</div>
+      <div class="badge warn" id="stGate">● Gate: waiting</div>
+      <div class="badge warn" id="stBatch">● Batch: 0</div>
+    </div>
   </div>
 
-  <div class="grid">
-    <div class="card">
-      <h2>Ảnh → OCR → Gate</h2>
-      <p class="small">
-        Mẹo: crop sát phần bảng (từ “ĐB” tới “7”). Tránh dính footer tab (Miền Bắc/Trung/Nam).
-        Bản v2 không cần bắt màu đỏ nên ổn hơn.
-      </p>
+  <div class="card">
+    <div class="grid">
+      <div>
+        <h2 class="sectionTitle">Ảnh → OCR → Gate</h2>
+        <div class="hint">
+          Mẹo: crop sát phần bảng (từ “ĐB” tới “7”). Tránh dính footer tab (Miền Bắc/Trung/Nam) và header quảng cáo.
+        </div>
 
-      <canvas id="imgCanvas"></canvas>
+        <div class="preview" style="margin-top:10px">
+          <img id="imgPreview" alt="preview" />
+          <canvas id="cvCanvas" style="display:none"></canvas>
+        </div>
 
-      <div class="sep"></div>
+        <div class="kpi">
+          <div class="box"><div class="t">DB (2 số)</div><div class="v" id="kDB">--</div></div>
+          <div class="box"><div class="t">G6 (3 số)</div><div class="v" id="kG6">--</div></div>
+          <div class="box"><div class="t">G7 (4 số)</div><div class="v" id="kG7">--</div></div>
+          <div class="box"><div class="t">Gate</div><div class="v" id="kGate">--</div></div>
+        </div>
 
-      <div class="row">
-        <div class="badge" id="gateBadge"><span class="dot warn"></span>Gate: chưa có dữ liệu</div>
-        <div class="badge" id="lastParsed">DB:-- | G6:-- -- -- | G7:-- -- -- --</div>
+        <div class="inputs">
+          <div class="field">
+            <label>Sửa tay (chỉ khi Gate fail) — DB (2 số)</label>
+            <input id="manualDB" placeholder="VD: 45" />
+          </div>
+          <div class="field">
+            <label>Sửa tay (chỉ khi Gate fail) — G6 (3 số 3 chữ số)</label>
+            <input id="manualG6" placeholder="VD: 392 255 854" />
+          </div>
+          <div class="field">
+            <label>Sửa tay (chỉ khi Gate fail) — G7 (4 số 2 chữ số)</label>
+            <input id="manualG7" placeholder="VD: 03 82 85 81" />
+          </div>
+          <div class="field">
+            <label>Hành động</label>
+            <div class="split">
+              <button class="btn ghost" id="btnApplyManual">Áp manual → thêm dòng</button>
+              <button class="btn ghost" id="btnRetryLast">Thử OCR lại ảnh cuối</button>
+            </div>
+          </div>
+        </div>
+
       </div>
 
-      <div class="sep"></div>
-
-      <h2>Sửa tay (chỉ khi Gate fail)</h2>
-      <div class="kv">
-        <div class="small">DB (2 số)</div>
-        <input id="mDB" placeholder="VD: 45" />
-        <div class="small">G6 (3 số)</div>
-        <input id="mG6" placeholder="VD: 392 255 854" />
-        <div class="small">G7 (4 số)</div>
-        <input id="mG7" placeholder="VD: 03 82 85 81" />
+      <div>
+        <h2 class="sectionTitle">Debug OCR</h2>
+        <div class="mono" id="dbg">Chưa có OCR.</div>
       </div>
-      <div class="row" style="margin-top:10px">
-        <button class="btn" id="btnApplyManual">Áp manual → thêm dòng</button>
-        <button class="btn ghost" id="btnRetryLast">Thử OCR lại ảnh cuối</button>
-      </div>
+    </div>
+  </div>
 
-      <div class="sep"></div>
-
-      <h2>Debug OCR</h2>
-      <textarea id="ocrDebug" rows="7" placeholder="Debug sẽ hiện ở đây..."></textarea>
+  <div class="card">
+    <h2 class="sectionTitle">Dữ liệu đầu vào (mỗi dòng = 1 ngày)</h2>
+    <div class="hint">Format chuẩn auto: <b>DB xx | G7: a b c d | G6: xxx yyy zzz</b></div>
+    <div class="field" style="margin-top:10px">
+      <textarea id="inputData" placeholder="Sau batch scan, tool tự đổ vào đây..."></textarea>
     </div>
 
-    <div class="card">
-      <h2>Dữ liệu đầu vào (mỗi dòng = 1 ngày)</h2>
-      <textarea id="inputData" placeholder="VD:
-30/01: DB 45 | G7: 03 82 85 81 | G6: 392 255 854"></textarea>
-
-      <div class="row" style="margin-top:10px">
-        <button class="btn primary" id="btnRunFull">🚀 Chạy FULL</button>
-        <span class="badge" id="kpiBadge"><span class="dot warn"></span>KPI: chờ</span>
+    <div class="split" style="margin-top:10px">
+      <div class="field">
+        <label>Cửa sổ ngày</label>
+        <input id="winDays" type="number" value="30" min="5" />
       </div>
-
-      <div class="sep"></div>
-
-      <h2>KẾT QUẢ FULL</h2>
-      <pre id="output">Chưa có dữ liệu.</pre>
+      <div class="field">
+        <label>Top hiển thị</label>
+        <input id="topN" type="number" value="15" min="5" />
+      </div>
+      <div class="field">
+        <label>Trọng số Hot</label>
+        <input id="wHot" type="number" value="2" step="0.5" />
+      </div>
+      <div class="field">
+        <label>Trọng số Gan</label>
+        <input id="wGan" type="number" value="1.5" step="0.5" />
+      </div>
+      <div class="field">
+        <label>Trọng số Pascal</label>
+        <input id="wPas" type="number" value="2" step="0.5" />
+      </div>
     </div>
+
+    <div class="row">
+      <button class="btn" id="btnFull">🚀 Chạy FULL</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 class="sectionTitle">KẾT QUẢ FULL</h2>
+    <div class="mono" id="out">Chưa có dữ liệu.</div>
+  </div>
+
+  <div class="card">
+    <div class="small">© Bùi Hào — Tool thống kê hỗ trợ phân tích. Không đảm bảo kết quả.</div>
   </div>
 
 </div>
 
+<!-- Load libs -->
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script async src="https://docs.opencv.org/4.x/opencv.js" onload="onOpenCvReady()"></script>
+
 <script>
-const fileInput = document.getElementById("fileInput");
-const btnUpload = document.getElementById("btnUpload");
-const btnRunFull = document.getElementById("btnRunFull");
-const btnPasteSample = document.getElementById("btnPasteSample");
-const btnClearAll = document.getElementById("btnClearAll");
-const btnApplyManual = document.getElementById("btnApplyManual");
-const btnRetryLast = document.getElementById("btnRetryLast");
-
-const cvBadge = document.getElementById("cvBadge");
-const runBadge = document.getElementById("runBadge");
-const gateBadge = document.getElementById("gateBadge");
-const lastParsed = document.getElementById("lastParsed");
-const kpiBadge = document.getElementById("kpiBadge");
-
-const imgCanvas = document.getElementById("imgCanvas");
-const ctx = imgCanvas.getContext("2d");
-const ocrDebug = document.getElementById("ocrDebug");
-const inputData = document.getElementById("inputData");
-const output = document.getElementById("output");
-
-const mDB = document.getElementById("mDB");
-const mG6 = document.getElementById("mG6");
-const mG7 = document.getElementById("mG7");
-
+/* ---------------------------
+   STATE
+---------------------------- */
 let cvReady = false;
-let lastImage = null;
-let lastScanResult = null;
+let lastImageBlob = null;
+let batchOK = 0, batchFail = 0;
 
-(function waitCV(){
-  const t = setInterval(()=>{
-    if(window.cv && cv.Mat){
-      cvReady = true;
-      clearInterval(t);
-      cvBadge.innerHTML = `<span class="dot ok"></span>OpenCV OK`;
-    }
-  }, 80);
-})();
+const el = (id)=>document.getElementById(id);
 
-btnUpload.onclick = () => fileInput.click();
-fileInput.addEventListener("change", async e => {
-  const files = [...e.target.files];
-  if(!files.length) return;
-
-  runBadge.innerHTML = `<span class="dot warn"></span>Batch đang chạy...`;
-  let okCount = 0, failCount = 0;
-
-  for(let i=0;i<files.length;i++){
-    runBadge.innerHTML = `<span class="dot warn"></span>Ảnh ${i+1}/${files.length}...`;
-    const img = await loadFileToCanvas(files[i]);
-    lastImage = img;
-    const res = await scanFromCanvas();
-    if(res && res.pass){
-      okCount++;
-      appendLineToInput(res.line);
-    } else {
-      failCount++;
-    }
-  }
-
-  runBadge.innerHTML = `<span class="dot ok"></span>Batch xong: OK ${okCount} | FAIL ${failCount}`;
-  if(okCount>0) runFULL();
-});
-
-btnPasteSample.onclick = () => {
-  inputData.value =
-`30/01: DB 45 | G7: 03 82 85 81 | G6: 392 255 854
-29/01: DB 21 | G7: 76 47 21 77 | G6: 801 295 993
-28/01: DB 14 | G7: 77 19 86 10 | G6: 484 417 202`;
-};
-
-btnClearAll.onclick = () => {
-  inputData.value = "";
-  ocrDebug.value = "";
-  output.textContent = "Chưa có dữ liệu.";
-  lastParsed.textContent = "DB:-- | G6:-- -- -- | G7:-- -- -- --";
-  gateBadge.innerHTML = `<span class="dot warn"></span>Gate: chưa có dữ liệu`;
-  kpiBadge.innerHTML = `<span class="dot warn"></span>KPI: chờ`;
-};
-
-btnRunFull.onclick = () => runFULL();
-
-btnApplyManual.onclick = () => {
-  const db = (mDB.value||"").match(/\d{2}/)?.[0] || "";
-  const g7 = (mG7.value||"").match(/\d{2}/g) || [];
-  const g6_3 = (mG6.value||"").match(/\d{3}/g) || [];
-  const pass = db && g6_3.length===3 && g7.length===4;
-
-  if(!pass){
-    gateBadge.innerHTML = `<span class="dot bad"></span>Gate manual FAIL: cần DB=2 số, G6=3 số (3 chữ số), G7=4 số`;
-    return;
-  }
-  const line = `MAN: DB ${db} | G7: ${g7.slice(0,4).join(" ")} | G6: ${g6_3.slice(0,3).join(" ")}`;
-  appendLineToInput(line);
-  gateBadge.innerHTML = `<span class="dot ok"></span>Gate manual OK → đã thêm dòng`;
-  runFULL();
-};
-
-btnRetryLast.onclick = async () => {
-  if(!lastImage){ runBadge.innerHTML = `<span class="dot bad"></span>Chưa có ảnh để retry`; return; }
-  runBadge.innerHTML = `<span class="dot warn"></span>Đang retry OCR...`;
-  const res = await scanFromCanvas();
-  if(res && res.pass){
-    appendLineToInput(res.line);
-    runBadge.innerHTML = `<span class="dot ok"></span>Retry OK → đã thêm dòng`;
-    runFULL();
-  } else {
-    runBadge.innerHTML = `<span class="dot bad"></span>Retry FAIL`;
-  }
-};
-
-function appendLineToInput(line){
-  inputData.value += (inputData.value.trim() ? "\n" : "") + line;
+function setBadge(id, text, cls){
+  const e = el(id);
+  e.textContent = text;
+  e.classList.remove("ok","warn","fail");
+  e.classList.add(cls);
 }
 
-function loadFileToCanvas(file){
-  return new Promise(resolve=>{
-    const url = URL.createObjectURL(file);
-    const img = new Image();
-    img.onload = () => {
-      const maxW = Math.min(980, window.innerWidth - 28);
-      const scale = Math.min(1, maxW / img.width);
-      imgCanvas.width = Math.floor(img.width * scale);
-      imgCanvas.height = Math.floor(img.height * scale);
-      ctx.clearRect(0,0,imgCanvas.width,imgCanvas.height);
-      ctx.drawImage(img, 0,0, imgCanvas.width, imgCanvas.height);
-      resolve({img, scale});
-    };
-    img.src = url;
-  });
+function setStatus(){
+  setBadge("stCv", `● OpenCV: ${cvReady ? "OK" : "loading…"}`, cvReady ? "ok" : "warn");
+  setBadge("stBatch", `● Batch: OK ${batchOK} | FAIL ${batchFail}`, (batchFail>0) ? "warn" : "ok");
 }
 
-/* ===== OCR helpers ===== */
-function preprocess(matRGBA){
-  let gray = new cv.Mat();
-  cv.cvtColor(matRGBA, gray, cv.COLOR_RGBA2GRAY);
-
-  let up = new cv.Mat();
-  cv.resize(gray, up, new cv.Size(0,0), 3,3, cv.INTER_CUBIC);
-
-  let blur = new cv.Mat();
-  cv.GaussianBlur(up, blur, new cv.Size(3,3), 0);
-
-  let bin = new cv.Mat();
-  cv.threshold(blur, bin, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU);
-
-  gray.delete(); up.delete(); blur.delete();
-  return bin;
+function showKPI(db2, g6, g7, gate){
+  el("kDB").textContent = db2 || "--";
+  el("kG6").textContent = g6?.length ? g6.join(" ") : "--";
+  el("kG7").textContent = g7?.length ? g7.join(" ") : "--";
+  el("kGate").textContent = gate;
 }
+
+/* ---------------------------
+   OpenCV ready
+---------------------------- */
+function onOpenCvReady(){
+  cvReady = true;
+  setStatus();
+}
+
+setStatus();
+
+/* ---------------------------
+   Helpers
+---------------------------- */
+function pad2(n){ return String(n).padStart(2,"0"); }
 
 function canvasFromMat(mat){
-  const c = document.createElement("canvas");
-  c.width = mat.cols; c.height = mat.rows;
-  cv.imshow(c, mat);
-  return c;
+  const canvas = document.createElement("canvas");
+  canvas.width = mat.cols;
+  canvas.height = mat.rows;
+  cv.imshow(canvas, mat);
+  return canvas;
+}
+
+function preprocess(mat){
+  // grayscale + blur + adaptive threshold
+  const gray = new cv.Mat();
+  cv.cvtColor(mat, gray, cv.COLOR_RGBA2GRAY, 0);
+  const blur = new cv.Mat();
+  cv.GaussianBlur(gray, blur, new cv.Size(3,3), 0, 0, cv.BORDER_DEFAULT);
+
+  const thr = new cv.Mat();
+  cv.adaptiveThreshold(
+    blur, thr, 255,
+    cv.ADAPTIVE_THRESH_GAUSSIAN_C,
+    cv.THRESH_BINARY, 31, 8
+  );
+
+  gray.delete(); blur.delete();
+  return thr;
 }
 
 async function ocrText(canvas){
   const res = await Tesseract.recognize(canvas, "eng", {
-    tessedit_pageseg_mode: 6
+    logger: ()=>{},
+    tessedit_char_whitelist: "0123456789",
+    preserve_interword_spaces: "1",
   });
   return (res.data.text || "");
 }
 
-function normDBLabel(t){
-  return String(t).toUpperCase()
-    .replace(/Ð/g,"D")
-    .replace(/Đ/g,"D")
-    .replace(/D8/g,"DB")
-    .replace(/O B/g,"DB")
-    .replace(/OB/g,"DB");
+function cleanOCRDigits(txt){
+  return String(txt)
+    .replace(/[Oo]/g,"0")
+    .replace(/[Il|]/g,"1")
+    .replace(/S/g,"5")
+    .replace(/B/g,"8")
+    .replace(/[^\d\s\n]/g," ")
+    .replace(/\s+\n/g,"\n")
+    .replace(/\n\s+/g,"\n")
+    .replace(/[ \t]+/g," ")
+    .trim();
 }
 
-/* DB: tìm "DB ... 5 số" hoặc fallback lấy 5 số trong vùng DB */
-async function readDB_byLabel(bodyMat){
-  const H = bodyMat.rows, W = bodyMat.cols;
-  const y1 = Math.floor(H * 0.12);
-  const y2 = Math.floor(H * 0.62);
-  const winH = Math.max(46, Math.floor(H * 0.14));
-  const step = Math.max(18, Math.floor(winH * 0.35));
+function extractDB5_fromLabel(text){
+  // tìm đoạn có nhãn ĐB / DB, sau đó bắt 5 số ngay sau
+  // OCR có thể mất dấu Đ => vẫn ưu tiên bắt "DB"
+  // dùng regex mềm: (D|Đ)\s*B\s* + 5digits
+  const t = text.replace(/\s+/g," ");
+  let m = t.match(/(?:Đ\s*B|D\s*B)\s*(\d{5})/);
+  if(m) return m[1];
 
-  const left = Math.floor(W * 0.05);
-  const ww = Math.max(10, W - left - Math.floor(W*0.05));
+  // fallback: tìm 1 số 5 chữ số "đậm" nhất gần top: lấy số 5 chữ số đầu tiên
+  m = t.match(/\b\d{5}\b/);
+  return m ? m[0] : "";
+}
 
-  let best = {ok:false, text:"", five:"", y:0};
-
-  for(let y=y1; y<=y2-winH; y+=step){
-    const roi = bodyMat.roi(new cv.Rect(left, y, ww, winH));
-    const bin = preprocess(roi);
-    roi.delete();
-
-    const c = canvasFromMat(bin);
-    bin.delete();
-
-    const tRaw = await ocrText(c);
-    const t = normDBLabel(tRaw);
-
-    const m = t.match(/DB[^0-9]{0,12}(\d{5})/);
-    if(m && m[1]){
-      return {ok:true, text:t, five:m[1], y};
-    }
-
-    const m2 = t.match(/(\d{5})/);
-    if(!best.ok && m2 && m2[1] && !/UG/.test(t)){
-      best = {ok:true, text:t, five:m2[1], y};
+function findG7Line(lines){
+  for(let i=lines.length-1;i>=0;i--){
+    const nums2 = (lines[i].match(/\b\d{2}\b/g) || []);
+    if(nums2.length >= 4){
+      return {arr: nums2.slice(0,4), idx:i, line:lines[i]};
     }
   }
-  return best;
+  return {arr:[], idx:-1, line:""};
 }
 
-/* ===== NEW: đọc G7/G6 theo HÀNG 7/6 (không cần màu) =====
-   - OCR vùng 40% dưới của bảng
-   - parse dòng bắt đầu bằng 7 -> 4 số 2 chữ số
-   - parse dòng bắt đầu bằng 6 -> 3 số 3 chữ số
-*/
-function parseRowByIndex(ocr, idx){
-  const lines = String(ocr).split("\n").map(s=>s.trim()).filter(Boolean);
-  const candidates = lines.filter(l => new RegExp("^" + idx + "\\b").test(l));
-  // nếu không có dòng bắt đầu idx, thử tìm idx đứng riêng
-  const more = candidates.length ? candidates : lines.filter(l => new RegExp("\\b" + idx + "\\b").test(l));
-  return more.join(" | ");
+function findG6Line(lines, g7Index){
+  for(let i=g7Index-1;i>=0;i--){
+    const nums3 = (lines[i].match(/\b\d{3}\b/g) || []);
+    if(nums3.length >= 3){
+      return {arr: nums3.slice(0,3), idx:i, line:lines[i]};
+    }
+  }
+  for(let i=lines.length-1;i>=0;i--){
+    const nums3 = (lines[i].match(/\b\d{3}\b/g) || []);
+    if(nums3.length >= 3){
+      return {arr: nums3.slice(0,3), idx:i, line:lines[i]};
+    }
+  }
+  return {arr:[], idx:-1, line:""};
 }
 
-function extractG7_fromRow(rowText){
-  const nums2 = (rowText.match(/\b\d{2}\b/g) || []);
-  // loại số "7" nếu dính
-  const cleaned = nums2.filter(n => n !== "07" && n !== "70"); // giảm bẫy OCR dính
-  return cleaned.slice(0,4);
+function gateCheck(db5, g6_3, g7_4){
+  // DB: phải có 5 số, db2 là 2 số cuối
+  // G6: 3 số, mỗi số 3 chữ số
+  // G7: 4 số, mỗi số 2 chữ số
+  if(!/^\d{5}$/.test(db5)) return {ok:false, reason:"DB không đủ 5 số"};
+  if(!g7_4 || g7_4.length!==4 || !g7_4.every(x=>/^\d{2}$/.test(x))) return {ok:false, reason:"G7 phải đúng 4 số (2 chữ số)"};
+  if(!g6_3 || g6_3.length!==3 || !g6_3.every(x=>/^\d{3}$/.test(x))) return {ok:false, reason:"G6 phải đúng 3 số (3 chữ số)"};
+  return {ok:true, reason:"OK"};
 }
 
-function extractG6_fromRow(rowText){
-  const nums3 = (rowText.match(/\b\d{3}\b/g) || []);
-  return nums3.slice(0,3);
+function addLineToInput(db5, g7, g6){
+  const db2 = db5.slice(-2);
+  const line = `DB ${db2} | G7: ${g7.join(" ")} | G6: ${g6.join(" ")}`;
+  const cur = el("inputData").value.trim();
+  el("inputData").value = (cur ? cur + "\n" : "") + line;
 }
 
-async function readG6G7_byRows(bodyMat){
-  // vùng dưới: lấy từ ~55% tới ~98% để dính cả hàng 6/7
-  const H = bodyMat.rows, W = bodyMat.cols;
-  const y = Math.floor(H * 0.52);
-  const h = Math.floor(H * 0.46);
-
-  const roi = bodyMat.roi(new cv.Rect(Math.floor(W*0.06), y, Math.floor(W*0.88), h));
-  const bin = preprocess(roi);
-  roi.delete();
-
-  const c = canvasFromMat(bin);
-  bin.delete();
-
-  const txt = await ocrText(c);
-
-  const row7 = parseRowByIndex(txt, 7);
-  const row6 = parseRowByIndex(txt, 6);
-
-  const G7 = extractG7_fromRow(row7);
-  const G6_3 = extractG6_fromRow(row6);
-
-  return {txt, row6, row7, G6_3, G7};
-}
-
-/* ===== CORE ===== */
-async function scanFromCanvas(){
+/* ---------------------------
+   OCR pipeline: read DB/G6/G7
+---------------------------- */
+async function runOCRFromBlob(blob){
   if(!cvReady){
-    runBadge.innerHTML = `<span class="dot bad"></span>OpenCV chưa sẵn sàng`;
-    return null;
+    alert("OpenCV chưa load xong. Đợi 2–3 giây rồi thử lại.");
+    return;
   }
+  lastImageBlob = blob;
 
-  let src = cv.imread(imgCanvas);
-  const H = src.rows, W = src.cols;
+  setBadge("stOcr", "● OCR: running…", "warn");
+  setBadge("stGate", "● Gate: checking…", "warn");
+  showKPI("", [], [], "--");
 
-  // Cắt nhẹ thôi (bản cũ cắt nhiều quá dễ mất hàng 7)
-  const topCut = Math.floor(H * 0.03);
-  const botCut = Math.floor(H * 0.02);
-  const bodyH = Math.max(10, H - topCut - botCut);
-  const body = src.roi(new cv.Rect(0, topCut, W, bodyH));
+  // load image
+  const url = URL.createObjectURL(blob);
+  el("imgPreview").src = url;
 
-  // 1) DB theo nhãn
-  const dbHit = await readDB_byLabel(body);
-  const DB = dbHit.ok ? dbHit.five.slice(-2) : "";
+  await new Promise(r=>{
+    el("imgPreview").onload = ()=>r();
+  });
 
-  // 2) G6/G7 theo hàng 6/7 (không cần đỏ)
-  const gHit = await readG6G7_byRows(body);
-  const G7 = gHit.G7;
-  const G6_3 = gHit.G6_3;
+  // draw to canvas
+  const img = el("imgPreview");
+  const canvas = el("cvCanvas");
+  canvas.style.display = "none";
+  canvas.width = img.naturalWidth;
+  canvas.height = img.naturalHeight;
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(img,0,0);
 
-  const pass = !!DB && G7.length===4 && G6_3.length===3;
+  // OpenCV read
+  let src = cv.imread(canvas); // RGBA
+  // crop nhẹ biên để giảm footer/header dính
+  const W = src.cols, H = src.rows;
+  const crop = src.roi(new cv.Rect(
+    Math.floor(W*0.02),
+    Math.floor(H*0.02),
+    Math.floor(W*0.96),
+    Math.floor(H*0.96)
+  ));
+  src.delete(); src = crop;
 
-  const parsedStr = `DB:${DB||"--"} | G6:${(G6_3.join(" ")||"--")} | G7:${(G7.join(" ")||"--")}`;
-  lastParsed.textContent = parsedStr;
+  // tách vùng DB (upper) và vùng bảng dưới (body)
+  const upH = Math.floor(src.rows * 0.55);
+  const upper = src.roi(new cv.Rect(0,0, src.cols, upH));
+  const body  = src.roi(new cv.Rect(0, Math.floor(src.rows*0.35), src.cols, Math.floor(src.rows*0.65)));
 
-  if(pass){
-    gateBadge.innerHTML = `<span class="dot ok"></span>Gate PASS ✅ (đổ dữ liệu)`;
-  } else {
-    gateBadge.innerHTML = `<span class="dot bad"></span>Gate FAIL ❌ (không đổ dữ liệu)`;
-  }
+  // OCR upper để lấy DB theo nhãn ĐB/DB
+  const upperBin = preprocess(upper);
+  const upperCanvas = canvasFromMat(upperBin);
+  const upperTxt1 = await ocrText(upperCanvas);
 
-  ocrDebug.value =
-`[DB_LABEL_SCAN]
-${dbHit.text || "(none)"}
+  // invert pass upper
+  const upperInv = new cv.Mat(); cv.bitwise_not(upperBin, upperInv);
+  const upperCanvas2 = canvasFromMat(upperInv);
+  const upperTxt2 = await ocrText(upperCanvas2);
+
+  const upperTxt = cleanOCRDigits((upperTxt1||"") + "\n" + (upperTxt2||""));
+  const db5 = extractDB5_fromLabel(upperTxt);
+
+  upper.delete(); upperBin.delete(); upperInv.delete();
+
+  // OCR body để lấy G6/G7 theo pattern, 2-pass
+  const bodyBin = preprocess(body);
+  const bodyCanvas = canvasFromMat(bodyBin);
+  const bodyTxt1 = await ocrText(bodyCanvas);
+
+  const bodyInv = new cv.Mat(); cv.bitwise_not(bodyBin, bodyInv);
+  const bodyCanvas2 = canvasFromMat(bodyInv);
+  const bodyTxt2 = await ocrText(bodyCanvas2);
+
+  const bodyTxt = cleanOCRDigits((bodyTxt1||"") + "\n" + (bodyTxt2||""));
+  const lines = bodyTxt.split("\n").map(s=>s.trim()).filter(Boolean);
+
+  const g7Found = findG7Line(lines);
+  const g6Found = findG6Line(lines, g7Found.idx);
+
+  const g7 = g7Found.arr;
+  const g6 = g6Found.arr;
+
+  body.delete(); bodyBin.delete(); bodyInv.delete();
+  src.delete();
+  URL.revokeObjectURL(url);
+
+  // Gate
+  const gate = gateCheck(db5, g6, g7);
+  const db2 = (/^\d{5}$/.test(db5)) ? db5.slice(-2) : "";
+
+  // Debug box
+  el("dbg").textContent =
+`[UPPER_OCR]
+${upperTxt || "(empty)"}
 
 [DB_5DIG]
-${dbHit.five || "(none)"}
+${db5 || "(none)"}
 
 [LOWER_OCR]
-${gHit.txt || "(none)"}
+${bodyTxt || "(empty)"}
 
-[ROW6_G6]
-${gHit.row6 || "(none)"}
-=> G6: ${G6_3.join(" ") || "--"}
+[G7_LINE]
+${g7Found.line || "(none)"}
 
-[ROW7_G7]
-${gHit.row7 || "(none)"}
-=> G7: ${G7.join(" ") || "--"}
+[G6_LINE]
+${g6Found.line || "(none)"}
 `;
 
-  body.delete(); src.delete();
+  showKPI(db2, g6, g7, gate.ok ? "PASS" : "FAIL");
+  setBadge("stOcr", "● OCR: done", "ok");
+  if(gate.ok){
+    setBadge("stGate", "● Gate: PASS", "ok");
+    addLineToInput(db5, g7, g6);
+    batchOK++;
+  }else{
+    setBadge("stGate", `● Gate: FAIL — ${gate.reason}`, "fail");
+    batchFail++;
 
-  const line = `AUTO: DB ${DB} | G7: ${G7.join(" ")} | G6: ${G6_3.join(" ")}`;
-  lastScanResult = {DB, G6_3, G7, pass, line};
-  return {DB, G6_3, G7, pass, line};
+    // gợi ý manual điền sẵn (nếu có)
+    el("manualDB").value = db2 || "";
+    el("manualG6").value = g6.length ? g6.join(" ") : "";
+    el("manualG7").value = g7.length ? g7.join(" ") : "";
+  }
+  setStatus();
 }
 
-/* ===== FULL (tạm thống kê) ===== */
+/* ---------------------------
+   Manual apply
+---------------------------- */
+function parseManual(){
+  const db2 = (el("manualDB").value || "").replace(/\D/g,"").slice(-2);
+  const g6 = (el("manualG6").value || "").match(/\b\d{3}\b/g) || [];
+  const g7 = (el("manualG7").value || "").match(/\b\d{2}\b/g) || [];
+  if(db2.length!==2) return {ok:false, msg:"DB manual phải đúng 2 số"};
+  if(g6.length<3) return {ok:false, msg:"G6 manual phải đủ 3 số (3 chữ số)"};
+  if(g7.length<4) return {ok:false, msg:"G7 manual phải đủ 4 số (2 chữ số)"};
+
+  // DB5 giả lập (để thống nhất format), chỉ cần db2 cho tool full
+  const fakeDB5 = "000" + db2;
+  return {ok:true, fakeDB5, g6:g6.slice(0,3), g7:g7.slice(0,4)};
+}
+
+el("btnApplyManual").onclick = ()=>{
+  const r = parseManual();
+  if(!r.ok){ alert(r.msg); return; }
+  addLineToInput(r.fakeDB5, r.g7, r.g6);
+  setBadge("stGate","● Gate: MANUAL OK","ok");
+};
+
+/* ---------------------------
+   Inputs (upload/camera)
+---------------------------- */
+el("btnMulti").onclick = ()=> el("fileMulti").click();
+el("btnCam").onclick   = ()=> el("fileCam").click();
+
+el("fileMulti").addEventListener("change", async (e)=>{
+  const files = [...(e.target.files || [])];
+  if(!files.length) return;
+
+  setBadge("stOcr","● OCR: batch running…","warn");
+  // reset batch counters for this run
+  batchOK = 0; batchFail = 0;
+  setStatus();
+
+  // chạy tuần tự để đỡ crash trên Android
+  for(const f of files){
+    await runOCRFromBlob(f);
+    await new Promise(r=>setTimeout(r, 120)); // thở nhẹ
+  }
+  setBadge("stOcr","● OCR: batch done","ok");
+});
+
+el("fileCam").addEventListener("change", async (e)=>{
+  const f = (e.target.files || [])[0];
+  if(!f) return;
+  await runOCRFromBlob(f);
+});
+
+el("btnRetryLast").onclick = async ()=>{
+  if(!lastImageBlob){ alert("Chưa có ảnh nào để retry."); return; }
+  await runOCRFromBlob(lastImageBlob);
+};
+
+el("btnClear").onclick = ()=>{
+  el("inputData").value = "";
+  el("out").textContent = "Chưa có dữ liệu.";
+  el("dbg").textContent = "Chưa có OCR.";
+  batchOK=0; batchFail=0;
+  setBadge("stOcr","● OCR: idle","ok");
+  setBadge("stGate","● Gate: waiting","warn");
+  setStatus();
+  showKPI("", [], [], "--");
+};
+
+el("btnSample").onclick = ()=>{
+  el("inputData").value =
+`DB 45 | G7: 03 82 85 81 | G6: 392 255 854
+DB 21 | G7: 76 47 21 77 | G6: 801 295 993
+DB 14 | G7: 81 87 60 32 | G6: 206 200 971
+DB 13 | G7: 77 19 86 10 | G6: 484 417 202
+DB 59 | G7: 21 41 02 14 | G6: 03 63 87`;
+};
+
+/* ---------------------------
+   FULL analysis (basic): hot/gan + score + suggest main/sub
+   (Bạn muốn Pascal/pha/trục sâu thì mình sẽ thêm ở bản v3.)
+---------------------------- */
+function parseLines(){
+  const raw = el("inputData").value.trim().split("\n").map(s=>s.trim()).filter(Boolean);
+  const win = Math.max(5, parseInt(el("winDays").value||"30",10));
+  const slice = raw.slice(0, win); // nếu bạn dán newest ở trên
+  const days = [];
+
+  for(const line of slice){
+    // format: DB xx | G7: a b c d | G6: xxx yyy zzz
+    const dbm = line.match(/DB\s+(\d{2})/);
+    const g7m = line.match(/G7:\s*([0-9 ]+)/);
+    const g6m = line.match(/G6:\s*([0-9 ]+)/);
+
+    if(!dbm || !g7m || !g6m) continue;
+
+    const db2 = dbm[1];
+    const g7 = (g7m[1].match(/\b\d{2}\b/g)||[]).slice(0,4);
+    const g6 = (g6m[1].match(/\b\d{3}\b/g)||[]).slice(0,3);
+
+    // bóc 00-99 từ g6 (3 chữ số -> lấy 2 số cuối)
+    const g6_2 = g6.map(x=>x.slice(-2));
+
+    const pool = [db2, ...g7, ...g6_2].map(pad2);
+    days.push({db2, g7, g6_2, pool});
+  }
+  return days;
+}
+
 function runFULL(){
-  const lines = inputData.value.trim().split("\n").filter(Boolean);
-  if(lines.length < 3){
-    kpiBadge.innerHTML = `<span class="dot bad"></span>KPI: cần ≥3 ngày`;
-    output.textContent = "❌ Cần ≥3 ngày dữ liệu.";
+  const days = parseLines();
+  if(days.length < 5){
+    el("out").textContent = "❌ Thiếu dữ liệu: cần ít nhất 5 dòng (5 ngày).";
     return;
   }
 
+  const topN = Math.max(5, parseInt(el("topN").value||"15",10));
+  const wHot = parseFloat(el("wHot").value||"2");
+  const wGan = parseFloat(el("wGan").value||"1.5");
+  const wPas = parseFloat(el("wPas").value||"2"); // chưa dùng sâu bản này
+
+  // freq (hot)
   const freq = {};
-  const dbFreq = {};
+  days.forEach(d=>d.pool.forEach(n=>freq[n]=(freq[n]||0)+1));
 
-  lines.forEach(line=>{
-    const db = (line.match(/DB\s+(\d{2})/i)||[])[1];
-    if(db) dbFreq[db] = (dbFreq[db]||0)+1;
-
-    const nums = (line.match(/\b\d{2}\b/g)||[]);
-    nums.forEach(n => freq[n] = (freq[n]||0)+1);
+  // gan: số ngày kể từ lần xuất hiện gần nhất (trong window)
+  const lastSeen = {};
+  days.forEach((d, idx)=>{
+    d.pool.forEach(n=>{
+      if(lastSeen[n]===undefined) lastSeen[n]=idx; // idx 0 là newest
+    });
   });
+  const gan = {};
+  for(let i=0;i<100;i++){
+    const n = pad2(i);
+    gan[n] = (lastSeen[n]===undefined) ? 999 : lastSeen[n];
+  }
 
-  const sorted = Object.entries(freq).sort((a,b)=>b[1]-a[1]);
-  const topHot = sorted.slice(0,14);
+  // score: hot cao + gan vừa phải (không quá 999)
+  const score = {};
+  for(let i=0;i<100;i++){
+    const n = pad2(i);
+    const hot = freq[n]||0;
+    const g = gan[n];
+    // gan ưu tiên 2..9, phạt gan quá dài
+    const ganScore = (g===999) ? -2 : (g>=2 && g<=9 ? 2 : (g===0 ? -1 : 0));
+    score[n] = hot*wHot + ganScore*wGan;
+  }
 
-  const dbSorted = Object.entries(dbFreq).sort((a,b)=>b[1]-a[1]);
-  const main = (dbSorted[0]?.[0]) || (sorted[0]?.[0]) || "--";
-  const sub  = (dbSorted[1]?.[0]) || (sorted[1]?.[0]) || "--";
+  // sort
+  const hotSorted = Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,topN);
+  const scoreSorted = Object.entries(score).sort((a,b)=>b[1]-a[1]).slice(0,topN);
 
-  kpiBadge.innerHTML = `<span class="dot ok"></span>KPI: Tổng ${lines.length} ngày`;
+  const main = scoreSorted[0]?.[0] || "--";
+  const sub  = scoreSorted[1]?.[0] || "--";
 
-  output.textContent =
-`Tổng ngày: ${lines.length}
+  let out =
+`Tổng ngày: ${days.length}
 
 TOP HOT:
-${topHot.map(x=>`${x[0]} → ${x[1]}`).join("\n")}
+${hotSorted.map(([n,c])=>`${n} → ${c}`).join("\n")}
 
-TOP ĐB (2 số):
-${dbSorted.slice(0,8).map(x=>`${x[0]} → ${x[1]}`).join("\n") || "(chưa tách được DB)"}
+TOP SCORE (hot+gan):
+${scoreSorted.map(([n,s])=>`${n} → ${s.toFixed(2)}`).join("\n")}
 
-CHỐT GỢI Ý (demo thống kê):
+CHỐT GỢI Ý:
 🎯 Chính: ${main}
-🛡 Phụ: ${sub}
+🛡️ Phụ:  ${sub}
 
-* Tool thống kê hỗ trợ, không đảm bảo trúng.
-* Gate v2: DB theo nhãn + 5 số, G6 theo hàng 6 (3 số 3 chữ số), G7 theo hàng 7 (4 số 2 chữ số).`;
+* Tool thống kê hỗ trợ, không đảm bảo trúng
+`;
+
+  el("out").textContent = out;
 }
 
-imgCanvas.addEventListener("click", async ()=>{
-  if(!lastImage) return;
-  runBadge.innerHTML = `<span class="dot warn"></span>Đang OCR ảnh cuối...`;
-  const res = await scanFromCanvas();
-  if(res && res.pass){
-    runBadge.innerHTML = `<span class="dot ok"></span>OCR OK (Gate pass)`;
-  } else {
-    runBadge.innerHTML = `<span class="dot bad"></span>OCR FAIL (Gate fail)`;
-  }
-});
+el("btnFull").onclick = runFULL;
 </script>
 </body>
 </html>
