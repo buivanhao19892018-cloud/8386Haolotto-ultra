@@ -3,58 +3,212 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Bùi Hào — Lotto ULTRA FULL (Web)</title>
+  <title>Bùi Hào — Lotto ULTRA PRO (Web • OCR)</title>
+
   <style>
     :root{
-      --b:#111; --m:#666; --bd:#e8e8e8; --bg:#fff; --bg2:#fafafa;
+      --b:#0f172a; --m:#64748b;
+      --bd:rgba(15,23,42,.10);
+      --card:#ffffff; --card2:rgba(255,255,255,.70);
       --ok:#0a7; --warn:#c80; --bad:#c22;
     }
     *{box-sizing:border-box}
-    body{margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial; background:var(--bg); color:var(--b);}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+      color:var(--b);
+      background:
+        radial-gradient(1200px 600px at 18% -10%, #e8f3ff 0%, rgba(255,255,255,0) 55%),
+        radial-gradient(900px 500px at 110% 10%, #fff0ec 0%, rgba(255,255,255,0) 60%),
+        radial-gradient(900px 500px at 40% 120%, #f1ffe9 0%, rgba(255,255,255,0) 55%),
+        linear-gradient(180deg, #ffffff 0%, #fbfbfb 100%);
+    }
     .wrap{max-width:1180px; margin:0 auto; padding:16px;}
-    .card{border:1px solid var(--bd); border-radius:16px; padding:14px; margin:12px 0; box-shadow:0 2px 14px rgba(0,0,0,.04); background:#fff;}
-    h1{font-size:18px; margin:0 0 6px;}
-    h2{font-size:15px; margin:0 0 8px;}
+    .topbar{
+      display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
+      padding:14px; border:1px solid var(--bd); border-radius:18px;
+      background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.72));
+      backdrop-filter: blur(8px);
+      box-shadow: 0 12px 30px rgba(2,8,23,.06);
+      margin-bottom:12px;
+    }
+    .brand .title{font-weight:900; letter-spacing:.2px; font-size:18px;}
+    .brand .badge{
+      display:inline-flex; align-items:center; gap:8px; margin-top:6px;
+      padding:6px 10px; border-radius:999px; font-size:12px;
+      border:1px solid rgba(15,23,42,.10);
+      background:rgba(255,255,255,.70);
+      color:rgba(15,23,42,.72);
+    }
     .muted{color:var(--m); font-size:13px; line-height:1.45;}
-    textarea{width:100%; min-height:190px; border:1px solid #ddd; border-radius:14px; padding:12px; font-size:14px; resize:vertical;}
-    input,select{border:1px solid #ddd; border-radius:12px; padding:8px 10px; font-size:13px; background:#fff;}
-    button{border:0; border-radius:12px; padding:10px 14px; cursor:pointer; font-weight:700; background:#111; color:#fff;}
-    button.secondary{background:#f1f1f1; color:#111; border:1px solid #e5e5e5;}
+    .card{
+      border:1px solid var(--bd);
+      border-radius:18px;
+      padding:14px;
+      margin:12px 0;
+      background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.76));
+      backdrop-filter: blur(8px);
+      box-shadow: 0 10px 28px rgba(2,8,23,.06);
+    }
+    .card.pro{border:1px solid rgba(15,23,42,.12)}
+    h1{font-size:16px; margin:0 0 6px;}
+    h2{font-size:14.5px; margin:0 0 8px;}
     .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
     .between{justify-content:space-between;}
-    .pill{border:1px solid #eee; border-radius:999px; padding:6px 10px; font-size:12.5px; background:var(--bg2);}
+    .pill{
+      border:1px solid rgba(15,23,42,.10);
+      border-radius:999px;
+      padding:6px 10px;
+      font-size:12.5px;
+      background:rgba(255,255,255,.65);
+    }
     .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;}
+    textarea{
+      width:100%; min-height:190px;
+      border:1px solid rgba(15,23,42,.12);
+      border-radius:16px;
+      padding:12px;
+      font-size:14px;
+      resize:vertical;
+      background:rgba(255,255,255,.85);
+      outline:none;
+    }
+    input,select{
+      border:1px solid rgba(15,23,42,.12);
+      border-radius:14px;
+      padding:9px 10px;
+      font-size:13px;
+      background:rgba(255,255,255,.85);
+      outline:none;
+    }
+    button{
+      border:0;
+      border-radius:14px;
+      padding:10px 14px;
+      cursor:pointer;
+      font-weight:800;
+      background:#0f172a;
+      color:#fff;
+      box-shadow: 0 10px 20px rgba(15,23,42,.16);
+    }
+    button:disabled{opacity:.5; cursor:not-allowed}
+    button.secondary{
+      background:rgba(255,255,255,.80);
+      color:#0f172a;
+      border:1px solid rgba(15,23,42,.12);
+      box-shadow:none;
+    }
     .grid{display:grid; grid-template-columns:1fr; gap:12px;}
     @media (min-width: 980px){ .grid{grid-template-columns:1fr 1fr;} }
     table{width:100%; border-collapse:collapse;}
-    th,td{border-bottom:1px solid #eee; padding:8px 6px; font-size:12.8px; text-align:left; vertical-align:top;}
-    th{background:#fafafa; position:sticky; top:0; z-index:1;}
-    .tag{display:inline-block; padding:3px 8px; border-radius:999px; font-size:12px; border:1px solid #eee; background:#fff;}
+    th,td{
+      border-bottom:1px solid rgba(15,23,42,.08);
+      padding:8px 6px;
+      font-size:12.8px;
+      text-align:left;
+      vertical-align:top;
+      color:#0f172a;
+    }
+    th{
+      background:rgba(255,255,255,.85);
+      position:sticky; top:0; z-index:1;
+      font-weight:800;
+    }
+    .tag{
+      display:inline-block;
+      padding:4px 10px;
+      border-radius:999px;
+      font-size:12px;
+      border:1px solid rgba(15,23,42,.12);
+      background:rgba(255,255,255,.72);
+      font-weight:800;
+    }
     .tag.ok{border-color:rgba(0,170,120,.25); color:var(--ok); background:rgba(0,170,120,.06);}
     .tag.warn{border-color:rgba(204,136,0,.25); color:var(--warn); background:rgba(204,136,0,.06);}
     .tag.bad{border-color:rgba(204,34,34,.25); color:var(--bad); background:rgba(204,34,34,.06);}
     .kpi{display:flex; gap:10px; flex-wrap:wrap;}
-    .kpi .box{flex:1; min-width:200px; border:1px solid #eee; border-radius:14px; padding:10px; background:var(--bg2);}
-    .big{font-size:20px; font-weight:800;}
+    .kpi .box{
+      flex:1; min-width:200px;
+      border:1px solid rgba(15,23,42,.10);
+      border-radius:16px;
+      padding:10px;
+      background:rgba(255,255,255,.70);
+    }
+    .big{font-size:20px; font-weight:900;}
     .small{font-size:12.5px; color:var(--m);}
-    .sep{height:1px; background:#eee; margin:10px 0;}
+    .sep{height:1px; background:rgba(15,23,42,.08); margin:10px 0;}
     .note{font-size:12px; color:var(--m);}
-    .danger{color:var(--bad); font-weight:700;}
-    .good{font-weight:800;}
-    .clickable{cursor:pointer;}
+    .good{font-weight:900;}
+
+    /* Canvas crop */
+    .canvasWrap{
+      border:1px solid rgba(15,23,42,.12);
+      border-radius:16px;
+      background:rgba(255,255,255,.88);
+      overflow:hidden;
+    }
+    #imgCanvas{width:100%; height:auto; display:block; touch-action:none;}
   </style>
 </head>
+
 <body>
   <div class="wrap">
-    <div class="card">
-      <h1>Bùi Hào — Lotto ULTRA FULL (Web)</h1>
-      <div class="muted">
-        Dán KQXS (mỗi dòng = 1 ngày). Tool tự bóc <b>00–99</b>, thống kê <b>hot/gan</b>, <b>đầu/đuôi</b>, <b>trục</b>, tạo <b>Pascal 2–4 tầng</b>,
-        đọc <b>pha (mở–chạy–xả–hồi)</b> kiểu heuristic + <b>Anti-bẫy</b>, rồi xuất <b>chốt 1 chính + 1 phụ + 1 phòng thủ</b>.
+    <div class="topbar">
+      <div class="brand">
+        <div class="title">Bùi Hào — Lotto ULTRA PRO</div>
+        <div class="badge">WEB • OCR • PASCAL • PHA • TRỤC • ANTI-BẪY</div>
+        <div class="muted" style="margin-top:8px;">
+          Chụp ảnh / tải ảnh → crop vùng số → <b>tự OCR</b> → <b>tự chạy FULL</b>.
+          (*Tool thống kê hỗ trợ phân tích, không đảm bảo kết quả.)
+        </div>
       </div>
-      <div class="note">* Tool phục vụ phân tích thống kê. Không đảm bảo kết quả.</div>
+      <div class="row">
+        <button class="secondary" id="btnSample">Dán mẫu</button>
+        <button class="secondary" id="btnClear">Xóa</button>
+      </div>
     </div>
 
+    <!-- OCR PRO CARD -->
+    <div class="card pro">
+      <h2>📷 Ảnh → OCR tự đọc → tự chạy FULL</h2>
+      <div class="muted">
+        Bấm <b>Camera</b> hoặc <b>Tải từ tệp</b>. Kéo khung để crop sát vùng có số (DB/G7/G6).
+        Tool sẽ tự OCR và tự phân tích.
+      </div>
+
+      <div class="row" style="margin-top:10px;">
+        <button class="secondary" id="btnCamera">📷 Camera</button>
+        <button class="secondary" id="btnUpload">🖼️ Tải từ tệp</button>
+        <span class="pill" id="ocrStatus">Chưa có ảnh.</span>
+        <span class="pill">Auto: OCR → Đổ dữ liệu → Chạy FULL</span>
+      </div>
+
+      <input id="fileCamera" type="file" accept="image/*" capture="environment" hidden />
+      <input id="fileUpload" type="file" accept="image/*" hidden />
+
+      <div class="grid" style="margin-top:12px;">
+        <div>
+          <div class="muted good">Preview (kéo để crop)</div>
+          <div class="canvasWrap" style="margin-top:8px;">
+            <canvas id="imgCanvas"></canvas>
+          </div>
+          <div class="note" style="margin-top:8px;">
+            Tip: crop sát vùng số 2 chữ số, tránh tiêu đề/quảng cáo để OCR chuẩn.
+          </div>
+        </div>
+
+        <div>
+          <div class="muted good">Text OCR (để kiểm tra)</div>
+          <textarea id="ocrText" placeholder="OCR text sẽ hiện ở đây..." style="min-height:160px;"></textarea>
+          <div class="row" style="margin-top:10px;">
+            <span class="pill">Bóc 00–99:</span>
+            <span class="mono" id="ocrPairs">--</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INPUT -->
     <div class="card">
       <div class="row between">
         <div class="row">
@@ -62,17 +216,14 @@
           <span class="pill">Output: Pascal • Pha • Trục • Chốt</span>
         </div>
         <div class="row">
-          <button class="secondary" id="btnSample">Dán mẫu</button>
           <button id="btnRun">Chạy FULL</button>
-          <button class="secondary" id="btnClear">Xóa</button>
         </div>
       </div>
 
-      <textarea id="input" placeholder="Mỗi dòng 1 ngày. Có thể ghi DB/G7/G6… tùy bạn, miễn có số 2 chữ số.
+      <textarea id="input" placeholder="Mỗi dòng = 1 ngày. Có thể ghi DB/G7/G6… tùy bạn, miễn có số 2 chữ số.
 Ví dụ:
 29/01: DB 63 | G7: 03 14 59 87 | G6: 21 02 14 59 66
-28/01: DB 59 | G7: 21 41 02 14 | G6: 03 63 87 90
-..."></textarea>
+28/01: DB 59 | G7: 21 41 02 14 | G6: 03 63 87 90"></textarea>
 
       <div class="row" style="margin-top:10px;">
         <span class="pill">Cửa sổ ngày:</span>
@@ -92,6 +243,7 @@ Ví dụ:
       </div>
     </div>
 
+    <!-- KPI + PICKS -->
     <div class="grid">
       <div class="card">
         <h2>KPI nhanh</h2>
@@ -108,10 +260,11 @@ Ví dụ:
       </div>
     </div>
 
+    <!-- PASCAL + AXIS -->
     <div class="grid">
       <div class="card">
         <h2>Pascal (2 chữ số) — trùng tầng</h2>
-        <div class="muted">Nguồn Pascal: lấy 2 chữ số mới nhất mỗi dòng (ưu tiên DB nếu bạn ghi “DB xx”, nếu không thì lấy số cuối dòng).</div>
+        <div class="muted">Seed Pascal: ưu tiên “DB xx” nếu bạn có ghi, nếu không thì lấy số cuối dòng.</div>
         <div class="sep"></div>
         <div id="pascalBox" class="mono muted"></div>
       </div>
@@ -133,6 +286,7 @@ Ví dụ:
       </div>
     </div>
 
+    <!-- TABLES -->
     <div class="grid">
       <div class="card">
         <h2>Hot pairs</h2>
@@ -156,28 +310,32 @@ Ví dụ:
     </div>
 
     <div class="card muted" style="text-align:center;">
-      © Bùi Hào — Lotto ULTRA FULL • Web
+      © Bùi Hào — Lotto ULTRA PRO • Web OCR
     </div>
   </div>
 
-<script>
-(() => {
-  const $ = (id) => document.getElementById(id);
+  <!-- OCR LIB -->
+  <script src="https://unpkg.com/tesseract.js@5/dist/tesseract.min.js"></script>
 
-  const inputEl = $("input");
-  const kpiEl = $("kpi");
-  const phaseBox = $("phaseBox");
-  const pickBox = $("pickBox");
-  const antiBox = $("antiBox");
-  const pascalBox = $("pascalBox");
-  const axisBox = $("axisBox");
-  const headsEl = $("heads");
-  const tailsEl = $("tails");
-  const tblHot = $("tblHot");
-  const tblGan = $("tblGan");
+  <script>
+  (() => {
+    const $ = (id) => document.getElementById(id);
 
-  $("btnSample").addEventListener("click", () => {
-    inputEl.value =
+    // ====== UI elements ======
+    const inputEl = $("input");
+    const kpiEl = $("kpi");
+    const phaseBox = $("phaseBox");
+    const pickBox = $("pickBox");
+    const antiBox = $("antiBox");
+    const pascalBox = $("pascalBox");
+    const axisBox = $("axisBox");
+    const headsEl = $("heads");
+    const tailsEl = $("tails");
+    const tblHot = $("tblHot");
+    const tblGan = $("tblGan");
+
+    $("btnSample").addEventListener("click", () => {
+      inputEl.value =
 `29/01: DB 63 | G7: 03 14 59 87 | G6: 21 02 14 59 66
 28/01: DB 59 | G7: 21 41 02 14 | G6: 03 63 87 90
 27/01: DB 14 | G7: 59 63 21 02 | G6: 03 87 66 10
@@ -186,478 +344,696 @@ Ví dụ:
 24/01: DB 90 | G7: 10 66 21 03 | G6: 02 14 59 87
 23/01: DB 21 | G7: 90 10 66 03 | G6: 02 14 59 87
 22/01: DB 03 | G7: 21 90 10 66 | G6: 02 14 59 87`;
-  });
-
-  $("btnClear").addEventListener("click", () => {
-    inputEl.value = "";
-    renderEmpty();
-  });
-
-  $("btnRun").addEventListener("click", () => runFull());
-
-  function renderEmpty() {
-    kpiEl.innerHTML = "";
-    phaseBox.textContent = "Chưa có dữ liệu.";
-    pickBox.textContent = "Chưa có dữ liệu.";
-    antiBox.textContent = "Anti-bẫy sẽ hiện tại đây.";
-    pascalBox.textContent = "";
-    axisBox.textContent = "";
-    headsEl.textContent = "";
-    tailsEl.textContent = "";
-    tblHot.innerHTML = "";
-    tblGan.innerHTML = "";
-  }
-
-  // -------- Parsing --------
-  // Each line is a day, from newest (top) -> oldest (bottom)
-  function parseDays(raw) {
-    const lines = raw.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
-    return lines.map((line, idx) => {
-      const pairs = (line.match(/\b\d{2}\b/g) || []).map(x => x);
-      const uniqPairs = Array.from(new Set(pairs));
-
-      // Try detect DB number if "DB 63" exists:
-      let db = null;
-      const m = line.match(/\bDB\b[^0-9]*?(\d{2})\b/i);
-      if (m) db = m[1];
-
-      // For pascal seed: prefer DB else last 2-digit in line
-      const seed = db ?? (pairs.length ? pairs[pairs.length - 1] : null);
-
-      return { dayIndex: idx, line, pairs: uniqPairs, db, seed };
-    });
-  }
-
-  function countStats(days) {
-    const freq = new Map();      // pair -> count (unique-per-day counted)
-    const lastSeen = new Map();  // pair -> first dayIndex it appears (0 is newest) => gan = dayIndex
-    const headCnt = Array(10).fill(0);
-    const tailCnt = Array(10).fill(0);
-    const axisCnt = new Map();   // "a-b" normalized sorted => count
-
-    days.forEach((d, dayIndex) => {
-      d.pairs.forEach(p => {
-        freq.set(p, (freq.get(p) || 0) + 1);
-        if (!lastSeen.has(p)) lastSeen.set(p, dayIndex);
-
-        const h = +p[0], t = +p[1];
-        headCnt[h]++; tailCnt[t]++;
-
-        const a = Math.min(h,t), b = Math.max(h,t);
-        const key = `${a}-${b}`;
-        axisCnt.set(key, (axisCnt.get(key) || 0) + 1);
-      });
     });
 
-    return { freq, lastSeen, headCnt, tailCnt, axisCnt };
-  }
-
-  function sortMapDesc(map) {
-    return Array.from(map.entries()).sort((a,b) => b[1] - a[1]);
-  }
-
-  // -------- Pascal (2-digit) --------
-  // We generate pascal layers using last N seeds (2-digit) => digits array
-  // For each layer: next[i] = (prev[i] + prev[i+1]) % 10
-  // Then we aggregate into candidate pairs using combination of head/tail picks from layers.
-  function buildPascal(days, depth) {
-    const seeds = days.map(d => d.seed).filter(Boolean).slice(0, Math.max(6, depth + 3));
-    if (seeds.length < 4) return { ok:false, msg:"Thiếu seed Pascal (cần ít nhất 4 ngày có seed).", layers:[], candidates:new Map() };
-
-    const digits = seeds.map(s => [ +s[0], +s[1] ]); // each seed has 2 digits
-    // Flatten in a sequence: we use last digit stream by interleaving heads and tails:
-    // stream = h0,t0,h1,t1...
-    const stream = [];
-    digits.forEach(([h,t]) => { stream.push(h,t); });
-
-    let layer = stream.slice(); // base
-    const layers = [{ name:"L0", arr: layer.slice(0, 20) }]; // show first 20 for readability
-    for (let k=1;k<=depth;k++){
-      const next = [];
-      for (let i=0;i<layer.length-1;i++){
-        next.push((layer[i] + layer[i+1]) % 10);
-      }
-      layer = next;
-      layers.push({ name:`L${k}`, arr: layer.slice(0, 20) });
-    }
-
-    // Candidates: take top frequent digits in deeper layers, combine into pairs
-    // Score by how many layers include digit.
-    const digitLayerCount = new Map(); // digit -> count layers included
-    layers.forEach((L, idx) => {
-      if (idx === 0) return; // prefer derived layers
-      const set = new Set(L.arr);
-      set.forEach(d => digitLayerCount.set(d, (digitLayerCount.get(d)||0)+1));
-    });
-
-    const digitRank = Array.from(digitLayerCount.entries()).sort((a,b)=>b[1]-a[1]); // [digit, layerCount]
-    const topDigits = digitRank.slice(0, 6).map(x=>x[0]);
-
-    const candidates = new Map(); // pair -> pasScore
-    for (let i=0;i<topDigits.length;i++){
-      for (let j=0;j<topDigits.length;j++){
-        const h = topDigits[i], t = topDigits[j];
-        const pair = `${h}${t}`;
-        const score = (digitLayerCount.get(h)||0) + (digitLayerCount.get(t)||0);
-        candidates.set(pair, Math.max(candidates.get(pair)||0, score));
-      }
-    }
-
-    return { ok:true, seeds, layers, digitRank, candidates };
-  }
-
-  // -------- Phase heuristic (MASTER+++) --------
-  // Heuristic using DB seeds and distribution:
-  // - "MỞ": high diversity in heads/tails, low repetition
-  // - "CHẠY": hot axis stabilizes, moderate repetition
-  // - "XẢ": same heads/tails repeat strongly, top pair too hot
-  // - "HỒI": after xả, gan-high candidates start appearing in last few days (increases reversion)
-  function inferPhase(days, stats) {
-    const dbs = days.map(d=>d.db).filter(Boolean).slice(0, 14);
-    const uniqDB = new Set(dbs);
-    const hotPairs = sortMapDesc(stats.freq).slice(0, 5);
-    const topHotCount = hotPairs[0]?.[1] || 0;
-
-    const headVar = variance(stats.headCnt);
-    const tailVar = variance(stats.tailCnt);
-
-    const repRate = topHotCount / Math.max(1, days.length); // rough
-    const uniqRate = uniqDB.size / Math.max(1, dbs.length);
-
-    // detect "hồi" via increasing gan hits in last 3 days
-    const last3 = days.slice(0,3);
-    let ganHits = 0;
-    last3.forEach(d=>{
-      d.pairs.forEach(p=>{
-        const g = stats.lastSeen.get(p);
-        if (g !== undefined && g >= Math.min(10, days.length-1)) ganHits++;
-      });
-    });
-
-    let phase = "CHẠY";
-    let tag = "ok";
-    let reason = [];
-
-    if (days.length < 10) reason.push("Dữ liệu ít → pha chỉ tham khảo.");
-
-    if (uniqRate >= 0.75 && repRate < 0.20) { phase = "MỞ"; tag="ok"; reason.push("DB đa dạng, độ lặp thấp."); }
-    if (repRate >= 0.35 || headVar < 2.0 || tailVar < 2.0) { phase = "XẢ"; tag="warn"; reason.push("Độ lặp cao / đầu-đuôi dồn cụm."); }
-    if (ganHits >= 6 && repRate >= 0.25) { phase = "HỒI"; tag="ok"; reason.push("Gan-hit tăng trong 3 ngày gần → dấu hồi."); }
-
-    // prioritize xả if extreme
-    if (repRate >= 0.45) { phase="XẢ"; tag="bad"; reason.push("Top lặp quá mạnh → dễ nhiễu/bẫy."); }
-
-    return {
-      phase, tag,
-      uniqRate: round2(uniqRate),
-      repRate: round2(repRate),
-      ganHits,
-      reason
-    };
-  }
-
-  function variance(arr){
-    const n = arr.length;
-    const mean = arr.reduce((a,b)=>a+b,0)/n;
-    const v = arr.reduce((s,x)=>s+(x-mean)*(x-mean),0)/n;
-    return v;
-  }
-
-  // -------- Scoring & Picks --------
-  function scorePairs(days, stats, pas) {
-    const window = days.length;
-    const wHot = clampNum(+$("wHot").value, 0, 5);
-    const wGan = clampNum(+$("wGan").value, 0, 5);
-    const wPas = clampNum(+$("wPas").value, 0, 5);
-
-    const scored = []; // {pair, hot, gan, pas, axis, score, why}
-
-    // Build axis popularity for extra signal
-    const axisRank = sortMapDesc(stats.axisCnt);
-    const axisTop = new Set(axisRank.slice(0, 8).map(x=>x[0]));
-
-    // Universe: all pairs seen + pascal candidates
-    const universe = new Set([...stats.freq.keys(), ...(pas?.candidates ? pas.candidates.keys() : [])]);
-
-    universe.forEach(pair => {
-      const hot = stats.freq.get(pair) || 0;
-      const gan = stats.lastSeen.has(pair) ? stats.lastSeen.get(pair) : window; // unseen => max gan
-      const pasScore = pas?.candidates?.get(pair) || 0;
-
-      const h = +pair[0], t = +pair[1];
-      const a = Math.min(h,t), b = Math.max(h,t);
-      const axisKey = `${a}-${b}`;
-      const axis = stats.axisCnt.get(axisKey) || 0;
-
-      // Normalize:
-      const hotN = hot / Math.max(1, window);
-      const ganN = gan / Math.max(1, window);
-      const pasN = pasScore / 10; // scale
-      const axisN = axis / Math.max(1, window);
-
-      // Penalize too-hot-too-recent (bẫy lặp)
-      let penalty = 0;
-      if (gan === 0 && hot >= Math.max(3, Math.floor(window*0.18))) penalty += 0.25; // very recent and hot
-      if (hotN > 0.35) penalty += 0.20;
-
-      // Score
-      const score = (wHot*hotN) + (wGan*ganN) + (wPas*pasN) + (0.8*axisN) - penalty;
-
-      const why = [];
-      if (hot) why.push(`hot:${hot}`);
-      why.push(`gan:${gan}`);
-      if (pasScore) why.push(`pas:${pasScore}`);
-      if (axisTop.has(axisKey)) why.push(`trục:${axisKey}`);
-      if (penalty>0) why.push(`-bẫy:${round2(penalty)}`);
-
-      scored.push({ pair, hot, gan, pas: pasScore, axis: axisKey, score, why: why.join(" • ") });
-    });
-
-    scored.sort((a,b)=>b.score-a.score);
-    return scored;
-  }
-
-  function pickFinal(scored, phaseInfo) {
-    // Rules:
-    // - main: top score but avoid "too recent spam" if phase is XẢ
-    // - side: next best, diversify head/tail
-    // - hedge: high-gan but decent score
-    const phase = phaseInfo.phase;
-
-    const isTooSpam = (x) => (x.gan === 0 && x.hot >= 3);
-
-    let main = scored.find(x => phase==="XẢ" ? !isTooSpam(x) : true) || scored[0];
-    if (!main) return null;
-
-    // side: different head or tail if possible
-    const mh = main.pair[0], mt = main.pair[1];
-    let side = scored.find(x => x.pair !== main.pair && (x.pair[0] !== mh || x.pair[1] !== mt)) || scored[1] || main;
-
-    // hedge: prefer high gan within top 60
-    const top60 = scored.slice(0, 60);
-    let hedge = top60.sort((a,b)=>b.gan-a.gan)[0] || side;
-
-    return { main, side, hedge };
-  }
-
-  // -------- Anti-bẫy --------
-  function antiWarnings(days, stats, phaseInfo, picks) {
-    const warn = [];
-    if (days.length < 10) warn.push({t:"warn", m:"Dữ liệu < 10 ngày: kết luận dễ lệch. Nên tăng cửa sổ 20–30 ngày."});
-
-    // Noise: head/tail too concentrated
-    const maxHead = Math.max(...stats.headCnt), maxTail = Math.max(...stats.tailCnt);
-    const sum = stats.headCnt.reduce((a,b)=>a+b,0);
-    if (sum>0) {
-      if (maxHead/sum > 0.20) warn.push({t:"warn", m:"ĐẦU bị dồn cụm mạnh → dễ nhiễu (bẫy cụm)."});
-      if (maxTail/sum > 0.20) warn.push({t:"warn", m:"ĐUÔI bị dồn cụm mạnh → dễ nhiễu (bẫy cụm)."});
-    }
-
-    // Too-hot repetition
-    const hotTop = sortMapDesc(stats.freq).slice(0, 1)[0];
-    if (hotTop && hotTop[1] >= Math.max(4, Math.floor(days.length*0.22))) {
-      warn.push({t:"bad", m:`Cặp top (${hotTop[0]}) lặp quá dày → dễ bẫy lặp. Hạn chế “đuổi” đúng 1 số.`});
-    }
-
-    // Phase warnings
-    if (phaseInfo.phase === "XẢ") warn.push({t:"warn", m:"Pha XẢ: ưu tiên số cân bằng, tránh số vừa ra hôm nay."});
-    if (phaseInfo.phase === "MỞ") warn.push({t:"ok", m:"Pha MỞ: số mới/gan vừa phải dễ có cửa."});
-    if (phaseInfo.phase === "HỒI") warn.push({t:"ok", m:"Pha HỒI: ưu tiên số gan có xác nhận Pascal/trục."});
-
-    // Picks sanity
-    if (picks?.main?.gan === 0 && picks?.main?.hot >= 3) warn.push({t:"warn", m:"Số CHÍNH đang vừa ra rất sát + hot → cân nhắc chuyển sang số phụ nếu thấy nhiễu."});
-
-    return warn;
-  }
-
-  // -------- Render --------
-  function runFull() {
-    const raw = inputEl.value || "";
-    const allDays = parseDays(raw);
-
-    const windowDays = clampInt(+$("windowDays").value, 5, 120);
-    const topN = clampInt(+$("topN").value, 5, 40);
-    const depth = clampInt(+$("pascalDepth").value, 2, 4);
-
-    const days = allDays.slice(0, windowDays);
-    if (days.length < 5) {
+    $("btnClear").addEventListener("click", () => {
+      inputEl.value = "";
       renderEmpty();
-      phaseBox.innerHTML = `<span class="tag bad">Thiếu dữ liệu</span> Cần ít nhất 5 dòng (5 ngày).`;
-      return;
+      setStatus("Chưa có ảnh.");
+      clearCanvas();
+      $("ocrText").value = "";
+      $("ocrPairs").textContent = "--";
+    });
+
+    $("btnRun").addEventListener("click", () => runFull());
+
+    function renderEmpty() {
+      kpiEl.innerHTML = "";
+      phaseBox.textContent = "Chưa có dữ liệu.";
+      pickBox.textContent = "Chưa có dữ liệu.";
+      antiBox.textContent = "Anti-bẫy sẽ hiện tại đây.";
+      pascalBox.textContent = "";
+      axisBox.textContent = "";
+      headsEl.textContent = "";
+      tailsEl.textContent = "";
+      tblHot.innerHTML = "";
+      tblGan.innerHTML = "";
     }
 
-    const stats = countStats(days);
+    // ===== Parsing =====
+    // Each line is a day, from newest (top) -> oldest (bottom)
+    function parseDays(raw) {
+      const lines = raw.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+      return lines.map((line, idx) => {
+        const pairs = (line.match(/\b\d{2}\b/g) || []).map(x => x);
+        const uniqPairs = Array.from(new Set(pairs));
 
-    // Pascal
-    const pas = buildPascal(days, depth);
+        // Try detect DB number if "DB 63" exists:
+        let db = null;
+        const m = line.match(/\bDB\b[^0-9]*?(\d{2})\b/i);
+        if (m) db = m[1];
 
-    // Phase
-    const phaseInfo = inferPhase(days, stats);
+        // For pascal seed: prefer DB else last 2-digit in line
+        const seed = db ?? (pairs.length ? pairs[pairs.length - 1] : null);
 
-    // Score
-    const scored = scorePairs(days, stats, pas.ok ? pas : null);
+        return { dayIndex: idx, line, pairs: uniqPairs, db, seed };
+      });
+    }
 
-    // Picks
-    const picks = pickFinal(scored, phaseInfo);
+    function countStats(days) {
+      const freq = new Map();      // pair -> count (unique-per-day counted)
+      const lastSeen = new Map();  // pair -> first dayIndex it appears (0 newest) => gan = dayIndex
+      const headCnt = Array(10).fill(0);
+      const tailCnt = Array(10).fill(0);
+      const axisCnt = new Map();   // "a-b" normalized sorted => count
 
-    // Anti
-    const warnings = antiWarnings(days, stats, phaseInfo, picks);
+      days.forEach((d, dayIndex) => {
+        d.pairs.forEach(p => {
+          freq.set(p, (freq.get(p) || 0) + 1);
+          if (!lastSeen.has(p)) lastSeen.set(p, dayIndex);
 
-    // KPI
-    const totalPairs = stats.freq.size;
-    const hotTop = sortMapDesc(stats.freq)[0] || ["--", 0];
-    const ganTop = Array.from(stats.lastSeen.entries()).map(([p,g])=>({p,g,hot:stats.freq.get(p)||0}))
-      .sort((a,b)=>b.g-a.g)[0] || {p:"--", g:0, hot:0};
+          const h = +p[0], t = +p[1];
+          headCnt[h]++; tailCnt[t]++;
 
-    kpiEl.innerHTML = `
-      <div class="box">
-        <div class="small">Số ngày phân tích</div>
-        <div class="big">${days.length}</div>
-        <div class="small">Cửa sổ: ${windowDays} ngày</div>
-      </div>
-      <div class="box">
-        <div class="small">Tổng cặp unique</div>
-        <div class="big">${totalPairs}</div>
-        <div class="small">Bóc từ các dòng</div>
-      </div>
-      <div class="box">
-        <div class="small">Hot #1</div>
-        <div class="big mono">${hotTop[0]}</div>
-        <div class="small">${hotTop[1]} lần</div>
-      </div>
-      <div class="box">
-        <div class="small">Gan #1</div>
-        <div class="big mono">${ganTop.p}</div>
-        <div class="small">gan ${ganTop.g} ngày • hot ${ganTop.hot}</div>
-      </div>
-    `;
+          const a = Math.min(h,t), b = Math.max(h,t);
+          const key = `${a}-${b}`;
+          axisCnt.set(key, (axisCnt.get(key) || 0) + 1);
+        });
+      });
 
-    // Phase box
-    phaseBox.innerHTML = `
-      <div class="row">
-        <span class="tag ${phaseInfo.tag}">PHA: ${phaseInfo.phase}</span>
-        <span class="pill">DB đa dạng: ${phaseInfo.uniqRate}</span>
-        <span class="pill">Độ lặp: ${phaseInfo.repRate}</span>
-        <span class="pill">Gan-hit 3 ngày: ${phaseInfo.ganHits}</span>
-      </div>
-      <div class="muted" style="margin-top:6px;">${phaseInfo.reason.length ? phaseInfo.reason.join(" ") : "—"}</div>
-    `;
+      return { freq, lastSeen, headCnt, tailCnt, axisCnt };
+    }
 
-    // Pascal render
-    if (!pas.ok) {
-      pascalBox.innerHTML = `<span class="tag bad">Pascal</span> ${pas.msg}`;
-    } else {
-      const seedStr = pas.seeds.slice(0, 10).join(" ");
-      const layerStr = pas.layers.map(L => `${L.name}: [${L.arr.join(" ")}${L.arr.length>=20?" …":""}]`).join("\n");
-      const topDigits = pas.digitRank.slice(0, 10).map(([d,c]) => `${d}(${c})`).join("  ");
-      const topPasPairs = Array.from(pas.candidates.entries()).sort((a,b)=>b[1]-a[1]).slice(0, 12)
-        .map(([p,s]) => `${p}(${s})`).join("  ");
+    function sortMapDesc(map) {
+      return Array.from(map.entries()).sort((a,b) => b[1] - a[1]);
+    }
 
-      pascalBox.textContent =
+    // ===== Pascal (2-digit) =====
+    // Stream interleave heads/tails of seed pairs => make Pascal layers
+    function buildPascal(days, depth) {
+      const seeds = days.map(d => d.seed).filter(Boolean).slice(0, Math.max(6, depth + 3));
+      if (seeds.length < 4) return { ok:false, msg:"Thiếu seed Pascal (cần ít nhất 4 ngày có seed).", layers:[], candidates:new Map() };
+
+      const digits = seeds.map(s => [ +s[0], +s[1] ]);
+      const stream = [];
+      digits.forEach(([h,t]) => { stream.push(h,t); });
+
+      let layer = stream.slice();
+      const layers = [{ name:"L0", arr: layer.slice(0, 20) }];
+      for (let k=1;k<=depth;k++){
+        const next = [];
+        for (let i=0;i<layer.length-1;i++){
+          next.push((layer[i] + layer[i+1]) % 10);
+        }
+        layer = next;
+        layers.push({ name:`L${k}`, arr: layer.slice(0, 20) });
+      }
+
+      const digitLayerCount = new Map();
+      layers.forEach((L, idx) => {
+        if (idx === 0) return;
+        const set = new Set(L.arr);
+        set.forEach(d => digitLayerCount.set(d, (digitLayerCount.get(d)||0)+1));
+      });
+
+      const digitRank = Array.from(digitLayerCount.entries()).sort((a,b)=>b[1]-a[1]);
+      const topDigits = digitRank.slice(0, 6).map(x=>x[0]);
+
+      const candidates = new Map();
+      for (let i=0;i<topDigits.length;i++){
+        for (let j=0;j<topDigits.length;j++){
+          const h = topDigits[i], t = topDigits[j];
+          const pair = `${h}${t}`;
+          const score = (digitLayerCount.get(h)||0) + (digitLayerCount.get(t)||0);
+          candidates.set(pair, Math.max(candidates.get(pair)||0, score));
+        }
+      }
+
+      return { ok:true, seeds, layers, digitRank, candidates };
+    }
+
+    // ===== Phase heuristic (MASTER+++) =====
+    function variance(arr){
+      const n = arr.length;
+      const mean = arr.reduce((a,b)=>a+b,0)/n;
+      const v = arr.reduce((s,x)=>s+(x-mean)*(x-mean),0)/n;
+      return v;
+    }
+
+    function inferPhase(days, stats) {
+      const dbs = days.map(d=>d.db).filter(Boolean).slice(0, 14);
+      const uniqDB = new Set(dbs);
+      const hotPairs = sortMapDesc(stats.freq).slice(0, 5);
+      const topHotCount = hotPairs[0]?.[1] || 0;
+
+      const headVar = variance(stats.headCnt);
+      const tailVar = variance(stats.tailCnt);
+
+      const repRate = topHotCount / Math.max(1, days.length);
+      const uniqRate = uniqDB.size / Math.max(1, dbs.length);
+
+      const last3 = days.slice(0,3);
+      let ganHits = 0;
+      last3.forEach(d=>{
+        d.pairs.forEach(p=>{
+          const g = stats.lastSeen.get(p);
+          if (g !== undefined && g >= Math.min(10, days.length-1)) ganHits++;
+        });
+      });
+
+      let phase = "CHẠY";
+      let tag = "ok";
+      let reason = [];
+
+      if (days.length < 10) reason.push("Dữ liệu ít → pha chỉ tham khảo.");
+
+      if (uniqRate >= 0.75 && repRate < 0.20) { phase = "MỞ"; tag="ok"; reason.push("DB đa dạng, độ lặp thấp."); }
+      if (repRate >= 0.35 || headVar < 2.0 || tailVar < 2.0) { phase = "XẢ"; tag="warn"; reason.push("Độ lặp cao / đầu-đuôi dồn cụm."); }
+      if (ganHits >= 6 && repRate >= 0.25) { phase = "HỒI"; tag="ok"; reason.push("Gan-hit tăng trong 3 ngày gần → dấu hồi."); }
+
+      if (repRate >= 0.45) { phase="XẢ"; tag="bad"; reason.push("Top lặp quá mạnh → dễ nhiễu/bẫy."); }
+
+      return {
+        phase, tag,
+        uniqRate: round2(uniqRate),
+        repRate: round2(repRate),
+        ganHits,
+        reason
+      };
+    }
+
+    // ===== Scoring & Picks =====
+    function scorePairs(days, stats, pas) {
+      const window = days.length;
+      const wHot = clampNum(+$("wHot").value, 0, 5);
+      const wGan = clampNum(+$("wGan").value, 0, 5);
+      const wPas = clampNum(+$("wPas").value, 0, 5);
+
+      const scored = [];
+
+      const axisRank = sortMapDesc(stats.axisCnt);
+      const axisTop = new Set(axisRank.slice(0, 8).map(x=>x[0]));
+
+      const universe = new Set([...stats.freq.keys(), ...(pas?.candidates ? pas.candidates.keys() : [])]);
+
+      universe.forEach(pair => {
+        const hot = stats.freq.get(pair) || 0;
+        const gan = stats.lastSeen.has(pair) ? stats.lastSeen.get(pair) : window;
+        const pasScore = pas?.candidates?.get(pair) || 0;
+
+        const h = +pair[0], t = +pair[1];
+        const a = Math.min(h,t), b = Math.max(h,t);
+        const axisKey = `${a}-${b}`;
+        const axis = stats.axisCnt.get(axisKey) || 0;
+
+        const hotN = hot / Math.max(1, window);
+        const ganN = gan / Math.max(1, window);
+        const pasN = pasScore / 10;
+        const axisN = axis / Math.max(1, window);
+
+        let penalty = 0;
+        if (gan === 0 && hot >= Math.max(3, Math.floor(window*0.18))) penalty += 0.25;
+        if (hotN > 0.35) penalty += 0.20;
+
+        const score = (wHot*hotN) + (wGan*ganN) + (wPas*pasN) + (0.8*axisN) - penalty;
+
+        const why = [];
+        if (hot) why.push(`hot:${hot}`);
+        why.push(`gan:${gan}`);
+        if (pasScore) why.push(`pas:${pasScore}`);
+        if (axisTop.has(axisKey)) why.push(`trục:${axisKey}`);
+        if (penalty>0) why.push(`-bẫy:${round2(penalty)}`);
+
+        scored.push({ pair, hot, gan, pas: pasScore, axis: axisKey, score, why: why.join(" • ") });
+      });
+
+      scored.sort((a,b)=>b.score-a.score);
+      return scored;
+    }
+
+    function pickFinal(scored, phaseInfo) {
+      const phase = phaseInfo.phase;
+      const isTooSpam = (x) => (x.gan === 0 && x.hot >= 3);
+
+      let main = scored.find(x => phase==="XẢ" ? !isTooSpam(x) : true) || scored[0];
+      if (!main) return null;
+
+      const mh = main.pair[0], mt = main.pair[1];
+      let side = scored.find(x => x.pair !== main.pair && (x.pair[0] !== mh || x.pair[1] !== mt)) || scored[1] || main;
+
+      const top60 = scored.slice(0, 60);
+      let hedge = top60.sort((a,b)=>b.gan-a.gan)[0] || side;
+
+      return { main, side, hedge };
+    }
+
+    function antiWarnings(days, stats, phaseInfo, picks) {
+      const warn = [];
+      if (days.length < 10) warn.push({t:"warn", m:"Dữ liệu < 10 ngày: kết luận dễ lệch. Nên tăng cửa sổ 20–30 ngày."});
+
+      const maxHead = Math.max(...stats.headCnt), maxTail = Math.max(...stats.tailCnt);
+      const sum = stats.headCnt.reduce((a,b)=>a+b,0);
+      if (sum>0) {
+        if (maxHead/sum > 0.20) warn.push({t:"warn", m:"ĐẦU bị dồn cụm mạnh → dễ nhiễu (bẫy cụm)."});
+        if (maxTail/sum > 0.20) warn.push({t:"warn", m:"ĐUÔI bị dồn cụm mạnh → dễ nhiễu (bẫy cụm)."});
+      }
+
+      const hotTop = sortMapDesc(stats.freq).slice(0, 1)[0];
+      if (hotTop && hotTop[1] >= Math.max(4, Math.floor(days.length*0.22))) {
+        warn.push({t:"bad", m:`Cặp top (${hotTop[0]}) lặp quá dày → dễ bẫy lặp. Hạn chế “đuổi” đúng 1 số.`});
+      }
+
+      if (phaseInfo.phase === "XẢ") warn.push({t:"warn", m:"Pha XẢ: ưu tiên số cân bằng, tránh số vừa ra hôm nay."});
+      if (phaseInfo.phase === "MỞ") warn.push({t:"ok", m:"Pha MỞ: số mới/gan vừa phải dễ có cửa."});
+      if (phaseInfo.phase === "HỒI") warn.push({t:"ok", m:"Pha HỒI: ưu tiên số gan có xác nhận Pascal/trục."});
+
+      if (picks?.main?.gan === 0 && picks?.main?.hot >= 3) warn.push({t:"warn", m:"Số CHÍNH vừa ra sát + hot → nếu thấy nhiễu, cân nhắc chuyển sang số PHỤ."});
+
+      return warn;
+    }
+
+    // ===== MAIN RUN =====
+    // Expose to OCR auto-run:
+    window.runFull = runFull;
+
+    function runFull() {
+      const raw = inputEl.value || "";
+      const allDays = parseDays(raw);
+
+      const windowDays = clampInt(+$("windowDays").value, 5, 120);
+      const topN = clampInt(+$("topN").value, 5, 40);
+      const depth = clampInt(+$("pascalDepth").value, 2, 4);
+
+      const days = allDays.slice(0, windowDays);
+      if (days.length < 5) {
+        renderEmpty();
+        phaseBox.innerHTML = `<span class="tag bad">Thiếu dữ liệu</span> Cần ít nhất 5 dòng (5 ngày).`;
+        return;
+      }
+
+      const stats = countStats(days);
+      const pas = buildPascal(days, depth);
+      const phaseInfo = inferPhase(days, stats);
+      const scored = scorePairs(days, stats, pas.ok ? pas : null);
+      const picks = pickFinal(scored, phaseInfo);
+      const warnings = antiWarnings(days, stats, phaseInfo, picks);
+
+      const totalPairs = stats.freq.size;
+      const hotTop = sortMapDesc(stats.freq)[0] || ["--", 0];
+      const ganTop = Array.from(stats.lastSeen.entries()).map(([p,g])=>({p,g,hot:stats.freq.get(p)||0}))
+        .sort((a,b)=>b.g-a.g)[0] || {p:"--", g:0, hot:0};
+
+      kpiEl.innerHTML = `
+        <div class="box">
+          <div class="small">Số ngày phân tích</div>
+          <div class="big">${days.length}</div>
+          <div class="small">Cửa sổ: ${windowDays} ngày</div>
+        </div>
+        <div class="box">
+          <div class="small">Tổng cặp unique</div>
+          <div class="big">${totalPairs}</div>
+          <div class="small">Bóc từ các dòng</div>
+        </div>
+        <div class="box">
+          <div class="small">Hot #1</div>
+          <div class="big mono">${hotTop[0]}</div>
+          <div class="small">${hotTop[1]} lần</div>
+        </div>
+        <div class="box">
+          <div class="small">Gan #1</div>
+          <div class="big mono">${ganTop.p}</div>
+          <div class="small">gan ${ganTop.g} ngày • hot ${ganTop.hot}</div>
+        </div>
+      `;
+
+      phaseBox.innerHTML = `
+        <div class="row">
+          <span class="tag ${phaseInfo.tag}">PHA: ${phaseInfo.phase}</span>
+          <span class="pill">DB đa dạng: ${phaseInfo.uniqRate}</span>
+          <span class="pill">Độ lặp: ${phaseInfo.repRate}</span>
+          <span class="pill">Gan-hit 3 ngày: ${phaseInfo.ganHits}</span>
+        </div>
+        <div class="muted" style="margin-top:6px;">${phaseInfo.reason.length ? escapeHtml(phaseInfo.reason.join(" ")) : "—"}</div>
+      `;
+
+      if (!pas.ok) {
+        pascalBox.innerHTML = `<span class="tag bad">Pascal</span> ${escapeHtml(pas.msg)}`;
+      } else {
+        const seedStr = pas.seeds.slice(0, 10).join(" ");
+        const layerStr = pas.layers.map(L => `${L.name}: [${L.arr.join(" ")}${L.arr.length>=20?" …":""}]`).join("\n");
+        const topDigits = pas.digitRank.slice(0, 10).map(([d,c]) => `${d}(${c})`).join("  ");
+        const topPasPairs = Array.from(pas.candidates.entries()).sort((a,b)=>b[1]-a[1]).slice(0, 12)
+          .map(([p,s]) => `${p}(${s})`).join("  ");
+
+        pascalBox.textContent =
 `SEED (ưu tiên DB): ${seedStr}
-DIGIT rank (số xuất hiện qua tầng): ${topDigits}
+DIGIT rank (qua tầng): ${topDigits}
 CANDIDATES (top): ${topPasPairs}
 
 ${layerStr}`;
+      }
+
+      const axisRank = sortMapDesc(stats.axisCnt).slice(0, 12);
+      const axisText = axisRank.map(([k,c]) => `${k}:${c}`).join("  |  ");
+
+      const headRank = stats.headCnt.map((c,i)=>({d:i,c})).sort((a,b)=>b.c-a.c);
+      const tailRank = stats.tailCnt.map((c,i)=>({d:i,c})).sort((a,b)=>b.c-a.c);
+      headsEl.textContent = headRank.map(x=>`${x.d}:${x.c}`).join("  |  ");
+      tailsEl.textContent = tailRank.map(x=>`${x.d}:${x.c}`).join("  |  ");
+
+      axisBox.innerHTML = `
+        <div class="muted good">Top trục (a-b):</div>
+        <div class="mono muted">${axisText || "--"}</div>
+        <div class="note">* Trục = (min(đầu,đuôi) - max(đầu,đuôi)) để nhìn cụm chạy.</div>
+      `;
+
+      tblHot.innerHTML = "";
+      scored.slice(0, topN).forEach((x, i) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${i+1}</td>
+          <td class="mono good">${x.pair}</td>
+          <td>${x.hot}</td>
+          <td>${x.gan}</td>
+          <td>${round2(x.score)}</td>
+          <td class="muted">${escapeHtml(x.why)}</td>
+        `;
+        tblHot.appendChild(tr);
+      });
+
+      tblGan.innerHTML = "";
+      const ganSorted = scored.slice().sort((a,b)=>b.gan-a.gan).slice(0, topN);
+      ganSorted.forEach((x, i) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${i+1}</td>
+          <td class="mono good">${x.pair}</td>
+          <td>${x.gan}</td>
+          <td>${x.hot}</td>
+          <td>${round2(x.score)}</td>
+          <td class="muted">${escapeHtml(x.why)}</td>
+        `;
+        tblGan.appendChild(tr);
+      });
+
+      if (!picks) {
+        pickBox.innerHTML = `<span class="tag bad">Chưa chốt</span> Không đủ dữ liệu để chốt.`;
+      } else {
+        pickBox.innerHTML = `
+          <div class="row">
+            <span class="tag ok">CHÍNH</span>
+            <span class="mono big">${picks.main.pair}</span>
+            <span class="pill">score ${round2(picks.main.score)}</span>
+            <span class="pill">${escapeHtml(picks.main.why)}</span>
+          </div>
+          <div class="sep"></div>
+          <div class="row">
+            <span class="tag warn">PHỤ</span>
+            <span class="mono big">${picks.side.pair}</span>
+            <span class="pill">score ${round2(picks.side.score)}</span>
+            <span class="pill">${escapeHtml(picks.side.why)}</span>
+          </div>
+          <div class="sep"></div>
+          <div class="row">
+            <span class="tag bad">PHÒNG THỦ</span>
+            <span class="mono big">${picks.hedge.pair}</span>
+            <span class="pill">score ${round2(picks.hedge.score)}</span>
+            <span class="pill">${escapeHtml(picks.hedge.why)}</span>
+          </div>
+          <div class="note" style="margin-top:10px;">
+            Logic chốt: điểm tổng (hot+gan+pascal+trục) + né bẫy theo pha.
+          </div>
+        `;
+      }
+
+      antiBox.innerHTML = warnings.map(w => `<div class="row"><span class="tag ${w.t}">${w.t.toUpperCase()}</span><span class="muted">${escapeHtml(w.m)}</span></div>`).join("")
+        || `<span class="tag ok">OK</span> Không thấy cảnh báo lớn.`;
     }
 
-    // Axis/Head/Tail
-    const axisRank = sortMapDesc(stats.axisCnt).slice(0, 12);
-    const axisText = axisRank.map(([k,c]) => `${k}:${c}`).join("  |  ");
-
-    const headRank = stats.headCnt.map((c,i)=>({d:i,c})).sort((a,b)=>b.c-a.c);
-    const tailRank = stats.tailCnt.map((c,i)=>({d:i,c})).sort((a,b)=>b.c-a.c);
-    headsEl.textContent = headRank.map(x=>`${x.d}:${x.c}`).join("  |  ");
-    tailsEl.textContent = tailRank.map(x=>`${x.d}:${x.c}`).join("  |  ");
-
-    axisBox.innerHTML = `
-      <div class="muted good">Top trục (a-b):</div>
-      <div class="mono muted">${axisText || "--"}</div>
-      <div class="note">* Trục ở đây là (min(đầu,đuôi) - max(đầu,đuôi)) để nhìn cụm chạy.</div>
-    `;
-
-    // Tables: hot/gan using scored
-    tblHot.innerHTML = "";
-    scored.slice(0, topN).forEach((x, i) => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${i+1}</td>
-        <td class="mono good">${x.pair}</td>
-        <td>${x.hot}</td>
-        <td>${x.gan}</td>
-        <td>${round2(x.score)}</td>
-        <td class="muted">${escapeHtml(x.why)}</td>
-      `;
-      tblHot.appendChild(tr);
-    });
-
-    tblGan.innerHTML = "";
-    const ganSorted = scored.slice().sort((a,b)=>b.gan-a.gan).slice(0, topN);
-    ganSorted.forEach((x, i) => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${i+1}</td>
-        <td class="mono good">${x.pair}</td>
-        <td>${x.gan}</td>
-        <td>${x.hot}</td>
-        <td>${round2(x.score)}</td>
-        <td class="muted">${escapeHtml(x.why)}</td>
-      `;
-      tblGan.appendChild(tr);
-    });
-
-    // Picks render
-    if (!picks) {
-      pickBox.innerHTML = `<span class="tag bad">Chưa chốt</span> Không đủ dữ liệu để chốt.`;
-    } else {
-      pickBox.innerHTML = `
-        <div class="row">
-          <span class="tag ok">CHÍNH</span>
-          <span class="mono big">${picks.main.pair}</span>
-          <span class="pill">score ${round2(picks.main.score)}</span>
-          <span class="pill">${escapeHtml(picks.main.why)}</span>
-        </div>
-        <div class="sep"></div>
-        <div class="row">
-          <span class="tag warn">PHỤ</span>
-          <span class="mono big">${picks.side.pair}</span>
-          <span class="pill">score ${round2(picks.side.score)}</span>
-          <span class="pill">${escapeHtml(picks.side.why)}</span>
-        </div>
-        <div class="sep"></div>
-        <div class="row">
-          <span class="tag bad">PHÒNG THỦ</span>
-          <span class="mono big">${picks.hedge.pair}</span>
-          <span class="pill">score ${round2(picks.hedge.score)}</span>
-          <span class="pill">${escapeHtml(picks.hedge.why)}</span>
-        </div>
-        <div class="note" style="margin-top:10px;">
-          Logic chốt: điểm tổng (hot+gan+pascal+trục) + né bẫy theo pha.
-        </div>
-      `;
+    // ===== Utils =====
+    function clampInt(n, min, max) {
+      n = Number.isFinite(n) ? n : min;
+      return Math.max(min, Math.min(max, Math.floor(n)));
+    }
+    function clampNum(n, min, max) {
+      n = Number.isFinite(n) ? n : min;
+      return Math.max(min, Math.min(max, n));
+    }
+    function round2(x){ return Math.round(x*100)/100; }
+    function escapeHtml(s){
+      return String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[c]));
     }
 
-    // Anti render
-    antiBox.innerHTML = warnings.map(w => `<div class="row"><span class="tag ${w.t}">${w.t.toUpperCase()}</span><span class="muted">${escapeHtml(w.m)}</span></div>`).join("")
-      || `<span class="tag ok">OK</span> Không thấy cảnh báo lớn.`;
-  }
+    // ===== OCR + CROP + AUTO RUN =====
+    const btnCamera = $("btnCamera");
+    const btnUpload = $("btnUpload");
+    const fileCamera = $("fileCamera");
+    const fileUpload = $("fileUpload");
+    const imgCanvas = $("imgCanvas");
+    const ctxImg = imgCanvas.getContext("2d");
+    const ocrStatus = $("ocrStatus");
+    const ocrText = $("ocrText");
+    const ocrPairs = $("ocrPairs");
 
-  // -------- Utils --------
-  function clampInt(n, min, max) {
-    n = Number.isFinite(n) ? n : min;
-    return Math.max(min, Math.min(max, Math.floor(n)));
-  }
-  function clampNum(n, min, max) {
-    n = Number.isFinite(n) ? n : min;
-    return Math.max(min, Math.min(max, n));
-  }
-  function round2(x){ return Math.round(x*100)/100; }
-  function escapeHtml(s){
-    return String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[c]));
-  }
+    let loadedImg = null;
+    let crop = { x: 20, y: 20, w: 200, h: 120 };
+    let dragging = false;
+    let dragOffset = { x: 0, y: 0 };
+    let resizing = false;
+    let activeHandle = null;
 
-  renderEmpty();
-})();
-</script>
+    function setStatus(msg){ ocrStatus.textContent = msg; }
+
+    btnCamera.addEventListener("click", () => fileCamera.click());
+    btnUpload.addEventListener("click", () => fileUpload.click());
+    fileCamera.addEventListener("change", (e) => loadFile(e.target.files?.[0]));
+    fileUpload.addEventListener("change", (e) => loadFile(e.target.files?.[0]));
+
+    function clearCanvas(){
+      ctxImg.clearRect(0,0,imgCanvas.width,imgCanvas.height);
+    }
+
+    function loadFile(file){
+      if(!file) return;
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = () => {
+        loadedImg = img;
+
+        const maxW = Math.min(980, window.innerWidth - 60);
+        const scale = Math.min(1, maxW / img.width);
+        imgCanvas.width = Math.floor(img.width * scale);
+        imgCanvas.height = Math.floor(img.height * scale);
+
+        crop.w = Math.floor(imgCanvas.width * 0.70);
+        crop.h = Math.floor(imgCanvas.height * 0.28);
+        crop.x = Math.floor((imgCanvas.width - crop.w)/2);
+        crop.y = Math.floor((imgCanvas.height - crop.h)/2);
+
+        drawPreview();
+        setStatus("Đã có ảnh. Crop sát vùng số → tool sẽ tự OCR & chạy FULL.");
+
+        // Auto OCR after a short delay (user can drag crop quickly)
+        autoOCRAfterLoad();
+      };
+      img.onerror = () => setStatus("Không đọc được ảnh. Thử ảnh khác.");
+      img.src = url;
+    }
+
+    function drawPreview(){
+      if(!loadedImg){
+        clearCanvas();
+        return;
+      }
+      ctxImg.clearRect(0,0,imgCanvas.width,imgCanvas.height);
+      ctxImg.drawImage(loadedImg, 0, 0, imgCanvas.width, imgCanvas.height);
+
+      // Dim outside crop
+      ctxImg.save();
+      ctxImg.fillStyle = "rgba(0,0,0,0.35)";
+      ctxImg.beginPath();
+      ctxImg.rect(0,0,imgCanvas.width,imgCanvas.height);
+      ctxImg.rect(crop.x, crop.y, crop.w, crop.h);
+      ctxImg.fill("evenodd");
+      ctxImg.restore();
+
+      // Crop border
+      ctxImg.save();
+      ctxImg.strokeStyle = "rgba(255,255,255,0.95)";
+      ctxImg.lineWidth = 2;
+      ctxImg.strokeRect(crop.x, crop.y, crop.w, crop.h);
+
+      // Handles
+      const hs = 10;
+      const handles = getHandles();
+      ctxImg.fillStyle = "#fff";
+      Object.values(handles).forEach(h=>{
+        ctxImg.fillRect(h.x - hs/2, h.y - hs/2, hs, hs);
+      });
+      ctxImg.restore();
+    }
+
+    function getHandles(){
+      return {
+        tl:{x:crop.x,y:crop.y},
+        tr:{x:crop.x+crop.w,y:crop.y},
+        bl:{x:crop.x,y:crop.y+crop.h},
+        br:{x:crop.x+crop.w,y:crop.y+crop.h},
+      };
+    }
+
+    function hitHandle(px,py){
+      const hs = 14;
+      const handles = getHandles();
+      for (const k of Object.keys(handles)){
+        const h = handles[k];
+        if (Math.abs(px-h.x)<=hs && Math.abs(py-h.y)<=hs) return k;
+      }
+      return null;
+    }
+
+    function inCrop(px,py){
+      return px>=crop.x && px<=crop.x+crop.w && py>=crop.y && py<=crop.y+crop.h;
+    }
+
+    imgCanvas.addEventListener("pointerdown", (e)=>{
+      if(!loadedImg) return;
+      const r = imgCanvas.getBoundingClientRect();
+      const px = (e.clientX - r.left) * (imgCanvas.width / r.width);
+      const py = (e.clientY - r.top) * (imgCanvas.height / r.height);
+
+      const h = hitHandle(px,py);
+      if(h){
+        resizing = true;
+        activeHandle = h;
+      } else if(inCrop(px,py)){
+        dragging = true;
+        dragOffset.x = px - crop.x;
+        dragOffset.y = py - crop.y;
+      }
+      imgCanvas.setPointerCapture(e.pointerId);
+    });
+
+    imgCanvas.addEventListener("pointermove",(e)=>{
+      if(!loadedImg) return;
+      if(!dragging && !resizing) return;
+
+      const r = imgCanvas.getBoundingClientRect();
+      const px = (e.clientX - r.left) * (imgCanvas.width / r.width);
+      const py = (e.clientY - r.top) * (imgCanvas.height / r.height);
+
+      if(dragging){
+        crop.x = clamp(px - dragOffset.x, 0, imgCanvas.width - crop.w);
+        crop.y = clamp(py - dragOffset.y, 0, imgCanvas.height - crop.h);
+      }
+
+      if(resizing){
+        const minW = 80, minH = 50;
+        let x=crop.x, y=crop.y, w=crop.w, h=crop.h;
+
+        if(activeHandle==="br"){
+          w = clamp(px - x, minW, imgCanvas.width - x);
+          h = clamp(py - y, minH, imgCanvas.height - y);
+        } else if(activeHandle==="tr"){
+          w = clamp(px - x, minW, imgCanvas.width - x);
+          const ny = clamp(py, 0, y + h - minH);
+          h = (y + h) - ny;
+          y = ny;
+        } else if(activeHandle==="bl"){
+          const nx = clamp(px, 0, x + w - minW);
+          w = (x + w) - nx;
+          x = nx;
+          h = clamp(py - y, minH, imgCanvas.height - y);
+        } else if(activeHandle==="tl"){
+          const nx = clamp(px, 0, x + w - minW);
+          const ny = clamp(py, 0, y + h - minH);
+          w = (x + w) - nx; x = nx;
+          h = (y + h) - ny; y = ny;
+        }
+
+        crop = {x,y,w,h};
+      }
+
+      drawPreview();
+    });
+
+    imgCanvas.addEventListener("pointerup",()=>{
+      dragging = false;
+      resizing = false;
+      activeHandle = null;
+      // user just adjusted crop -> auto OCR again after short delay
+      if(loadedImg) autoOCRAfterLoad();
+    });
+
+    function clamp(v, a, b){ return Math.max(a, Math.min(b, v)); }
+
+    let ocrTimer = null;
+
+    function autoOCRAfterLoad(){
+      if (ocrTimer) clearTimeout(ocrTimer);
+      ocrTimer = setTimeout(async () => {
+        if(!loadedImg) return;
+        await doOCR();
+        applyOCRToInput();
+        runFull();
+      }, 650); // đủ để kéo crop
+    }
+
+    async function doOCR(){
+      try{
+        setStatus("Đang OCR… (lần đầu có thể hơi lâu)");
+        ocrText.value = "";
+        ocrPairs.textContent = "--";
+
+        // Crop area -> temp canvas, upscale + contrast for screenshots
+        const scale = 2.5;
+        const tmp = document.createElement("canvas");
+        tmp.width = Math.floor(crop.w * scale);
+        tmp.height = Math.floor(crop.h * scale);
+        const tctx = tmp.getContext("2d");
+
+        tctx.drawImage(
+          imgCanvas,
+          crop.x, crop.y, crop.w, crop.h,
+          0, 0, tmp.width, tmp.height
+        );
+
+        // grayscale + contrast
+        const imgData = tctx.getImageData(0, 0, tmp.width, tmp.height);
+        const d = imgData.data;
+        for (let i = 0; i < d.length; i += 4) {
+          const g = 0.299*d[i] + 0.587*d[i+1] + 0.114*d[i+2];
+          const c = (g - 128) * 1.25 + 128;
+          const v = Math.max(0, Math.min(255, c));
+          d[i] = d[i+1] = d[i+2] = v;
+        }
+        tctx.putImageData(imgData, 0, 0);
+
+        const result = await Tesseract.recognize(tmp, "eng", {
+          logger: (m) => {
+            if (m.status) setStatus(`OCR: ${m.status} ${Math.round((m.progress||0)*100)}%`);
+          }
+        });
+
+        const text = (result?.data?.text || "").trim();
+        ocrText.value = text || "(Không đọc được chữ. Hãy crop sát hơn hoặc ảnh nét hơn.)";
+
+        const pairs = (text.match(/\b\d{2}\b/g) || []);
+        const uniq = Array.from(new Set(pairs));
+        ocrPairs.textContent = uniq.length ? uniq.join(" ") : "--";
+
+        setStatus(uniq.length ? `OCR xong: bóc ${uniq.length} cặp. Đang chạy FULL…` : "OCR xong nhưng không thấy số 2 chữ số.");
+      } catch(err){
+        console.error(err);
+        setStatus("OCR lỗi. Thử crop sát hơn hoặc ảnh khác.");
+      }
+    }
+
+    function applyOCRToInput(){
+      const text = (ocrText.value || "");
+      const pairs = (text.match(/\b\d{2}\b/g) || []);
+      const uniq = Array.from(new Set(pairs));
+      if(!uniq.length) return;
+
+      // Ghi đè để không lẫn dữ liệu cũ
+      inputEl.value = `OCR: ${uniq.join(" ")}`;
+    }
+
+    // init
+    renderEmpty();
+    setStatus("Chưa có ảnh.");
+
+  })();
+  </script>
 </body>
 </html>
