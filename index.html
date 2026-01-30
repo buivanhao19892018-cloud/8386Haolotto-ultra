@@ -1,589 +1,223 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Bùi Hào — Lotto ULTRA MASTER (OCR Gate FINAL)</title>
-  <meta name="theme-color" content="#0b1220" />
-  <style>
-    :root{
-      --bg:#0b1220; --card:#111a2b; --muted:#93a4c7; --text:#e9f1ff;
-      --btn:#2563eb; --btn2:#111827; --ok:#16a34a; --bad:#ef4444; --warn:#f59e0b;
-      --line:rgba(255,255,255,.08);
-    }
-    *{box-sizing:border-box}
-    body{margin:0;background:linear-gradient(180deg,#07101f,#0b1220);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial}
-    .wrap{max-width:980px;margin:0 auto;padding:16px}
-    .h1{font-size:22px;font-weight:800;margin:6px 0 10px}
-    .sub{color:var(--muted);font-size:13px;line-height:1.35;margin:0 0 10px}
-    .card{background:rgba(17,26,43,.75);border:1px solid var(--line);border-radius:18px;padding:14px;margin:12px 0;box-shadow:0 12px 40px rgba(0,0,0,.25)}
-    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-    .pill{padding:7px 10px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:12px;background:rgba(255,255,255,.03)}
-    .ok{color:#d9ffe6;border-color:rgba(22,163,74,.35);background:rgba(22,163,74,.12)}
-    .bad{color:#ffe2e2;border-color:rgba(239,68,68,.35);background:rgba(239,68,68,.12)}
-    .warn{color:#fff1d6;border-color:rgba(245,158,11,.35);background:rgba(245,158,11,.12)}
-    button{
-      appearance:none;border:0;border-radius:14px;padding:12px 14px;
-      font-weight:800;color:white;background:var(--btn);cursor:pointer
-    }
-    button.secondary{background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--text)}
-    button.danger{background:#b91c1c}
-    button:disabled{opacity:.5;cursor:not-allowed}
-    input, textarea, select{
-      width:100%;padding:12px 12px;border-radius:14px;border:1px solid var(--line);
-      background:rgba(255,255,255,.04);color:var(--text);outline:none
-    }
-    textarea{min-height:150px;resize:vertical;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    @media (max-width:840px){.grid{grid-template-columns:1fr}}
-    .kpi{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-    @media (max-width:840px){.kpi{grid-template-columns:1fr}}
-    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
-    .hr{height:1px;background:var(--line);margin:12px 0}
-    .small{font-size:12px;color:var(--muted)}
-    .imgBox{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:rgba(255,255,255,.02)}
-    .imgBox img{width:100%;display:block}
-    .label{font-size:12px;color:var(--muted);margin:10px 0 6px}
-    .stat{font-size:13px;color:var(--muted)}
-    .big{font-size:18px;font-weight:900}
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Bùi Hào — Lotto ULTRA MASTER (UPLOAD FIX)</title>
+
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
+
+<style>
+body{
+  background:#0b1220;
+  color:#e5e7eb;
+  font-family:system-ui;
+  margin:0;padding:12px
+}
+.card{
+  background:#0f172a;
+  border-radius:16px;
+  padding:14px;
+  margin-bottom:14px;
+  box-shadow:0 0 0 1px rgba(255,255,255,.05)
+}
+h2{margin:0 0 6px;font-size:18px}
+button{
+  padding:12px 16px;
+  border-radius:12px;
+  border:none;
+  background:#2563eb;
+  color:white;
+  font-weight:700;
+  margin:6px 4px 6px 0
+}
+button.secondary{background:#334155}
+button.red{background:#dc2626}
+.badge{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:999px;
+  background:#1e293b;
+  font-size:12px;
+  margin:3px 3px 0 0
+}
+.ok{color:#22c55e}
+.fail{color:#ef4444}
+textarea{
+  width:100%;
+  min-height:140px;
+  border-radius:12px;
+  padding:10px;
+  background:#020617;
+  color:#e5e7eb;
+  border:1px solid rgba(255,255,255,.1)
+}
+.fileHidden{
+  position:absolute;
+  left:-9999px;
+  width:1px;
+  height:1px;
+  opacity:0;
+}
+pre{
+  background:#020617;
+  border-radius:12px;
+  padding:10px;
+  overflow:auto;
+  font-size:12px
+}
+</style>
 </head>
+
 <body>
-<div class="wrap">
 
-  <div class="card">
-    <div class="h1">Bùi Hào — Lotto ULTRA MASTER (OCR Gate FINAL)</div>
-    <div class="sub">
-      Luồng chuẩn: <b>Upload nhiều ảnh</b> → OCR (Tesseract) → <b>Parse DB/G6/G7</b> → <b>Gate cứng</b> (sai thì không đổ dữ liệu)
-      → Dữ liệu sạch → Chạy FULL.
-      <br/>Mẹo: crop sát phần bảng (từ “ĐB” tới hàng “7”), tránh dính header/footer tab.
-    </div>
+<div class="card">
+<h2>Bùi Hào — Lotto ULTRA MASTER (OCR Gate FINAL)</h2>
+<div class="badge ok">OpenCV: simulated</div>
+<div class="badge ok">Tesseract OCR</div>
+<div class="badge">Gate cứng</div>
 
-    <div class="row">
-      <span id="st_tess" class="pill warn">Tesseract: loading…</span>
-      <span id="st_batch" class="pill">Batch: 0 ảnh</span>
-      <span id="st_gate" class="pill">Gate: —</span>
-    </div>
+<p>Luồng chuẩn: Upload ảnh → OCR → Parse DB/G6/G7 → Gate pass → FULL</p>
 
-    <div class="hr"></div>
+<input id="file" type="file" accept="image/*" multiple class="fileHidden">
 
-    <div class="row">
-      <label>
-        <input id="file" type="file" accept="image/*" multiple style="display:none">
-        <button id="btnUpload">📸 Upload nhiều ảnh</button>
-      </label>
-      <button id="btnPaste" class="secondary">Dán mẫu</button>
-      <button id="btnClear" class="danger">Xóa</button>
-      <button id="btnRun" style="margin-left:auto">🚀 Chạy FULL</button>
-    </div>
+<label for="file">
+  <button type="button">📸 Upload nhiều ảnh</button>
+</label>
 
-    <div class="label">Preview ảnh cuối (để Hào biết mình crop đúng chưa)</div>
-    <div class="imgBox"><img id="preview" alt="preview" /></div>
-  </div>
+<button id="btnClear" class="red">Xóa</button>
+<button id="btnRun" class="secondary">🚀 Chạy FULL</button>
 
-  <div class="card">
-    <div class="h1" style="font-size:18px">Ảnh → OCR → Gate</div>
-    <div class="sub">
-      Parse theo logic “cứng”:
-      <br/>• <b>DB</b>: tìm nhãn “ĐB/DB” + lấy <b>đúng 5 số</b> gần nhất.
-      <br/>• <b>G7</b>: tìm dòng có “7” + lấy <b>4 số 2 chữ số</b>.
-      <br/>• <b>G6</b>: tìm dòng có “6” + lấy <b>3 số 3 chữ số</b>.
-      <br/>Nếu OCR bị nhiễu (O→0, I→1…) tool tự normalize.
-    </div>
-
-    <div class="grid">
-      <div>
-        <div class="label">Kết quả parse (ảnh cuối)</div>
-        <div class="row">
-          <span class="pill">DB (2 số): <b id="p_db2">—</b></span>
-          <span class="pill">G6: <b id="p_g6">—</b></span>
-          <span class="pill">G7: <b id="p_g7">—</b></span>
-        </div>
-        <div class="label">Debug OCR (rút gọn)</div>
-        <textarea id="debug" class="mono" readonly></textarea>
-      </div>
-
-      <div>
-        <div class="label">Sửa tay (chỉ khi Gate fail)</div>
-        <div class="small">DB nhập 2 số. G6 nhập 3 số (3 chữ số). G7 nhập 4 số (2 chữ số).</div>
-        <div class="grid" style="margin-top:8px">
-          <div>
-            <div class="label">DB (2 số)</div>
-            <input id="m_db2" placeholder="VD: 45" inputmode="numeric" />
-          </div>
-          <div>
-            <div class="label">G6 (3 số)</div>
-            <input id="m_g6" placeholder="VD: 392 255 854" />
-          </div>
-        </div>
-        <div class="label">G7 (4 số)</div>
-        <input id="m_g7" placeholder="VD: 03 82 85 81" />
-
-        <div class="row" style="margin-top:10px">
-          <button id="btnApplyManual" class="secondary">Áp manual → thêm dòng</button>
-          <button id="btnRetry" class="secondary">Thử OCR lại ảnh cuối</button>
-        </div>
-
-        <div class="hr"></div>
-
-        <div class="label">Cài đặt FULL</div>
-        <div class="kpi">
-          <div>
-            <div class="label">Cửa sổ ngày (window)</div>
-            <input id="win" value="30" inputmode="numeric" />
-          </div>
-          <div>
-            <div class="label">Top hiển thị</div>
-            <input id="topN" value="15" inputmode="numeric" />
-          </div>
-          <div>
-            <div class="label">Tối thiểu số ngày</div>
-            <input id="minDays" value="5" inputmode="numeric" />
-          </div>
-        </div>
-
-        <div class="kpi" style="margin-top:8px">
-          <div>
-            <div class="label">Trọng số Hot</div>
-            <input id="wHot" value="2" inputmode="decimal" />
-          </div>
-          <div>
-            <div class="label">Trọng số Gan</div>
-            <input id="wGan" value="1.5" inputmode="decimal" />
-          </div>
-          <div>
-            <div class="label">Trọng số Pascal</div>
-            <input id="wPas" value="2" inputmode="decimal" />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="h1" style="font-size:18px">Dữ liệu đầu vào (mỗi dòng = 1 ngày)</div>
-    <div class="sub">Format chuẩn auto: <span class="mono">DB xx | G7: a b c d | G6: xxx yyy zzz</span></div>
-    <textarea id="inputData" class="mono" placeholder="VD:
-DB 45 | G7: 03 82 85 81 | G6: 392 255 854
-DB 14 | G7: 81 87 60 32 | G6: 206 200 971"></textarea>
-    <div class="row" style="margin-top:10px">
-      <span class="pill">Tổng dòng hợp lệ: <b id="lineCount">0</b></span>
-      <button id="btnSanitize" class="secondary">Dọn sạch dữ liệu (sanitize)</button>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="h1" style="font-size:18px">KẾT QUẢ FULL</div>
-    <div id="fullOut" class="mono"></div>
-    <div class="small" style="margin-top:10px">© Bùi Hào — Tool thống kê hỗ trợ phân tích, không đảm bảo trúng.</div>
-  </div>
-
+<div id="status" class="badge">Chưa có ảnh</div>
 </div>
 
-<!-- Tesseract -->
-<script src="https://unpkg.com/tesseract.js@5/dist/tesseract.min.js"></script>
+<div class="card">
+<h3>Debug OCR</h3>
+<pre id="debug"></pre>
+</div>
+
+<div class="card">
+<h3>Dữ liệu đầu vào (mỗi dòng = 1 ngày)</h3>
+<textarea id="inputData"></textarea>
+</div>
+
+<div class="card">
+<h3>Kết quả FULL</h3>
+<pre id="output"></pre>
+</div>
 
 <script>
-  // ========= Helpers =========
-  const el = (id)=>document.getElementById(id);
+const el = id => document.getElementById(id);
 
-  function pad2(x){
-    x = String(x||"").replace(/\D/g,"");
-    if(x.length===1) return "0"+x;
-    return x.slice(-2);
-  }
-  function normOCR(s){
-    // Normalize common OCR confusions
-    return (s||"")
-      .replace(/[ＯО]/g,"0")
-      .replace(/[ΙIl|]/g,"1")
-      .replace(/[Ｓ]/g,"5")
-      .replace(/[Ｂ]/g,"8")
-      .replace(/[Z]/g,"2")
-      .replace(/[A]/g,"4")
-      .replace(/[—–]/g,"-")
-      .replace(/\s+/g," ")
-      .trim();
-  }
-  function onlyDigits(s){ return (s||"").replace(/\D/g,""); }
+let rows = [];
+let debugLog = [];
 
-  function parseManualG7(s){
-    const m = (s||"").match(/\d{1,2}/g) || [];
-    return m.slice(0,4).map(pad2);
-  }
-  function parseManualG6(s){
-    const m = (s||"").match(/\d{3}/g) || [];
-    return m.slice(0,3);
+el("file").addEventListener("change", async e=>{
+  rows = [];
+  debugLog = [];
+  const files = [...e.target.files];
+  el("status").textContent = "OCR đang chạy: " + files.length + " ảnh...";
+
+  for(const file of files){
+    await processImage(file);
   }
 
-  function gateOK(db2,g6,g7){
-    return (db2 && /^\d{2}$/.test(db2) && Array.isArray(g6) && g6.length===3 && g6.every(x=>/^\d{3}$/.test(x))
-      && Array.isArray(g7) && g7.length===4 && g7.every(x=>/^\d{2}$/.test(x)));
+  el("status").textContent = `Batch xong: OK ${rows.length} ảnh`;
+  el("inputData").value = rows.join("\n");
+});
+
+async function processImage(file){
+  const worker = await Tesseract.createWorker("eng");
+  const imgURL = URL.createObjectURL(file);
+  const res = await worker.recognize(imgURL);
+  const raw = res.data.text;
+  await worker.terminate();
+
+  debugLog.push("RAW OCR:\n" + raw);
+
+  const parsed = parseOCR(raw);
+  if(parsed){
+    rows.push(parsed);
+  } else {
+    debugLog.push("❌ FAIL PARSE");
   }
 
-  function setStatusGate(ok, msg){
-    el("st_gate").className = "pill " + (ok ? "ok":"bad");
-    el("st_gate").textContent = ok ? ("Gate: PASS") : ("Gate: FAIL" + (msg?(" — "+msg):""));
-  }
+  el("debug").textContent = debugLog.join("\n\n-----------------\n");
+}
 
-  function addLineToInput(db5, g7, g6){
-    const db2 = (String(db5).match(/\d{5}/)?.[0] || "").slice(-2);
-    const g7c = (g7||[]).map(x=>String(x).match(/\d{2}/)?.[0]).filter(Boolean).slice(0,4).map(pad2);
-    const g6c = (g6||[]).map(x=>String(x).match(/\d{3}/)?.[0]).filter(Boolean).slice(0,3);
+function normalize(txt){
+  return txt.replace(/O/g,"0").replace(/I/g,"1").replace(/l/g,"1");
+}
 
-    if(!gateOK(db2,g6c,g7c)) return false;
+function parseOCR(text){
+  text = normalize(text);
 
-    const line = `DB ${db2} | G7: ${g7c.join(" ")} | G6: ${g6c.join(" ")}`;
-    const ta = el("inputData");
-    const cur = (ta.value || "").trim();
-    const set = new Set(cur.split("\n").map(s=>s.trim()).filter(Boolean));
-    set.add(line);
-    ta.value = Array.from(set).join("\n");
-    refreshLineCount();
-    return true;
-  }
+  // DB = tìm nhãn ĐB + 5 số
+  let dbMatch = text.match(/ĐB\s*([0-9]{5})/);
+  let db = dbMatch ? dbMatch[1].slice(-2) : null;
 
-  function refreshLineCount(){
-    const lines = sanitizeLines(el("inputData").value, false);
-    el("lineCount").textContent = String(lines.length);
-  }
-
-  // ========= Sanitize Input =========
-  function sanitizeLines(text, writeBack=true){
-    const raw = (text||"").split("\n").map(s=>s.trim()).filter(Boolean);
-    const ok = [];
-
-    for(const line of raw){
-      const m = line.match(/DB\s*(\d{1,2})\s*\|\s*G7:\s*([0-9\s]+)\s*\|\s*G6:\s*([0-9\s]+)/i);
-      if(!m) continue;
-
-      const db2 = pad2(m[1]);
-      const g7 = (m[2].match(/\d{1,2}/g)||[]).slice(0,4).map(pad2);
-      const g6 = (m[3].match(/\d{3}/g)||[]).slice(0,3);
-
-      if(gateOK(db2,g6,g7)){
-        ok.push(`DB ${db2} | G7: ${g7.join(" ")} | G6: ${g6.join(" ")}`);
-      }
-    }
-
-    const uniq = Array.from(new Set(ok));
-    if(writeBack) el("inputData").value = uniq.join("\n");
-    refreshLineCount();
-    return uniq;
-  }
-
-  // ========= OCR Parse =========
-  async function ocrImage(file){
-    const url = URL.createObjectURL(file);
-    el("preview").src = url;
-
-    // OCR full image (để đơn giản + ổn định khi user crop sát bảng)
-    const { data } = await Tesseract.recognize(url, "vie+eng", {
-      logger: (m)=>{} // im lặng cho nhẹ
-    });
-
-    const textRaw = data.text || "";
-    const text = normOCR(textRaw);
-
-    // Debug rút gọn: show 1200 ký tự đầu + cuối
-    const head = textRaw.slice(0,900);
-    const tail = textRaw.slice(-900);
-    el("debug").value = "[OCR_HEAD]\n" + head + "\n\n[OCR_TAIL]\n" + tail;
-
-    // Parse DB5: ưu tiên tìm quanh nhãn ĐB/DB
-    // 1) đoạn gần "ĐB"/"DB"
-    let db5 = "";
-    const idx = Math.max(text.indexOf("ĐB"), text.indexOf("DB"));
-    if(idx >= 0){
-      const near = text.slice(idx, idx + 120);
-      const m = near.match(/(?:ĐB|DB)\s*[^0-9]*\s*(\d{5})/i) || near.match(/(\d{5})/);
-      if(m) db5 = m[1];
-    }
-    // 2) fallback: lấy 5 số lớn nhất xuất hiện, ưu tiên số 5 chữ số đứng độc lập
-    if(!db5){
-      const m2 = text.match(/\b\d{5}\b/g) || [];
-      db5 = m2[0] || "";
-    }
-
-    // Parse G7 line: tìm dòng có số 7 đầu dòng hoặc " 7 " + 4 số 2 chữ số
-    let g7 = [];
-    const lines = text.split("\n").map(s=>s.trim()).filter(Boolean);
-
-    function pick4_2digits(str){
-      const arr = (str.match(/\b\d{1,2}\b/g)||[]).map(pad2);
-      // loại các số "7" đơn lẻ đứng đầu
-      const cleaned = arr.filter(x=>x!=="07" || str.includes("07 ")); // giữ 07 nếu đúng
-      // lấy 4 số cuối cùng thường là dãy G7
-      if(cleaned.length >= 4) return cleaned.slice(-4);
-      return [];
-    }
-
-    for(const ln of lines){
-      // ưu tiên dòng bắt đầu bằng 7
-      if(/^\s*7\b/.test(ln)){
-        const cand = pick4_2digits(ln);
-        if(cand.length===4){ g7 = cand; break; }
-      }
-    }
-    if(g7.length!==4){
-      // fallback: dòng có " 7 " kèm 4 số 2 chữ số
-      for(const ln of lines){
-        if(/\b7\b/.test(ln)){
-          const cand = pick4_2digits(ln);
-          if(cand.length===4){ g7 = cand; break; }
-        }
-      }
-    }
-
-    // Parse G6 line: tìm dòng bắt đầu bằng 6 và có 3 số 3 chữ số
-    let g6 = [];
-    function pick3_3digits(str){
-      const arr = (str.match(/\b\d{3}\b/g)||[]);
-      if(arr.length>=3) return arr.slice(-3);
-      return [];
-    }
-    for(const ln of lines){
-      if(/^\s*6\b/.test(ln)){
-        const cand = pick3_3digits(ln);
-        if(cand.length===3){ g6 = cand; break; }
-      }
-    }
-    if(g6.length!==3){
-      // fallback: dòng có " 6 " + 3 số 3 chữ số
-      for(const ln of lines){
-        if(/\b6\b/.test(ln)){
-          const cand = pick3_3digits(ln);
-          if(cand.length===3){ g6 = cand; break; }
-        }
-      }
-    }
-
-    // Update parse display
-    const db2 = db5 ? db5.slice(-2) : "";
-    el("p_db2").textContent = db2 || "—";
-    el("p_g6").textContent = g6.length? g6.join(" ") : "—";
-    el("p_g7").textContent = g7.length? g7.join(" ") : "—";
-
-    const ok = gateOK(db2, g6, g7);
-    setStatusGate(ok, ok ? "" : "DB/G6/G7 chưa đủ chuẩn");
-    return { ok, db5, g6, g7, textRaw };
-  }
-
-  // ========= FULL Stats =========
-  function runFULL(){
-    const minDays = Math.max(1, parseInt(el("minDays").value || "5",10));
-    const topN = Math.max(5, parseInt(el("topN").value || "15",10));
-    const wHot = parseFloat(String(el("wHot").value || "2").replace(",","."));
-    const wGan = parseFloat(String(el("wGan").value || "1.5").replace(",","."));
-    const wPas = parseFloat(String(el("wPas").value || "2").replace(",","."));
-
-    const lines = sanitizeLines(el("inputData").value, true);
-    if(lines.length < minDays){
-      el("fullOut").innerHTML = `❌ Thiếu dữ liệu: cần ít nhất ${minDays} dòng (${minDays} ngày).`;
-      return;
-    }
-
-    // Extract all 2-digit numbers from each day: DB2 + all G7 + last2 of each G6
-    const days = lines.map(line=>{
-      const m = line.match(/DB\s*(\d{2}).*G7:\s*([0-9\s]+)\s*\|\s*G6:\s*([0-9\s]+)/i);
-      const db2 = m? pad2(m[1]) : "";
-      const g7 = m? (m[2].match(/\d{1,2}/g)||[]).slice(0,4).map(pad2) : [];
-      const g6 = m? (m[3].match(/\d{3}/g)||[]).slice(0,3).map(x=>pad2(x.slice(-2))) : [];
-      return { db2, g7, g6, all:[db2,...g7,...g6].filter(Boolean) };
-    });
-
-    // Hot frequency
-    const freq = {};
-    for(const d of days){
-      for(const n of d.all){
-        freq[n] = (freq[n]||0)+1;
-      }
-    }
-
-    // Gan: days since last seen (0 = hôm gần nhất có)
-    // duyệt từ cuối về đầu
-    const gan = {};
-    for(let i=0;i<100;i++) gan[String(i).padStart(2,"0")] = 999;
-    for(let i=0;i<days.length;i++){
-      const idxFromEnd = i; // 0 = day gần nhất
-      const set = new Set(days[days.length-1-i].all);
-      for(const n of set){
-        gan[n] = Math.min(gan[n], idxFromEnd);
-      }
-    }
-
-    // Pascal lite: lấy DB2 ngày gần nhất, tạo "bóng" + kề để cộng điểm
-    const lastDB = days[days.length-1].db2;
-    const lastA = parseInt(lastDB[0],10), lastB = parseInt(lastDB[1],10);
-    const pasSet = new Set();
-    // bóng
-    pasSet.add(String((lastA+5)%10)+String((lastB+5)%10));
-    // kề
-    pasSet.add(String((lastA+1)%10)+String(lastB));
-    pasSet.add(String((lastA+9)%10)+String(lastB));
-    pasSet.add(String(lastA)+String((lastB+1)%10));
-    pasSet.add(String(lastA)+String((lastB+9)%10));
-    // đảo
-    pasSet.add(String(lastB)+String(lastA));
-
-    // Score
-    const scored = [];
-    for(let i=0;i<100;i++){
-      const n = String(i).padStart(2,"0");
-      const hot = freq[n]||0;
-      const g = gan[n]===999 ? days.length+5 : gan[n]; // càng lớn càng gan
-      const pas = pasSet.has(n) ? 1 : 0;
-
-      // quy đổi gan: muốn số gan vừa phải, không quá “mất hút”
-      // điểm gan = clamp( (g / days.length), 0..1 )
-      const ganScore = Math.min(1, g / Math.max(1, days.length));
-      const score = (wHot*hot) + (wGan*ganScore*10) + (wPas*pas*5);
-
-      scored.push({n, hot, gan:g, pas, score});
-    }
-
-    scored.sort((a,b)=>b.score-a.score);
-
-    const topHot = Object.entries(freq)
-      .sort((a,b)=>b[1]-a[1])
-      .slice(0, topN)
-      .map(([n,c])=>`${n} → ${c}`);
-
-    const topScore = scored.slice(0, topN).map(x=>{
-      return `${x.n} → ${x.score.toFixed(2)}  (hot:${x.hot}, gan:${x.gan}, pas:${x.pas})`;
-    });
-
-    const main = scored[0]?.n || "--";
-    const sub = scored[1]?.n || "--";
-
-    el("fullOut").innerHTML =
-`Tổng ngày: ${days.length}
-
-TOP HOT:
-${topHot.join("\n")}
-
-TOP SCORE (hot+gan+pascal):
-${topScore.join("\n")}
-
-CHỐT GỢI Ý:
-🎯 Chính: ${main}
-🛡️ Phụ : ${sub}
-
-* Tool thống kê hỗ trợ, không đảm bảo trúng.`;
-  }
-
-  // ========= UI Wiring =========
-  let lastFiles = [];
-  let lastFile = null;
-
-  async function handleFiles(files){
-    if(!files || !files.length) return;
-
-    lastFiles = Array.from(files);
-    el("st_batch").textContent = `Batch: ${lastFiles.length} ảnh`;
-
-    let okCount = 0, failCount = 0;
-
-    // làm tuần tự cho ổn định RAM
-    for(const f of lastFiles){
-      lastFile = f;
-
-      // preview
-      el("preview").src = URL.createObjectURL(f);
-
-      try{
-        const r = await ocrImage(f);
-        if(r.ok){
-          const pushed = addLineToInput(r.db5, r.g7, r.g6);
-          if(pushed) okCount++; else failCount++;
-        }else{
-          failCount++;
-        }
-      }catch(e){
-        failCount++;
-      }
-
-      el("st_batch").className = "pill";
-      el("st_batch").textContent = `Batch: OK ${okCount} | FAIL ${failCount}`;
+  // G7 = dòng có 4 số 2 chữ số
+  let g7 = null;
+  let lines = text.split("\n");
+  for(let line of lines){
+    let nums = line.match(/\b\d{2}\b/g);
+    if(nums && nums.length >= 4){
+      g7 = nums.slice(0,4);
+      break;
     }
   }
 
-  // Tesseract load indicator
-  (function init(){
-    if(window.Tesseract){
-      el("st_tess").className = "pill ok";
-      el("st_tess").textContent = "Tesseract: ready";
-    }else{
-      el("st_tess").className = "pill bad";
-      el("st_tess").textContent = "Tesseract: missing";
+  // G6 = dòng có 3 số 3 chữ số
+  let g6 = null;
+  for(let line of lines){
+    let nums = line.match(/\b\d{3}\b/g);
+    if(nums && nums.length >= 3){
+      g6 = nums.slice(0,3);
+      break;
     }
-    refreshLineCount();
-  })();
+  }
 
-  el("btnUpload").onclick = ()=> el("file").click();
-  el("file").addEventListener("change", async (e)=>{
-    const files = e.target.files;
-    await handleFiles(files);
-    e.target.value = "";
+  debugLog.push("PARSED DB=" + db + " | G7=" + g7 + " | G6=" + g6);
+
+  if(!db || !g7 || !g6) return null;
+
+  return `DB ${db} | G7: ${g7.join(" ")} | G6: ${g6.join(" ")}`;
+}
+
+el("btnRun").onclick = ()=>{
+  const lines = el("inputData").value.trim().split("\n").filter(Boolean);
+  if(lines.length < 5){
+    el("output").textContent = "❌ Cần ít nhất 5 ngày dữ liệu";
+    return;
+  }
+
+  let freq = {};
+  for(const line of lines){
+    const nums = line.match(/\b\d{2}\b/g) || [];
+    nums.forEach(n=>freq[n]=(freq[n]||0)+1);
+  }
+
+  let sorted = Object.entries(freq).sort((a,b)=>b[1]-a[1]);
+
+  let out = `Tổng ngày: ${lines.length}\n\nTOP HOT:\n`;
+  sorted.slice(0,15).forEach(([n,c])=>{
+    out += `${n} → ${c}\n`;
   });
 
-  el("btnPaste").onclick = ()=>{
-    el("inputData").value = [
-      "DB 45 | G7: 03 82 85 81 | G6: 392 255 854",
-      "DB 14 | G7: 81 87 60 32 | G6: 206 200 971",
-      "DB 21 | G7: 76 47 21 77 | G6: 801 295 993",
-      "DB 80 | G7: 22 20 16 61 | G6: 733 014 672",
-      "DB 13 | G7: 53 69 39 43 | G6: 105 054 444"
-    ].join("\n");
-    sanitizeLines(el("inputData").value, true);
-  };
+  out += `\n🎯 Chốt gợi ý:\nChính: ${sorted[0]?.[0] || "--"}\nPhụ: ${sorted[1]?.[0] || "--"}`;
 
-  el("btnClear").onclick = ()=>{
-    el("inputData").value = "";
-    el("debug").value = "";
-    el("p_db2").textContent = "—";
-    el("p_g6").textContent = "—";
-    el("p_g7").textContent = "—";
-    el("fullOut").textContent = "";
-    el("st_batch").textContent = "Batch: 0 ảnh";
-    el("st_gate").textContent = "Gate: —";
-    el("st_gate").className = "pill";
-    refreshLineCount();
-  };
+  el("output").textContent = out;
+};
 
-  el("btnSanitize").onclick = ()=>{
-    sanitizeLines(el("inputData").value, true);
-  };
-
-  el("btnRun").onclick = ()=> runFULL();
-
-  el("btnApplyManual").onclick = ()=>{
-    const db2 = pad2(el("m_db2").value);
-    const g6 = parseManualG6(el("m_g6").value);
-    const g7 = parseManualG7(el("m_g7").value);
-
-    if(!gateOK(db2,g6,g7)){
-      setStatusGate(false, "Manual chưa đúng format");
-      return;
-    }
-
-    // ghép thành db5 giả để dùng chung pipeline
-    const db5fake = "000" + db2;
-    const ok = addLineToInput(db5fake, g7, g6);
-    setStatusGate(ok, ok ? "" : "Không thêm được dòng");
-  };
-
-  el("btnRetry").onclick = async ()=>{
-    if(!lastFile) return;
-    try{
-      await ocrImage(lastFile);
-    }catch(e){}
-  };
-
-  // auto sanitize nhẹ mỗi khi user sửa input
-  el("inputData").addEventListener("input", ()=>{
-    refreshLineCount();
-  });
+el("btnClear").onclick = ()=>{
+  rows = [];
+  debugLog = [];
+  el("inputData").value = "";
+  el("output").textContent = "";
+  el("debug").textContent = "";
+  el("status").textContent = "Đã reset";
+};
 </script>
+
 </body>
 </html>
