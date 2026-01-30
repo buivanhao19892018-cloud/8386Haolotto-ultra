@@ -1,335 +1,622 @@
 <!doctype html>
 <html lang="vi">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bùi Hào — Lotto ULTRA MASTER (FIX)</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Bùi Hào — Lotto ULTRA MASTER • OCR Gate FINAL</title>
 
+<!-- OpenCV + Tesseract (OCR) -->
 <script async src="https://docs.opencv.org/4.x/opencv.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
 <style>
-  body{margin:0;font-family:system-ui;background:#0b1220;color:#fff;padding:12px}
-  .card{background:#111827;border-radius:18px;padding:14px;margin-bottom:12px;box-shadow:0 0 0 1px rgba(255,255,255,.06)}
-  h1{font-size:18px;margin:0 0 6px}
-  .badge{display:inline-block;background:#1e293b;padding:4px 10px;border-radius:999px;font-size:12px}
-  button{padding:10px 14px;border-radius:12px;border:none;font-weight:700}
-  .primary{background:#2563eb;color:white}
-  textarea{width:100%;border-radius:12px;border:none;padding:10px;background:#020617;color:#fff;margin-top:6px}
-  canvas{max-width:100%;border-radius:12px;margin-top:8px}
+  :root{
+    --bg:#070b14; --card:#0b1220; --card2:#0f172a;
+    --stroke:rgba(255,255,255,.08); --muted:rgba(255,255,255,.72);
+    --text:#fff; --blue:#2563eb; --green:#16a34a; --red:#ef4444; --amber:#f59e0b;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:
+    radial-gradient(1200px 700px at 20% 0%, rgba(37,99,235,.25), transparent 55%),
+    radial-gradient(900px 600px at 100% 20%, rgba(22,163,74,.18), transparent 50%),
+    radial-gradient(700px 450px at 40% 100%, rgba(239,68,68,.12), transparent 55%),
+    var(--bg);
+    color:var(--text); padding:14px;
+  }
+  .wrap{max-width:980px;margin:0 auto}
+  .card{
+    background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+    border:1px solid var(--stroke);
+    border-radius:18px; padding:14px; margin:12px 0;
+    box-shadow:0 18px 50px rgba(0,0,0,.35);
+    backdrop-filter: blur(10px);
+  }
+  h1{margin:0 0 6px;font-size:18px}
+  h2{margin:0 0 10px;font-size:16px}
+  p{margin:6px 0;color:var(--muted);font-size:13px;line-height:1.35}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .badge{
+    display:inline-flex;gap:8px;align-items:center;
+    padding:7px 10px;border-radius:999px;
+    background:rgba(15,23,42,.75);
+    border:1px solid var(--stroke);
+    font-size:12px;color:rgba(255,255,255,.85);
+  }
+  .dot{width:8px;height:8px;border-radius:50%}
+  .dot.ok{background:var(--green)}
+  .dot.bad{background:var(--red)}
+  .dot.warn{background:var(--amber)}
+  .btn{
+    padding:10px 12px;border-radius:14px;border:1px solid var(--stroke);
+    background:rgba(15,23,42,.65); color:var(--text);
+    font-weight:800; cursor:pointer;
+  }
+  .btn.primary{background:linear-gradient(180deg, rgba(37,99,235,.95), rgba(37,99,235,.78));border:none}
+  .btn.danger{background:linear-gradient(180deg, rgba(239,68,68,.95), rgba(239,68,68,.78));border:none}
+  .btn.ghost{background:rgba(15,23,42,.35)}
+  .btn:active{transform:translateY(1px)}
+  textarea, input{
+    width:100%; padding:10px 12px;border-radius:14px;
+    border:1px solid var(--stroke);
+    background:rgba(2,6,23,.65); color:var(--text);
+    font-size:13px; outline:none;
+  }
+  textarea{min-height:120px;resize:vertical}
+  .grid{display:grid;grid-template-columns:1fr;gap:10px}
+  @media(min-width:860px){.grid{grid-template-columns:1.1fr .9fr}}
+  canvas{width:100%;border-radius:14px;border:1px solid var(--stroke);background:#020617}
+  pre{white-space:pre-wrap;word-break:break-word;margin:0;color:rgba(255,255,255,.88);font-size:13px;line-height:1.35}
+  .small{font-size:12px;color:rgba(255,255,255,.7)}
+  .kv{display:grid;grid-template-columns:120px 1fr;gap:8px;align-items:center}
+  .sep{height:1px;background:var(--stroke);margin:10px 0}
 </style>
 </head>
 
 <body>
+<div class="wrap">
 
-<div class="card">
-  <h1>Bùi Hào — Lotto ULTRA MASTER (FIX)</h1>
-  <div class="badge">OpenCV • AI OCR • Auto Row Detect • DB=5 digits • G6≠G7 • Gate • Batch</div>
-  <p style="font-size:13px;opacity:.85">
-    Upload nhiều ảnh KQXS → AI tự đọc ĐB/G6/G7 → lọc dữ liệu sạch → chạy FULL
-  </p>
+  <div class="card">
+    <h1>Bùi Hào — Lotto ULTRA MASTER (OCR Gate FINAL)</h1>
+    <div class="row">
+      <div class="badge"><span class="dot ok"></span>OpenCV</div>
+      <div class="badge"><span class="dot ok"></span>OCR</div>
+      <div class="badge"><span class="dot warn"></span>Gate cứng</div>
+      <div class="badge"><span class="dot warn"></span>Batch nhiều ảnh</div>
+      <div class="badge"><span class="dot warn"></span>DB theo nhãn “ĐB/DB” + 5 số</div>
+      <div class="badge"><span class="dot warn"></span>G7 theo màu đỏ</div>
+      <div class="badge"><span class="dot warn"></span>G6 theo 3 số 3 chữ số phía trên G7</div>
+    </div>
+    <p>
+      Luồng chuẩn: <b>Upload ảnh</b> → Tool tự cắt vùng bảng → <b>DB: tìm chữ ĐB/DB + 5 số</b> → <b>G7: bắt hàng đỏ</b> → <b>G6: bắt 3 số 3 chữ số ngay trên G7</b> → Gate pass thì mới đổ vào dữ liệu → chạy FULL.
+      <br><span class="small">(*Tool thống kê hỗ trợ phân tích, không đảm bảo kết quả.)</span>
+    </p>
 
-  <button class="primary" onclick="fileInput.click()">📸 Upload nhiều ảnh</button>
-  <input id="fileInput" type="file" accept="image/*" multiple hidden>
+    <div class="row" style="margin-top:8px">
+      <button class="btn primary" id="btnUpload">📸 Upload nhiều ảnh</button>
+      <button class="btn ghost" id="btnPasteSample">Dán mẫu</button>
+      <button class="btn danger" id="btnClearAll">Xóa</button>
+      <span class="badge" id="cvBadge"><span class="dot warn"></span>Đang tải OpenCV...</span>
+      <span class="badge" id="runBadge"><span class="dot warn"></span>Chưa chạy</span>
+    </div>
 
-  <div id="status" style="margin-top:6px;font-size:13px"></div>
+    <input id="fileInput" type="file" accept="image/*" multiple hidden />
+  </div>
 
-  <canvas id="imgCanvas"></canvas>
+  <div class="grid">
+    <div class="card">
+      <h2>Ảnh → OCR → Gate</h2>
+      <p class="small">
+        Mẹo: crop sát phần bảng (từ “ĐB” tới “7”). Tránh dính footer (Miền Bắc/Trung/Nam) và header quảng cáo.
+      </p>
 
-  <textarea id="ocrDebug" rows="5" placeholder="OCR debug..."></textarea>
-  <div id="ocrParsed" class="badge" style="margin-top:6px">--</div>
-</div>
+      <canvas id="imgCanvas"></canvas>
 
-<div class="card">
-  <h3>Dữ liệu đầu vào (mỗi dòng = 1 ngày)</h3>
-  <textarea id="inputData" rows="7"></textarea>
-  <button class="primary" onclick="runFULL()">🚀 Chạy FULL</button>
-</div>
+      <div class="sep"></div>
 
-<div class="card">
-  <h3>KẾT QUẢ FULL</h3>
-  <pre id="output"></pre>
+      <div class="row">
+        <div class="badge" id="gateBadge"><span class="dot warn"></span>Gate: chưa có dữ liệu</div>
+        <div class="badge" id="lastParsed">DB:-- | G6:-- -- -- | G7:-- -- -- --</div>
+      </div>
+
+      <div class="sep"></div>
+
+      <h2>Sửa tay (chỉ khi Gate fail)</h2>
+      <div class="kv">
+        <div class="small">DB (2 số)</div>
+        <input id="mDB" placeholder="VD: 21" />
+        <div class="small">G6 (3 số)</div>
+        <input id="mG6" placeholder="VD: 01 95 93" />
+        <div class="small">G7 (4 số)</div>
+        <input id="mG7" placeholder="VD: 76 47 21 77" />
+      </div>
+      <div class="row" style="margin-top:10px">
+        <button class="btn" id="btnApplyManual">Áp manual → thêm dòng</button>
+        <button class="btn ghost" id="btnRetryLast">Thử OCR lại ảnh cuối</button>
+      </div>
+
+      <div class="sep"></div>
+
+      <h2>Debug OCR</h2>
+      <textarea id="ocrDebug" rows="7" placeholder="Debug sẽ hiện ở đây..."></textarea>
+    </div>
+
+    <div class="card">
+      <h2>Dữ liệu đầu vào (mỗi dòng = 1 ngày)</h2>
+      <textarea id="inputData" placeholder="VD:
+29/01: DB 21 | G7: 76 47 21 77 | G6: 01 95 93"></textarea>
+
+      <div class="row" style="margin-top:10px">
+        <button class="btn primary" id="btnRunFull">🚀 Chạy FULL</button>
+        <span class="badge" id="kpiBadge"><span class="dot warn"></span>KPI: chờ</span>
+      </div>
+
+      <div class="sep"></div>
+
+      <h2>KẾT QUẢ FULL</h2>
+      <pre id="output">Chưa có dữ liệu.</pre>
+    </div>
+  </div>
+
 </div>
 
 <script>
+/* =========================
+   STATE + UI
+========================= */
 const fileInput = document.getElementById("fileInput");
+const btnUpload = document.getElementById("btnUpload");
+const btnRunFull = document.getElementById("btnRunFull");
+const btnPasteSample = document.getElementById("btnPasteSample");
+const btnClearAll = document.getElementById("btnClearAll");
+const btnApplyManual = document.getElementById("btnApplyManual");
+const btnRetryLast = document.getElementById("btnRetryLast");
+
+const cvBadge = document.getElementById("cvBadge");
+const runBadge = document.getElementById("runBadge");
+const gateBadge = document.getElementById("gateBadge");
+const lastParsed = document.getElementById("lastParsed");
+const kpiBadge = document.getElementById("kpiBadge");
+
 const imgCanvas = document.getElementById("imgCanvas");
 const ctx = imgCanvas.getContext("2d");
-const statusEl = document.getElementById("status");
 const ocrDebug = document.getElementById("ocrDebug");
-const ocrParsed = document.getElementById("ocrParsed");
 const inputData = document.getElementById("inputData");
 const output = document.getElementById("output");
 
-let loadedImg = null;
+const mDB = document.getElementById("mDB");
+const mG6 = document.getElementById("mG6");
+const mG7 = document.getElementById("mG7");
+
 let cvReady = false;
-let crop = {x:0,y:0,w:0,h:0};
-let parsedLineBuffer = "";
+let lastImage = null; // {img, scaleW, scaleH}
+let lastScanResult = null;
+
+function setBadge(el, type, text){
+  // type: ok | bad | warn
+  const dot = el.querySelector(".dot") || document.createElement("span");
+  dot.className = "dot " + (type||"warn");
+  if(!el.querySelector(".dot")) el.prepend(dot);
+  el.lastChild && el.lastChild.nodeType===3 && el.removeChild(el.lastChild);
+  el.innerHTML = `<span class="dot ${type}"></span>${text}`;
+}
 
 (function waitCV(){
   const t = setInterval(()=>{
-    if(window.cv && cv.Mat){cvReady=true;clearInterval(t)}
-  },80);
+    if(window.cv && cv.Mat){
+      cvReady = true;
+      clearInterval(t);
+      cvBadge.innerHTML = `<span class="dot ok"></span>OpenCV OK`;
+    }
+  }, 80);
 })();
 
-function setStatus(t){statusEl.textContent=t}
-
-// ==== IMAGE LOAD / BATCH ====
-fileInput.addEventListener("change", async e=>{
-  const files=[...e.target.files];
+btnUpload.onclick = () => fileInput.click();
+fileInput.addEventListener("change", async e => {
+  const files = [...e.target.files];
   if(!files.length) return;
 
-  // không xóa input nếu muốn “bổ sung thêm ảnh” thì comment dòng dưới
-  // inputData.value="";
+  runBadge.innerHTML = `<span class="dot warn"></span>Batch đang chạy...`;
+  let okCount = 0, failCount = 0;
 
   for(let i=0;i<files.length;i++){
-    setStatus(`Đang xử lý ảnh ${i+1}/${files.length}...`);
-    await loadFile(files[i]);
-    const ok = await scanImage();
-    if(ok && parsedLineBuffer){
-      inputData.value += (inputData.value ? "\n" : "") + parsedLineBuffer;
-      parsedLineBuffer = "";
+    runBadge.innerHTML = `<span class="dot warn"></span>Ảnh ${i+1}/${files.length}...`;
+    const img = await loadFileToCanvas(files[i]);
+    lastImage = img;
+    const res = await scanFromCanvas();
+    if(res && res.pass){
+      okCount++;
+      appendLineToInput(res.line);
+    } else {
+      failCount++;
     }
   }
-  setStatus("Batch xong → chạy FULL");
-  runFULL();
+
+  runBadge.innerHTML = `<span class="dot ok"></span>Batch xong: OK ${okCount} | FAIL ${failCount}`;
+  if(okCount>0) runFULL();
 });
 
-function loadFile(file){
+btnPasteSample.onclick = () => {
+  inputData.value =
+`29/01: DB 21 | G7: 76 47 21 77 | G6: 01 95 93
+28/01: DB 45 | G7: 03 82 85 81 | G6: 92 55 54
+27/01: DB 14 | G7: 77 19 86 10 | G6: 84 17 02`;
+};
+
+btnClearAll.onclick = () => {
+  inputData.value = "";
+  ocrDebug.value = "";
+  output.textContent = "Chưa có dữ liệu.";
+  lastParsed.textContent = "DB:-- | G6:-- -- -- | G7:-- -- -- --";
+  gateBadge.innerHTML = `<span class="dot warn"></span>Gate: chưa có dữ liệu`;
+  kpiBadge.innerHTML = `<span class="dot warn"></span>KPI: chờ`;
+};
+
+btnRunFull.onclick = () => runFULL();
+
+btnApplyManual.onclick = () => {
+  const db = (mDB.value||"").match(/\d{2}/)?.[0] || "";
+  const g6 = (mG6.value||"").match(/\d{2}/g) || [];
+  const g7 = (mG7.value||"").match(/\d{2}/g) || [];
+  const pass = db && g6.length===3 && g7.length===4;
+  if(!pass){
+    gateBadge.innerHTML = `<span class="dot bad"></span>Gate manual FAIL: cần DB=2 số, G6=3 số, G7=4 số`;
+    return;
+  }
+  const line = `MAN: DB ${db} | G7: ${g7.slice(0,4).join(" ")} | G6: ${g6.slice(0,3).join(" ")}`;
+  appendLineToInput(line);
+  gateBadge.innerHTML = `<span class="dot ok"></span>Gate manual OK → đã thêm dòng`;
+  runFULL();
+};
+
+btnRetryLast.onclick = async () => {
+  if(!lastImage){ runBadge.innerHTML = `<span class="dot bad"></span>Chưa có ảnh để retry`; return; }
+  runBadge.innerHTML = `<span class="dot warn"></span>Đang retry OCR...`;
+  const res = await scanFromCanvas();
+  if(res && res.pass){
+    appendLineToInput(res.line);
+    runBadge.innerHTML = `<span class="dot ok"></span>Retry OK → đã thêm dòng`;
+    runFULL();
+  } else {
+    runBadge.innerHTML = `<span class="dot bad"></span>Retry FAIL`;
+  }
+};
+
+function appendLineToInput(line){
+  inputData.value += (inputData.value.trim() ? "\n" : "") + line;
+}
+
+/* =========================
+   CANVAS LOAD
+========================= */
+function loadFileToCanvas(file){
   return new Promise(resolve=>{
-    const url=URL.createObjectURL(file);
-    const img=new Image();
-    img.onload=()=>{
-      loadedImg=img;
-      const scale=Math.min(1,(window.innerWidth-24)/img.width);
-      imgCanvas.width=Math.floor(img.width*scale);
-      imgCanvas.height=Math.floor(img.height*scale);
-      crop={x:0,y:0,w:imgCanvas.width,h:imgCanvas.height};
-      draw();
-      resolve();
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      const maxW = Math.min(980, window.innerWidth - 28);
+      const scale = Math.min(1, maxW / img.width);
+      imgCanvas.width = Math.floor(img.width * scale);
+      imgCanvas.height = Math.floor(img.height * scale);
+      ctx.clearRect(0,0,imgCanvas.width,imgCanvas.height);
+      ctx.drawImage(img, 0,0, imgCanvas.width, imgCanvas.height);
+      resolve({img, scale});
     };
-    img.src=url;
+    img.src = url;
   });
 }
 
-function draw(){
-  ctx.clearRect(0,0,imgCanvas.width,imgCanvas.height);
-  ctx.drawImage(loadedImg,0,0,imgCanvas.width,imgCanvas.height);
-}
+/* =========================
+   OCR + CV HELPERS
+========================= */
+function preprocess(matRGBA){
+  let gray = new cv.Mat();
+  cv.cvtColor(matRGBA, gray, cv.COLOR_RGBA2GRAY);
 
-// ==== OCR UTIL ====
-function takeLast2(text){
-  const nums=(String(text).match(/\d{2,6}/g)||[]);
-  return nums.map(n=>n.slice(-2)).filter(x=>/^\d{2}$/.test(x));
-}
+  // upscale
+  let up = new cv.Mat();
+  cv.resize(gray, up, new cv.Size(0,0), 3,3, cv.INTER_CUBIC);
 
-function findFiveDigit(text){
-  // tìm đúng ĐB dạng 5 chữ số
-  const m = String(text).match(/\d{5}/g);
-  return m ? m[0] : "";
-}
+  let blur = new cv.Mat();
+  cv.GaussianBlur(up, blur, new cv.Size(3,3), 0);
 
-async function ocrDigits(canvas){
-  const res=await Tesseract.recognize(canvas,"eng",{
-    tessedit_char_whitelist:"0123456789",
-    tessedit_pageseg_mode:"7"
-  });
-  return res.data.text||"";
-}
-
-function preprocess(mat){
-  let gray=new cv.Mat();
-  cv.cvtColor(mat,gray,cv.COLOR_RGBA2GRAY);
-
-  // upscale để OCR dễ hơn
-  let up=new cv.Mat();
-  cv.resize(gray,up,new cv.Size(0,0),3,3,cv.INTER_CUBIC);
-
-  let blur=new cv.Mat();
-  cv.GaussianBlur(up,blur,new cv.Size(3,3),0);
-
-  let bin=new cv.Mat();
-  cv.threshold(blur,bin,0,255,cv.THRESH_BINARY+cv.THRESH_OTSU);
+  let bin = new cv.Mat();
+  cv.threshold(blur, bin, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU);
 
   gray.delete(); up.delete(); blur.delete();
   return bin;
 }
 
 function canvasFromMat(mat){
-  const c=document.createElement("canvas");
-  c.width=mat.cols;c.height=mat.rows;
-  cv.imshow(c,mat);
+  const c = document.createElement("canvas");
+  c.width = mat.cols; c.height = mat.rows;
+  cv.imshow(c, mat);
   return c;
 }
 
-// ==== ROW SCAN HELPERS ====
-// scoring theo mục tiêu: DB cần 5 chữ số; G6 cần 3 cặp; G7 cần 4 cặp.
-// Nếu sai mục tiêu → phạt mạnh để không chọn nhầm.
-function scorePairs(pairs, targetCount){
-  const n = pairs.length;
-  if(n === targetCount) return 1.0;
-  if(targetCount===3 && n===4) return 0.05; // cực phạt để G6 không ăn nhầm G7
-  if(targetCount===4 && n===3) return 0.2;
-  if(n===2) return 0.4;
-  if(n===1) return 0.2;
-  return 0;
+async function ocrText(canvas, lang="eng"){
+  const res = await Tesseract.recognize(canvas, lang, {});
+  return (res.data.text || "");
 }
 
-async function bestRowBySliding(body, yStart, yEnd, hRatio, targetCount){
-  const H=body.rows,W=body.cols;
-  const leftCut=Math.floor(W*0.12);
-  const rightCut=Math.floor(W*0.02);
-  const Wn=Math.max(10,W-leftCut-rightCut);
+function takeLast2FromAnyDigits(text){
+  const nums = (String(text).match(/\d{2,6}/g) || []);
+  return nums.map(n=>n.slice(-2)).filter(x=>/^\d{2}$/.test(x));
+}
 
-  const y1=Math.floor(H*yStart);
-  const y2=Math.floor(H*yEnd);
-  const winH=Math.max(20,Math.floor(H*hRatio));
-  const step=Math.max(10,Math.floor(winH*0.35));
+function normDBLabel(t){
+  return String(t).toUpperCase()
+    .replace(/Ð/g,"D")
+    .replace(/Đ/g,"D")
+    .replace(/D8/g,"DB")
+    .replace(/O B/g,"DB")
+    .replace(/OB/g,"DB");
+}
 
-  let best={score:-1,text:"",pairs:[]};
+/* =========================
+   DB: FIND "DB" + 5 DIGITS
+========================= */
+async function readDB_byLabel(bodyMat){
+  const H = bodyMat.rows, W = bodyMat.cols;
 
-  for(let y=y1;y<=y2-winH;y+=step){
-    const roi=body.roi(new cv.Rect(leftCut,y,Wn,winH));
-    const bin=preprocess(roi);
+  const y1 = Math.floor(H * 0.14);
+  const y2 = Math.floor(H * 0.62);
+  const winH = Math.max(44, Math.floor(H * 0.13));
+  const step = Math.max(18, Math.floor(winH * 0.35));
+
+  const left = Math.floor(W * 0.05);
+  const right = Math.floor(W * 0.05);
+  const ww = Math.max(10, W - left - right);
+
+  let best = {ok:false, text:"", five:"", y:0};
+
+  for(let y=y1; y<=y2-winH; y+=step){
+    const roi = bodyMat.roi(new cv.Rect(left, y, ww, winH));
+    const bin = preprocess(roi);
     roi.delete();
 
-    const c=canvasFromMat(bin);
+    const c = canvasFromMat(bin);
     bin.delete();
 
-    const txt=await ocrDigits(c);
-    const pairs=takeLast2(txt).slice(0,8);
-    const s=scorePairs(pairs, targetCount);
+    const tRaw = await ocrText(c, "eng");
+    const t = normDBLabel(tRaw);
 
-    if(s>best.score){
-      best={score:s,text:txt,pairs};
+    const m = t.match(/DB[^0-9]{0,10}(\d{5})/);
+    if(m && m[1]){
+      best = {ok:true, text:t, five:m[1], y};
+      break;
     }
-    if(best.score>=0.95) break;
+
+    // fallback: nếu không chứa UG và có 5 số
+    if(!best.ok && !/UG/.test(t)){
+      const m2 = t.match(/(\d{5})/);
+      if(m2 && m2[1]){
+        best = {ok:true, text:t, five:m2[1], y};
+      }
+    }
   }
   return best;
 }
 
-// DB scan: quét vùng trên để bắt đúng số 5 chữ số (tránh dính 11UG/13UG)
-async function bestDBBySliding(body){
-  const H=body.rows,W=body.cols;
-  const leftCut=Math.floor(W*0.08);
-  const rightCut=Math.floor(W*0.08);
-  const Wn=Math.max(10,W-leftCut-rightCut);
+/* =========================
+   G7: FIND RED BAND (ROW 7)
+========================= */
+function maskRed(matRGBA){
+  let hsv = new cv.Mat();
+  cv.cvtColor(matRGBA, hsv, cv.COLOR_RGBA2RGB);
+  cv.cvtColor(hsv, hsv, cv.COLOR_RGB2HSV);
 
-  // DB thường nằm khoảng 20% - 55% chiều cao body (tuỳ UI)
-  const y1=Math.floor(H*0.18);
-  const y2=Math.floor(H*0.60);
-  const winH=Math.max(28,Math.floor(H*0.10));
-  const step=Math.max(12,Math.floor(winH*0.35));
+  let m1 = new cv.Mat(), m2 = new cv.Mat(), mask = new cv.Mat();
 
-  let best={score:-1,text:"",five:""};
+  // lower red
+  let low1 = new cv.Mat(hsv.rows, hsv.cols, hsv.type(), [0, 80, 80, 0]);
+  let up1  = new cv.Mat(hsv.rows, hsv.cols, hsv.type(), [10,255,255,255]);
+  cv.inRange(hsv, low1, up1, m1);
 
-  for(let y=y1;y<=y2-winH;y+=step){
-    const roi=body.roi(new cv.Rect(leftCut,y,Wn,winH));
-    const bin=preprocess(roi);
-    roi.delete();
+  // upper red
+  let low2 = new cv.Mat(hsv.rows, hsv.cols, hsv.type(), [170,80,80,0]);
+  let up2  = new cv.Mat(hsv.rows, hsv.cols, hsv.type(), [180,255,255,255]);
+  cv.inRange(hsv, low2, up2, m2);
 
-    const c=canvasFromMat(bin);
-    bin.delete();
+  cv.bitwise_or(m1, m2, mask);
 
-    const txt=await ocrDigits(c);
-    const five=findFiveDigit(txt);
-    const score = five ? 1.0 : 0.0;
+  // clean
+  let k = cv.getStructuringElement(cv.MORPH_RECT, new cv.Size(5,5));
+  cv.morphologyEx(mask, mask, cv.MORPH_CLOSE, k);
 
-    if(score>best.score){
-      best={score,text:txt,five};
-    }
-    if(best.score>=0.95) break;
-  }
-  return best;
+  hsv.delete(); m1.delete(); m2.delete();
+  low1.delete(); up1.delete(); low2.delete(); up2.delete();
+  k.delete();
+  return mask;
 }
 
-// ==== MAIN SCAN ====
-async function scanImage(){
-  if(!cvReady){setStatus("OpenCV chưa sẵn sàng");return false}
+function findBottomRedBand(mask){
+  let contours = new cv.MatVector(), hierarchy = new cv.Mat();
+  cv.findContours(mask, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
 
-  // render crop -> temp canvas
-  const tmp=document.createElement("canvas");
-  tmp.width=crop.w; tmp.height=crop.h;
-  tmp.getContext("2d").drawImage(imgCanvas,crop.x,crop.y,crop.w,crop.h,0,0,tmp.width,tmp.height);
+  let best = null;
+  for(let i=0;i<contours.size();i++){
+    const c = contours.get(i);
+    const r = cv.boundingRect(c);
+    c.delete();
 
-  let src=cv.imread(tmp);
-  let H=src.rows,W=src.cols;
+    // lọc nhiễu
+    if(r.width < mask.cols*0.35) continue;
+    if(r.height < 10) continue;
 
-  // body crop loại header/footer nhẹ
-  const topCut=Math.floor(H*0.08);
-  const botCut=Math.floor(H*0.06);
-  const body=src.roi(new cv.Rect(0,topCut,W,Math.max(10,H-topCut-botCut)));
+    // ưu tiên vùng thấp + rộng
+    const score = (r.y + r.height) + r.width*0.25;
+    if(!best || score > best.score){
+      best = {rect:r, score};
+    }
+  }
+  contours.delete(); hierarchy.delete();
+  return best ? best.rect : null;
+}
 
-  // 1) DB: dò số 5 chữ số
-  const dbBest = await bestDBBySliding(body);
-  const DB = dbBest.five ? dbBest.five.slice(-2) : "";
+/* =========================
+   CORE SCAN: DB + G7 + G6
+========================= */
+async function scanFromCanvas(){
+  if(!cvReady){
+    runBadge.innerHTML = `<span class="dot bad"></span>OpenCV chưa sẵn sàng`;
+    return null;
+  }
 
-  // 2) G6: target 3 cặp (92 55 54)
-  const g6Best = await bestRowBySliding(body, 0.68, 0.94, 0.09, 3);
-  const G6 = (g6Best.pairs||[]).slice(0,3);
+  // đọc canvas thành mat
+  let src = cv.imread(imgCanvas);
 
-  // 3) G7: target 4 cặp (03 82 85 81)
-  const g7Best = await bestRowBySliding(body, 0.78, 0.99, 0.10, 4);
-  const G7 = (g7Best.pairs||[]).slice(0,4);
+  // body crop: cắt nhẹ header/footer (tương đối)
+  const H = src.rows, W = src.cols;
+  const topCut = Math.floor(H * 0.06);
+  const botCut = Math.floor(H * 0.08);
+  const bodyH = Math.max(10, H - topCut - botCut);
+  const body = src.roi(new cv.Rect(0, topCut, W, bodyH));
 
+  // 1) DB theo nhãn
+  const dbHit = await readDB_byLabel(body);
+  const DB = dbHit.ok ? dbHit.five.slice(-2) : "";
+
+  // 2) G7 theo đỏ
+  const red = maskRed(body);
+  const band = findBottomRedBand(red);
+  red.delete();
+
+  let G7 = [], G6 = [];
+  let dbg = "";
+
+  if(band){
+    const pad = 10;
+    const x = Math.max(0, band.x - pad);
+    const y = Math.max(0, band.y - pad);
+    const w = Math.min(body.cols - x, band.width + pad*2);
+    const h = Math.min(body.rows - y, band.height + pad*2);
+
+    // G7 roi
+    const g7Roi = body.roi(new cv.Rect(x, y, w, h));
+    const g7Bin = preprocess(g7Roi);
+    g7Roi.delete();
+    const g7C = canvasFromMat(g7Bin);
+    g7Bin.delete();
+
+    const g7Txt = await ocrText(g7C, "eng");
+    G7 = takeLast2FromAnyDigits(g7Txt).slice(0,4);
+
+    // G6: lấy vùng TRÊN G7, đủ cao và có GAP để không dính đỏ
+    const g6Height = Math.max(48, Math.floor(body.rows * 0.16));
+    const g6Gap = 22; // gap cứng để tránh dính band đỏ
+    const g6Top = Math.max(0, y - g6Height - g6Gap);
+
+    const g6Roi = body.roi(new cv.Rect(x, g6Top, w, Math.min(g6Height, body.rows - g6Top)));
+    const g6Bin = preprocess(g6Roi);
+    g6Roi.delete();
+    const g6C = canvasFromMat(g6Bin);
+    g6Bin.delete();
+
+    const g6Txt = await ocrText(g6C, "eng");
+
+    // ưu tiên 3 số 3 chữ số (G6 miền bắc)
+    const t3 = (String(g6Txt).match(/\d{3}/g) || []).slice(0,3);
+    if(t3.length === 3){
+      G6 = t3.map(s=>s.slice(-2));
+    } else {
+      // fallback: cặp 2 số
+      G6 = takeLast2FromAnyDigits(g6Txt).slice(0,3);
+    }
+
+    dbg += `[DB_LABEL_SCAN]\n${dbHit.text}\n[DB_5DIG]\n${dbHit.five || "(none)"}\n\n`;
+    dbg += `[G7_BAND_OCR]\n${g7Txt}\n[G6_ZONE_OCR]\n${g6Txt}\n`;
+  } else {
+    dbg += `[DB_LABEL_SCAN]\n${dbHit.text}\n[DB_5DIG]\n${dbHit.five || "(none)"}\n\n`;
+    dbg += `[G7_BAND] (none)\n`;
+  }
+
+  // cleanup mats
   body.delete(); src.delete();
 
-  // debug
-  ocrDebug.value =
-`[DB_SCAN] ${dbBest.text}
-[DB_5DIG] ${dbBest.five || "(none)"}
-
-[G6_ROW] ${g6Best.text}
-[G7_ROW] ${g7Best.text}`;
-
-  ocrParsed.textContent = `DB:${DB||"--"} | G6:${G6.join(" ")||"--"} | G7:${G7.join(" ")||"--"}`;
-
   // gate
-  const pass = !!DB && G6.length===3 && G7.length===4;
+  const pass = !!DB && G7.length===4 && G6.length===3;
+
+  const parsedStr = `DB:${DB||"--"} | G6:${(G6.join(" ")||"--")} | G7:${(G7.join(" ")||"--")}`;
+  lastParsed.textContent = parsedStr;
 
   if(pass){
-    parsedLineBuffer = `DB ${DB} | G7: ${G7.join(" ")} | G6: ${G6.join(" ")}`;
-    setStatus("Scan OK ✅ (đã đổ dữ liệu)");
-    return true;
+    gateBadge.innerHTML = `<span class="dot ok"></span>Gate PASS ✅ (đổ dữ liệu)`;
   } else {
-    setStatus("Scan FAIL ❌ (ảnh bị loại — không làm bẩn dữ liệu)");
-    parsedLineBuffer = "";
-    return false;
+    gateBadge.innerHTML = `<span class="dot bad"></span>Gate FAIL ❌ (không đổ dữ liệu)`;
   }
+
+  ocrDebug.value = dbg;
+  lastScanResult = {DB, G6, G7, pass, dbg};
+
+  // line normalize
+  const line = `AUTO: DB ${DB} | G7: ${G7.join(" ")} | G6: ${G6.join(" ")}`;
+  return {DB, G6, G7, pass, line, dbg};
 }
 
-// ==== FULL ENGINE (tạm: thống kê hot đơn giản) ====
+/* =========================
+   FULL ENGINE (tạm: HOT + KPI)
+   Bạn muốn “Pascal/Pha/Trục/Anti-bẫy” thì mình sẽ ráp tiếp vào đây,
+   nhưng hiện ưu tiên ĐẦU VÀO ĐÚNG + GATE CỨNG theo yêu cầu của bạn.
+========================= */
 function runFULL(){
-  const lines=inputData.value.trim().split("\n").filter(Boolean);
-  if(lines.length<3){
-    output.textContent="❌ Cần ≥3 ngày dữ liệu";
+  const lines = inputData.value.trim().split("\n").filter(Boolean);
+  if(lines.length < 3){
+    kpiBadge.innerHTML = `<span class="dot bad"></span>KPI: cần ≥3 ngày`;
+    output.textContent = "❌ Cần ≥3 ngày dữ liệu.";
     return;
   }
 
-  let freq={};
+  // tách toàn bộ cặp 2 số
+  const freq = {};
+  const dbFreq = {};
   lines.forEach(line=>{
-    const nums=(line.match(/\b\d{2}\b/g)||[]);
-    nums.forEach(n=>freq[n]=(freq[n]||0)+1);
+    const db = (line.match(/DB\s+(\d{2})/i)||[])[1];
+    if(db) dbFreq[db] = (dbFreq[db]||0)+1;
+
+    const nums = (line.match(/\b\d{2}\b/g)||[]);
+    nums.forEach(n => freq[n] = (freq[n]||0)+1);
   });
 
-  const sorted=Object.entries(freq).sort((a,b)=>b[1]-a[1]);
+  const sorted = Object.entries(freq).sort((a,b)=>b[1]-a[1]);
+  const topHot = sorted.slice(0,14);
 
-  const main=sorted[0]?.[0]||"--";
-  const sub=sorted[1]?.[0]||"--";
+  // gợi ý chốt (demo): ưu tiên số xuất hiện nhiều + có mặt trong DB gần đây
+  const dbSorted = Object.entries(dbFreq).sort((a,b)=>b[1]-a[1]);
+  const main = (dbSorted[0]?.[0]) || (sorted[0]?.[0]) || "--";
+  const sub  = (dbSorted[1]?.[0]) || (sorted[1]?.[0]) || "--";
 
-  output.textContent=
+  kpiBadge.innerHTML = `<span class="dot ok"></span>KPI: Tổng ${lines.length} ngày • TopHot ${topHot.length}`;
+
+  output.textContent =
 `Tổng ngày: ${lines.length}
 
 TOP HOT:
-${sorted.slice(0,12).map(x=>x[0]+" → "+x[1]).join("\n")}
+${topHot.map(x=>`${x[0]} → ${x[1]}`).join("\n")}
 
-CHỐT GỢI Ý:
+TOP ĐB (2 số):
+${dbSorted.slice(0,8).map(x=>`${x[0]} → ${x[1]}`).join("\n") || "(chưa tách được DB)"}
+
+CHỐT GỢI Ý (demo thống kê):
 🎯 Chính: ${main}
 🛡 Phụ: ${sub}
 
-* Tool thống kê hỗ trợ, không đảm bảo trúng`;
+* Tool thống kê hỗ trợ, không đảm bảo trúng.
+* Gate đang ưu tiên “đầu vào đúng”: DB theo nhãn + 5 số; G7 theo đỏ; G6 theo 3 số 3 chữ số ngay trên G7.`;
 }
-</script>
 
+/* =========================
+   OPTIONAL: auto scan on first click canvas (for quick test)
+========================= */
+imgCanvas.addEventListener("click", async ()=>{
+  if(!lastImage) return;
+  runBadge.innerHTML = `<span class="dot warn"></span>Đang OCR ảnh cuối...`;
+  const res = await scanFromCanvas();
+  if(res && res.pass){
+    runBadge.innerHTML = `<span class="dot ok"></span>OCR OK (Gate pass)`;
+  } else {
+    runBadge.innerHTML = `<span class="dot bad"></span>OCR FAIL (Gate fail)`;
+  }
+});
+</script>
 </body>
 </html>
