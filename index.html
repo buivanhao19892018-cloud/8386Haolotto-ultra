@@ -1,181 +1,673 @@
 <!doctype html>
 <html lang="vi">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
-<title>Bùi Hào — LOTTO MB GOD MODE (ULTRA MASTER+++)</title>
-<meta name="theme-color" content="#0b1220"/>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+  <title>Bùi Hào — Lotto ULTRA MASTER+++ (OCR Gate + GOD MODE)</title>
+  <meta name="theme-color" content="#0b1220"/>
+  <style>
+    :root{
+      --bg:#07101d;
+      --card:#0b1730;
+      --card2:#0a1427;
+      --text:#e8f0ff;
+      --muted:#a8b7d6;
+      --line:rgba(255,255,255,.08);
+      --good:#32d583;
+      --warn:#fdb022;
+      --bad:#ff4d4f;
+      --btn:#1e5eff;
+      --btn2:#1a3fa8;
+      --chip:#0b1d3c;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+      background:
+        radial-gradient(1200px 600px at 10% -20%, rgba(30,94,255,.25), transparent 60%),
+        radial-gradient(900px 500px at 110% 10%, rgba(50,213,131,.18), transparent 55%),
+        linear-gradient(180deg, #06101f, #050b16 45%, #050a13);
+      color:var(--text);
+      padding:18px;
+    }
+    .wrap{max-width:980px;margin:0 auto}
+    .card{
+      background:linear-gradient(180deg,var(--card),var(--card2));
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:16px;
+      box-shadow:0 10px 30px rgba(0,0,0,.35);
+      margin-bottom:14px;
+    }
+    h1{margin:0 0 8px;font-size:22px;letter-spacing:.2px}
+    .pillrow{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}
+    .pill{
+      padding:7px 10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      color:var(--muted);
+      font-size:12px;
+      white-space:nowrap;
+    }
+    .dot{display:inline-block;width:8px;height:8px;border-radius:99px;margin-right:6px;vertical-align:middle}
+    .g{background:var(--good)} .y{background:var(--warn)} .r{background:var(--bad)}
+    .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px}
+    .btn{
+      appearance:none;border:0;cursor:pointer;
+      background:linear-gradient(180deg,var(--btn),var(--btn2));
+      color:white;font-weight:800;
+      padding:12px 14px;border-radius:14px;
+      box-shadow:0 10px 18px rgba(30,94,255,.25);
+    }
+    .btn:active{transform:translateY(1px)}
+    .btn.ghost{
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      box-shadow:none;
+      color:var(--text);
+      font-weight:700;
+    }
+    .btn.danger{
+      background:linear-gradient(180deg,#ff4d4f,#b42318);
+      box-shadow:0 10px 18px rgba(255,77,79,.18);
+    }
+    .hint{color:var(--muted);line-height:1.4;font-size:13px;margin-top:6px}
+    .small{font-size:12px;color:var(--muted)}
+    .grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px;}
+    @media(min-width:860px){.grid{grid-template-columns:1.2fr .8fr}}
+    .preview{
+      width:100%;
+      border-radius:16px;
+      border:1px solid var(--line);
+      background:#060b13;
+      overflow:hidden;
+    }
+    canvas, img{display:block;width:100%;height:auto}
+    .status{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .badge{
+      padding:8px 10px;border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.06);
+      font-weight:800;font-size:12px
+    }
+    .badge.ok{color:var(--good)}
+    .badge.fail{color:var(--bad)}
+    .badge.warn{color:var(--warn)}
+    .sectionTitle{font-size:18px;margin:0 0 6px;}
+    .mono{
+      font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:12.5px;
+      color:#d7e2ff;
+      background:rgba(0,0,0,.25);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:12px;
+      overflow:auto;
+      white-space:pre-wrap;
+      word-break:break-word;
+    }
+    .inputs{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+      margin-top:10px;
+    }
+    @media(min-width:700px){.inputs{grid-template-columns:1fr 1fr}}
+    .field{
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:10px;
+    }
+    .field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+    .field input, .field textarea, .field select{
+      width:100%;
+      border:0;
+      outline:none;
+      background:transparent;
+      color:var(--text);
+      font-size:14px;
+      padding:6px 0;
+    }
+    textarea{min-height:150px;resize:vertical}
+    .split{display:flex;gap:10px;flex-wrap:wrap}
+    .split .field{flex:1;min-width:180px}
+    .kpi{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:10px;
+      margin-top:10px;
+    }
+    @media(min-width:700px){.kpi{grid-template-columns:repeat(4,minmax(0,1fr))}}
+    .kpi .box{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.06);
+      border-radius:14px;
+      padding:10px;
+    }
+    .kpi .box .t{font-size:12px;color:var(--muted)}
+    .kpi .box .v{font-size:16px;font-weight:900;margin-top:4px}
 
-<style>
-:root{
-  --card:#0b1730;--card2:#0a1427;--text:#e8f0ff;--muted:#a8b7d6;
-  --line:rgba(255,255,255,.10);--good:#32d583;--warn:#fdb022;--bad:#ff4d4f;
-  --btn:#1e5eff;--btn2:#1a3fa8;
-}
-*{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#06101f,#050b16);color:var(--text);padding:14px}
-.wrap{max-width:1020px;margin:0 auto}
-.card{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
-h1,h2{margin:0 0 8px}
-.hint{color:var(--muted);font-size:13px;line-height:1.35}
-.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
-.btn{appearance:none;border:0;cursor:pointer;background:linear-gradient(180deg,var(--btn),var(--btn2));color:#fff;font-weight:800;padding:10px 14px;border-radius:12px}
-.btn.ghost{background:rgba(255,255,255,.06);border:1px solid var(--line);font-weight:700}
-.btn.danger{background:linear-gradient(180deg,#ff4d4f,#b42318)}
-.badge{padding:6px 10px;border-radius:999px;border:1px solid var(--line);font-size:12px}
-.badge.ok{color:var(--good)} .badge.warn{color:var(--warn)} .badge.fail{color:var(--bad)}
-textarea{width:100%;min-height:170px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:var(--text);padding:10px;outline:none}
-.grid{display:grid;grid-template-columns:1fr;gap:10px}
-@media(min-width:860px){.grid{grid-template-columns:1.2fr .8fr}}
-.mono{white-space:pre-wrap;word-break:break-word;background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:12px;padding:12px;font-size:13px;overflow:auto}
-.field{border:1px solid var(--line);background:rgba(255,255,255,.06);border-radius:12px;padding:10px;min-width:160px}
-.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
-.field input,.field select{width:100%;border:0;background:transparent;color:var(--text);outline:none}
-table{width:100%;border-collapse:collapse}
-th,td{border-bottom:1px solid var(--line);padding:8px;text-align:left;font-size:12.5px;color:var(--text);vertical-align:top}
-th{color:var(--muted);font-weight:800}
-.small{color:var(--muted);font-size:12px}
-hr{border:0;border-top:1px solid var(--line);margin:10px 0}
-</style>
+    /* GOD MODE UI */
+    .tabs{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+    .tab{
+      padding:10px 12px;border-radius:14px;border:1px solid var(--line);
+      background:rgba(255,255,255,.06); color:var(--text); font-weight:800;
+      cursor:pointer; user-select:none;
+    }
+    .tab.active{
+      background:linear-gradient(180deg,var(--btn),var(--btn2));
+      border-color:transparent;
+      box-shadow:0 10px 18px rgba(30,94,255,.20);
+    }
+    .chiprow{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+    .chip{
+      padding:7px 10px;border-radius:999px;
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      color:var(--text);
+      font-size:12px;
+      font-weight:800;
+    }
+    .chip.good{border-color:rgba(50,213,131,.35); color:var(--good)}
+    .chip.warn{border-color:rgba(253,176,34,.35); color:var(--warn)}
+    .chip.bad{border-color:rgba(255,77,79,.35); color:var(--bad)}
+    .hr{height:1px;background:var(--line);margin:12px 0}
+  </style>
 </head>
 
 <body>
 <div class="wrap">
 
-<div class="card">
-  <h1>Bùi Hào — LOTTO MB GOD MODE (ULTRA MASTER+++)</h1>
-  <div class="hint">
-    Tập trung <b>LOTO 2 số (MB)</b>. Output: <b>4 số + %</b> + <b>Đọc pha</b> + <b>Anti-bẫy mạnh</b> + <b>Backtest</b> + <b>Nhật ký</b>.
-    <br/>Format mỗi dòng: <b>DB xx | G7: a b c d | G6: xxx yyy zzz</b>
+  <!-- ===========================================
+       1) SCAN / OCR / GATE  (GIỮ NGUYÊN LOGIC CŨ)
+       =========================================== -->
+  <div class="card">
+    <h1>Bùi Hào — Lotto ULTRA MASTER+++ (OCR Gate)</h1>
+    <div class="pillrow">
+      <div class="pill"><span class="dot g"></span>OpenCV</div>
+      <div class="pill"><span class="dot g"></span>Tesseract OCR</div>
+      <div class="pill"><span class="dot y"></span>Gate cứng</div>
+      <div class="pill"><span class="dot y"></span>Batch nhiều ảnh</div>
+      <div class="pill"><span class="dot y"></span>DB theo nhãn “ĐB/DB” + 5 số</div>
+      <div class="pill"><span class="dot y"></span>G7/G6 theo pattern</div>
+      <div class="pill"><span class="dot g"></span>KHÔNG phá SCAN/SCALE</div>
+    </div>
+
+    <div class="hint">
+      Luồng chuẩn: <b>Upload nhiều ảnh</b> → tool tự cắt vùng bảng → <b>DB: tìm nhãn ĐB/DB + 5 số</b> →
+      <b>G7: dòng gần cuối có 4 số 2 chữ số</b> → <b>G6: dòng phía trên có 3 số 3 chữ số</b> →
+      <b>Gate pass</b> mới đổ vào dữ liệu → chạy FULL. <br/>
+      (*Tool thống kê hỗ trợ phân tích, không đảm bảo kết quả.)
+    </div>
+
+    <div class="row">
+      <button class="btn" id="btnMulti">📸 Upload nhiều ảnh</button>
+      <button class="btn ghost" id="btnCam">📷 Camera</button>
+      <button class="btn ghost" id="btnSample">Dán mẫu</button>
+      <button class="btn danger" id="btnClear">Xóa</button>
+      <input id="fileMulti" type="file" accept="image/*" multiple hidden />
+      <input id="fileCam" type="file" accept="image/*" capture="environment" hidden />
+    </div>
+
+    <div class="status">
+      <div class="badge ok" id="stCv">● OpenCV: loading…</div>
+      <div class="badge ok" id="stOcr">● OCR: idle</div>
+      <div class="badge warn" id="stGate">● Gate: waiting</div>
+      <div class="badge warn" id="stBatch">● Batch: 0</div>
+    </div>
   </div>
 
-  <div class="row">
-    <button class="btn" id="btnSample">Dán mẫu</button>
-    <button class="btn ghost" id="btnImport">Import log</button>
-    <button class="btn ghost" id="btnExport">Export log</button>
-    <button class="btn danger" id="btnClearAll">Xóa dữ liệu + log</button>
+  <div class="card">
+    <div class="grid">
+      <div>
+        <h2 class="sectionTitle">Ảnh → OCR → Gate</h2>
+        <div class="hint">
+          Mẹo: crop sát phần bảng (từ “ĐB” tới “7”). Tránh dính footer tab (Miền Bắc/Trung/Nam) và header quảng cáo.
+        </div>
+
+        <div class="preview" style="margin-top:10px">
+          <img id="imgPreview" alt="preview" />
+          <canvas id="cvCanvas" style="display:none"></canvas>
+        </div>
+
+        <div class="kpi">
+          <div class="box"><div class="t">DB (2 số)</div><div class="v" id="kDB">--</div></div>
+          <div class="box"><div class="t">G6 (3 số)</div><div class="v" id="kG6">--</div></div>
+          <div class="box"><div class="t">G7 (4 số)</div><div class="v" id="kG7">--</div></div>
+          <div class="box"><div class="t">Gate</div><div class="v" id="kGate">--</div></div>
+        </div>
+
+        <div class="inputs">
+          <div class="field">
+            <label>Sửa tay (chỉ khi Gate fail) — DB (2 số)</label>
+            <input id="manualDB" placeholder="VD: 45" />
+          </div>
+          <div class="field">
+            <label>Sửa tay (chỉ khi Gate fail) — G6 (3 số 3 chữ số)</label>
+            <input id="manualG6" placeholder="VD: 392 255 854" />
+          </div>
+          <div class="field">
+            <label>Sửa tay (chỉ khi Gate fail) — G7 (4 số 2 chữ số)</label>
+            <input id="manualG7" placeholder="VD: 03 82 85 81" />
+          </div>
+          <div class="field">
+            <label>Hành động</label>
+            <div class="split">
+              <button class="btn ghost" id="btnApplyManual">Áp manual → thêm dòng</button>
+              <button class="btn ghost" id="btnRetryLast">Thử OCR lại ảnh cuối</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div>
+        <h2 class="sectionTitle">Debug OCR</h2>
+        <div class="mono" id="dbg">Chưa có OCR.</div>
+      </div>
+    </div>
   </div>
-</div>
 
-<div class="card">
-  <h2>Dữ liệu lịch sử</h2>
-  <div class="grid">
-    <div>
-      <textarea id="inputData" placeholder="Dán dữ liệu tại đây..."></textarea>
+  <div class="card">
+    <h2 class="sectionTitle">Dữ liệu đầu vào (mỗi dòng = 1 ngày)</h2>
+    <div class="hint">Format chuẩn auto: <b>DB xx | G7: a b c d | G6: xxx yyy zzz</b></div>
+    <div class="field" style="margin-top:10px">
+      <textarea id="inputData" placeholder="Sau batch scan, tool tự đổ vào đây..."></textarea>
+    </div>
 
-      <div class="row">
-        <div class="field">
-          <label>Thứ tự dữ liệu</label>
-          <select id="orderMode">
-            <option value="newest_first" selected>Newest ở trên (hay dùng)</option>
-            <option value="oldest_first">Oldest ở trên</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label>Window soi (ngày)</label>
-          <input id="winDays" type="number" value="20" min="8" max="60"/>
-        </div>
-
-        <div class="field">
-          <label>Top chốt</label>
-          <input id="topK" type="number" value="4" min="4" max="8"/>
-        </div>
-
-        <div class="field">
-          <label>AI giám sát</label>
-          <select id="aiMode">
-            <option value="on" selected>ON (cảnh báo mạnh)</option>
-            <option value="soft">SOFT</option>
-            <option value="off">OFF</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label>Ngưỡng TRỤC nổi</label>
-          <input id="thrTruc" type="number" value="4" min="2" max="12"/>
-        </div>
+    <div class="split" style="margin-top:10px">
+      <div class="field">
+        <label>Cửa sổ soi (ngày) — gợi ý: 20</label>
+        <input id="winDays" type="number" value="20" min="5" />
       </div>
-
-      <div class="row">
-        <button class="btn" id="btnRun">🚀 CHẠY GOD MODE</button>
-        <span class="badge ok" id="st">Ready</span>
+      <div class="field">
+        <label>Top hiển thị</label>
+        <input id="topN" type="number" value="15" min="5" />
       </div>
-
-      <div class="small" style="margin-top:6px">
-        * Gợi ý: muốn backtest rõ → dán ≥ 15–25 dòng.
+      <div class="field">
+        <label>Trọng số Hot</label>
+        <input id="wHot" type="number" value="2" step="0.5" />
+      </div>
+      <div class="field">
+        <label>Trọng số Gan</label>
+        <input id="wGan" type="number" value="1.5" step="0.5" />
+      </div>
+      <div class="field">
+        <label>Trọng số Pascal (giữ sẵn)</label>
+        <input id="wPas" type="number" value="2" step="0.5" />
       </div>
     </div>
 
-    <div>
-      <h2 style="margin-top:0">KẾT QUẢ CHỐT — 4 SỐ + %</h2>
-      <div class="mono" id="out">Chưa chạy.</div>
-      <hr/>
-      <h2 style="margin-top:0">ĐỌC PHA — AI GIÁM SÁT</h2>
-      <div class="mono" id="phaseOut">Chưa chạy.</div>
+    <div class="row">
+      <button class="btn" id="btnFull">🚀 Chạy FULL</button>
     </div>
   </div>
+
+  <div class="card">
+    <h2 class="sectionTitle">KẾT QUẢ FULL</h2>
+    <div class="mono" id="out">Chưa có dữ liệu.</div>
+  </div>
+
+  <!-- ===========================================
+       2) GOD MODE / FULL PRO SOI LÔ 2 SỐ (GẮN DƯỚI KQ FULL)
+       =========================================== -->
+  <div class="card" id="godCard" style="display:none">
+    <h2 class="sectionTitle">SOI CẦU LÔ 2 SỐ — ULTRA MASTER+++ (GOD MODE)</h2>
+    <div class="hint">
+      Tổng hợp: Hot/Gan • Đầu/Đuôi • Chạm/Kép/Bóng • Trục • Pascal/Chu kỳ • Nhịp G6 vs G7 • Anti-bẫy • Đọc pha (MASTER+++).
+      <b>Output: 4 số + %</b> + cảnh báo mạnh.
+    </div>
+
+    <div class="tabs">
+      <div class="tab active" data-tab="sum">Tổng hợp</div>
+      <div class="tab" data-tab="hg">Hot/Gan</div>
+      <div class="tab" data-tab="hd">Đầu/Đuôi</div>
+      <div class="tab" data-tab="ckb">Chạm/Kép/Bóng</div>
+      <div class="tab" data-tab="truc">Trục</div>
+      <div class="tab" data-tab="pha">Đọc pha</div>
+      <div class="tab" data-tab="log">Nhật ký</div>
+    </div>
+
+    <div class="hr"></div>
+
+    <div id="tab_sum" class="mono"></div>
+    <div id="tab_hg" class="mono" style="display:none"></div>
+    <div id="tab_hd" class="mono" style="display:none"></div>
+    <div id="tab_ckb" class="mono" style="display:none"></div>
+    <div id="tab_truc" class="mono" style="display:none"></div>
+    <div id="tab_pha" class="mono" style="display:none"></div>
+
+    <div id="tab_log_wrap" style="display:none">
+      <div class="split">
+        <div class="field">
+          <label>Nhập KQ DB hôm nay (2 số) để chấm</label>
+          <input id="log_db" placeholder="VD: 45" />
+        </div>
+        <div class="field">
+          <label>Hành động</label>
+          <div class="split">
+            <button class="btn ghost" id="btnLogSave">Chấm & lưu</button>
+            <button class="btn danger" id="btnLogClear">Xóa nhật ký</button>
+          </div>
+        </div>
+      </div>
+      <div class="mono" id="tab_log" style="margin-top:10px"></div>
+    </div>
+
+    <div class="hr"></div>
+    <div class="small">© Bùi Hào — Tool thống kê hỗ trợ phân tích. Không đảm bảo kết quả.</div>
+  </div>
+
 </div>
 
-<div class="card">
-  <h2>BACKTEST (TỰ TEST TRÊN DỮ LIỆU)</h2>
-  <div class="hint">
-    Cơ chế: dùng <b>window</b> ngày trước đó để “dự đoán” ngày kế tiếp → check trúng theo <b>DB2 thực tế</b>.
-    <br/>Mục tiêu: nhìn ra <b>pha nào đang ăn thật</b> và app có “ảo” hay không.
-  </div>
-  <div class="mono" id="btOut">Chưa chạy.</div>
-</div>
-
-<div class="card">
-  <h2>NHẬT KÝ GOD MODE (log)</h2>
-  <div class="hint">Lưu lần chạy gần nhất + pha + top4 + cảnh báo. Dùng để “ngày nào ăn kiểu gì”.</div>
-  <div class="row">
-    <button class="btn ghost" id="btnClearLog">Xóa log</button>
-  </div>
-  <div style="margin-top:10px;overflow:auto">
-    <table id="logTable">
-      <thead>
-        <tr>
-          <th>Thời gian</th>
-          <th>Pha</th>
-          <th>Hướng</th>
-          <th>Top (4)</th>
-          <th>Cảnh báo</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
-  <div class="small" style="margin-top:8px">© Bùi Hào — GOD MODE hỗ trợ phân tích. Không đảm bảo trúng.</div>
-</div>
-
-<input id="fileImport" type="file" accept="application/json" hidden/>
+<!-- Load libs -->
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script async src="https://docs.opencv.org/4.x/opencv.js" onload="onOpenCvReady()"></script>
 
 <script>
-/* =========================
-   UTIL
-========================= */
-const el = (id)=>document.getElementById(id);
-const pad2 = (n)=>String(n).padStart(2,"0");
-const nowStamp = ()=>new Date().toLocaleString();
+/* ==========================================================
+   PHẦN 1: SCAN/OCR/GATE  (GIỮ NGUYÊN LOGIC NHƯ BẢN CỦA BẠN)
+   ========================================================== */
+let cvReady = false;
+let lastImageBlob = null;
+let batchOK = 0, batchFail = 0;
 
-function setStatus(text, cls){
-  const s = el("st");
-  s.textContent = text;
-  s.classList.remove("ok","warn","fail");
-  s.classList.add(cls);
+const el = (id)=>document.getElementById(id);
+
+function setBadge(id, text, cls){
+  const e = el(id);
+  e.textContent = text;
+  e.classList.remove("ok","warn","fail");
+  e.classList.add(cls);
+}
+function setStatus(){
+  setBadge("stCv", `● OpenCV: ${cvReady ? "OK" : "loading…"}`, cvReady ? "ok" : "warn");
+  setBadge("stBatch", `● Batch: OK ${batchOK} | FAIL ${batchFail}`, (batchFail>0) ? "warn" : "ok");
+}
+function showKPI(db2, g6, g7, gate){
+  el("kDB").textContent = db2 || "--";
+  el("kG6").textContent = g6?.length ? g6.join(" ") : "--";
+  el("kG7").textContent = g7?.length ? g7.join(" ") : "--";
+  el("kGate").textContent = gate;
+}
+function onOpenCvReady(){
+  cvReady = true;
+  setStatus();
+}
+setStatus();
+
+function pad2(n){ return String(n).padStart(2,"0"); }
+
+function canvasFromMat(mat){
+  const canvas = document.createElement("canvas");
+  canvas.width = mat.cols;
+  canvas.height = mat.rows;
+  cv.imshow(canvas, mat);
+  return canvas;
+}
+function preprocess(mat){
+  const gray = new cv.Mat();
+  cv.cvtColor(mat, gray, cv.COLOR_RGBA2GRAY, 0);
+  const blur = new cv.Mat();
+  cv.GaussianBlur(gray, blur, new cv.Size(3,3), 0, 0, cv.BORDER_DEFAULT);
+  const thr = new cv.Mat();
+  cv.adaptiveThreshold(
+    blur, thr, 255,
+    cv.ADAPTIVE_THRESH_GAUSSIAN_C,
+    cv.THRESH_BINARY, 31, 8
+  );
+  gray.delete(); blur.delete();
+  return thr;
+}
+async function ocrText(canvas){
+  const res = await Tesseract.recognize(canvas, "eng", {
+    logger: ()=>{},
+    tessedit_char_whitelist: "0123456789",
+    preserve_interword_spaces: "1",
+  });
+  return (res.data.text || "");
+}
+function cleanOCRDigits(txt){
+  return String(txt)
+    .replace(/[Oo]/g,"0")
+    .replace(/[Il|]/g,"1")
+    .replace(/S/g,"5")
+    .replace(/B/g,"8")
+    .replace(/[^\d\s\n]/g," ")
+    .replace(/\s+\n/g,"\n")
+    .replace(/\n\s+/g,"\n")
+    .replace(/[ \t]+/g," ")
+    .trim();
+}
+function extractDB5_fromLabel(text){
+  const t = text.replace(/\s+/g," ");
+  let m = t.match(/(?:Đ\s*B|D\s*B)\s*(\d{5})/);
+  if(m) return m[1];
+  m = t.match(/\b\d{5}\b/);
+  return m ? m[0] : "";
+}
+function findG7Line(lines){
+  for(let i=lines.length-1;i>=0;i--){
+    const nums2 = (lines[i].match(/\b\d{2}\b/g) || []);
+    if(nums2.length >= 4){
+      return {arr: nums2.slice(0,4), idx:i, line:lines[i]};
+    }
+  }
+  return {arr:[], idx:-1, line:""};
+}
+function findG6Line(lines, g7Index){
+  for(let i=g7Index-1;i>=0;i--){
+    const nums3 = (lines[i].match(/\b\d{3}\b/g) || []);
+    if(nums3.length >= 3){
+      return {arr: nums3.slice(0,3), idx:i, line:lines[i]};
+    }
+  }
+  for(let i=lines.length-1;i>=0;i--){
+    const nums3 = (lines[i].match(/\b\d{3}\b/g) || []);
+    if(nums3.length >= 3){
+      return {arr: nums3.slice(0,3), idx:i, line:lines[i]};
+    }
+  }
+  return {arr:[], idx:-1, line:""};
+}
+function gateCheck(db5, g6_3, g7_4){
+  if(!/^\d{5}$/.test(db5)) return {ok:false, reason:"DB không đủ 5 số"};
+  if(!g7_4 || g7_4.length!==4 || !g7_4.every(x=>/^\d{2}$/.test(x))) return {ok:false, reason:"G7 phải đúng 4 số (2 chữ số)"};
+  if(!g6_3 || g6_3.length!==3 || !g6_3.every(x=>/^\d{3}$/.test(x))) return {ok:false, reason:"G6 phải đúng 3 số (3 chữ số)"};
+  return {ok:true, reason:"OK"};
+}
+function addLineToInput(db5, g7, g6){
+  const db2 = db5.slice(-2);
+  const line = `DB ${db2} | G7: ${g7.join(" ")} | G6: ${g6.join(" ")}`;
+  const cur = el("inputData").value.trim();
+  el("inputData").value = (cur ? cur + "\n" : "") + line;
 }
 
-function safeNum(n, d=0){ n=Number(n); return Number.isFinite(n)?n:d; }
+async function runOCRFromBlob(blob){
+  if(!cvReady){
+    alert("OpenCV chưa load xong. Đợi 2–3 giây rồi thử lại.");
+    return;
+  }
+  lastImageBlob = blob;
 
-/* =========================
-   PARSE
-========================= */
-function parseLines(){
-  const raw = el("inputData").value.trim().split("\n").map(x=>x.trim()).filter(Boolean);
+  setBadge("stOcr", "● OCR: running…", "warn");
+  setBadge("stGate", "● Gate: checking…", "warn");
+  showKPI("", [], [], "--");
+
+  const url = URL.createObjectURL(blob);
+  el("imgPreview").src = url;
+
+  await new Promise(r=>{
+    el("imgPreview").onload = ()=>r();
+  });
+
+  const img = el("imgPreview");
+  const canvas = el("cvCanvas");
+  canvas.style.display = "none";
+  canvas.width = img.naturalWidth;
+  canvas.height = img.naturalHeight;
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(img,0,0);
+
+  let src = cv.imread(canvas);
+  const W = src.cols, H = src.rows;
+  const crop = src.roi(new cv.Rect(
+    Math.floor(W*0.02),
+    Math.floor(H*0.02),
+    Math.floor(W*0.96),
+    Math.floor(H*0.96)
+  ));
+  src.delete(); src = crop;
+
+  const upH = Math.floor(src.rows * 0.55);
+  const upper = src.roi(new cv.Rect(0,0, src.cols, upH));
+  const body  = src.roi(new cv.Rect(0, Math.floor(src.rows*0.35), src.cols, Math.floor(src.rows*0.65)));
+
+  const upperBin = preprocess(upper);
+  const upperCanvas = canvasFromMat(upperBin);
+  const upperTxt1 = await ocrText(upperCanvas);
+
+  const upperInv = new cv.Mat(); cv.bitwise_not(upperBin, upperInv);
+  const upperCanvas2 = canvasFromMat(upperInv);
+  const upperTxt2 = await ocrText(upperCanvas2);
+
+  const upperTxt = cleanOCRDigits((upperTxt1||"") + "\n" + (upperTxt2||""));
+  const db5 = extractDB5_fromLabel(upperTxt);
+
+  upper.delete(); upperBin.delete(); upperInv.delete();
+
+  const bodyBin = preprocess(body);
+  const bodyCanvas = canvasFromMat(bodyBin);
+  const bodyTxt1 = await ocrText(bodyCanvas);
+
+  const bodyInv = new cv.Mat(); cv.bitwise_not(bodyBin, bodyInv);
+  const bodyCanvas2 = canvasFromMat(bodyInv);
+  const bodyTxt2 = await ocrText(bodyCanvas2);
+
+  const bodyTxt = cleanOCRDigits((bodyTxt1||"") + "\n" + (bodyTxt2||""));
+  const lines = bodyTxt.split("\n").map(s=>s.trim()).filter(Boolean);
+
+  const g7Found = findG7Line(lines);
+  const g6Found = findG6Line(lines, g7Found.idx);
+
+  const g7 = g7Found.arr;
+  const g6 = g6Found.arr;
+
+  body.delete(); bodyBin.delete(); bodyInv.delete();
+  src.delete();
+  URL.revokeObjectURL(url);
+
+  const gate = gateCheck(db5, g6, g7);
+  const db2 = (/^\d{5}$/.test(db5)) ? db5.slice(-2) : "";
+
+  el("dbg").textContent =
+`[UPPER_OCR]
+${upperTxt || "(empty)"}
+
+[DB_5DIG]
+${db5 || "(none)"}
+
+[LOWER_OCR]
+${bodyTxt || "(empty)"}
+
+[G7_LINE]
+${g7Found.line || "(none)"}
+
+[G6_LINE]
+${g6Found.line || "(none)"}
+`;
+
+  showKPI(db2, g6, g7, gate.ok ? "PASS" : "FAIL");
+  setBadge("stOcr", "● OCR: done", "ok");
+  if(gate.ok){
+    setBadge("stGate", "● Gate: PASS", "ok");
+    addLineToInput(db5, g7, g6);
+    batchOK++;
+  }else{
+    setBadge("stGate", `● Gate: FAIL — ${gate.reason}`, "fail");
+    batchFail++;
+    el("manualDB").value = db2 || "";
+    el("manualG6").value = g6.length ? g6.join(" ") : "";
+    el("manualG7").value = g7.length ? g7.join(" ") : "";
+  }
+  setStatus();
+}
+
+function parseManual(){
+  const db2 = (el("manualDB").value || "").replace(/\D/g,"").slice(-2);
+  const g6 = (el("manualG6").value || "").match(/\b\d{3}\b/g) || [];
+  const g7 = (el("manualG7").value || "").match(/\b\d{2}\b/g) || [];
+  if(db2.length!==2) return {ok:false, msg:"DB manual phải đúng 2 số"};
+  if(g6.length<3) return {ok:false, msg:"G6 manual phải đủ 3 số (3 chữ số)"};
+  if(g7.length<4) return {ok:false, msg:"G7 manual phải đủ 4 số (2 chữ số)"};
+  const fakeDB5 = "000" + db2;
+  return {ok:true, fakeDB5, g6:g6.slice(0,3), g7:g7.slice(0,4)};
+}
+el("btnApplyManual").onclick = ()=>{
+  const r = parseManual();
+  if(!r.ok){ alert(r.msg); return; }
+  addLineToInput(r.fakeDB5, r.g7, r.g6);
+  setBadge("stGate","● Gate: MANUAL OK","ok");
+};
+
+el("btnMulti").onclick = ()=> el("fileMulti").click();
+el("btnCam").onclick   = ()=> el("fileCam").click();
+
+el("fileMulti").addEventListener("change", async (e)=>{
+  const files = [...(e.target.files || [])];
+  if(!files.length) return;
+  setBadge("stOcr","● OCR: batch running…","warn");
+  batchOK = 0; batchFail = 0;
+  setStatus();
+  for(const f of files){
+    await runOCRFromBlob(f);
+    await new Promise(r=>setTimeout(r, 120));
+  }
+  setBadge("stOcr","● OCR: batch done","ok");
+});
+el("fileCam").addEventListener("change", async (e)=>{
+  const f = (e.target.files || [])[0];
+  if(!f) return;
+  await runOCRFromBlob(f);
+});
+el("btnRetryLast").onclick = async ()=>{
+  if(!lastImageBlob){ alert("Chưa có ảnh nào để retry."); return; }
+  await runOCRFromBlob(lastImageBlob);
+};
+el("btnClear").onclick = ()=>{
+  el("inputData").value = "";
+  el("out").textContent = "Chưa có dữ liệu.";
+  el("dbg").textContent = "Chưa có OCR.";
+  batchOK=0; batchFail=0;
+  setBadge("stOcr","● OCR: idle","ok");
+  setBadge("stGate","● Gate: waiting","warn");
+  setStatus();
+  showKPI("", [], [], "--");
+  // clear GOD panel
+  el("godCard").style.display = "none";
+};
+el("btnSample").onclick = ()=>{
+  el("inputData").value =
+`DB 45 | G7: 03 82 85 81 | G6: 392 255 854
+DB 21 | G7: 76 47 21 77 | G6: 801 295 993
+DB 14 | G7: 81 87 60 32 | G6: 206 200 971
+DB 80 | G7: 22 20 16 61 | G6: 733 014 672`;
+};
+
+/* ==========================================================
+   PHẦN 2: ENGINE SOI LÔ 2 SỐ + ĐỌC PHA MASTER+++ + ANTI-BẪY
+   (CHỈ GẮN THÊM DƯỚI KẾT QUẢ FULL)
+   ========================================================== */
+
+/* ---------- core parse ---------- */
+function parseLinesWithWin(win){
+  const raw = el("inputData").value.trim().split("\n").map(s=>s.trim()).filter(Boolean);
+  const slice = raw.slice(0, win); // newest ở trên
   const days = [];
-
-  for(const line of raw){
+  for(const line of slice){
     const dbm = line.match(/DB\s+(\d{2})/);
     const g7m = line.match(/G7:\s*([0-9 ]+)/);
     const g6m = line.match(/G6:\s*([0-9 ]+)/);
@@ -183,511 +675,527 @@ function parseLines(){
 
     const db2 = pad2(dbm[1]);
     const g7 = (g7m[1].match(/\b\d{2}\b/g)||[]).slice(0,4).map(pad2);
-    const g6 = (g6m[1].match(/\b\d{3}\b/g)||[]).slice(0,3);
-    const g6_2 = g6.map(x=>pad2(x.slice(-2)));
+    const g6_3 = (g6m[1].match(/\b\d{3}\b/g)||[]).slice(0,3);
+    const g6_2 = g6_3.map(x=>pad2(x.slice(-2)));
 
-    // signal = DB2 + G7 (đúng LOTO)
-    const signal = [db2, ...g7];
-    // ref = G6_2 (phụ)
-    const ref = [...g6_2];
-    const pool = [...signal, ...ref];
-
-    days.push({ db2, g7, g6_2, signal, ref, pool, raw: line });
+    const pool = [db2, ...g7, ...g6_2].map(pad2);
+    days.push({db2, g7, g6_2, pool});
   }
-
-  // normalize order to chronological (oldest -> newest)
-  // user setting: newest_first means raw[0] is newest => reverse
-  const order = el("orderMode").value;
-  if(order === "newest_first") days.reverse();
-
-  return days; // oldest->newest
+  return days;
 }
 
-/* =========================
-   MASTER+++ SCORE (TopK + %)
-   - trọng tâm: signal 80% + ref 20%
-   - gan mềm + anti-gan=0
-========================= */
-function buildPrediction(windowDays){
-  // windowDays: array of past days (oldest->newest), used to predict next day
-  const freq = {};
-  const lastSeen = {};
-  const wSig = 0.8, wRef = 0.2;
+/* ---------- utils ---------- */
+function head(n){ return n[0]; }
+function tail(n){ return n[1]; }
+function bong(n){
+  // bóng 0-9: (9 - digit)
+  const a = 9 - parseInt(n[0],10);
+  const b = 9 - parseInt(n[1],10);
+  return ""+a+b;
+}
+function isKep(n){ return n[0]===n[1]; }
+function scoreToPct(arrScores){
+  // normalize top list -> %
+  const vals = arrScores.map(x=>x.s);
+  const max = Math.max(...vals);
+  const min = Math.min(...vals);
+  return arrScores.map(x=>{
+    const pct = (max===min) ? 50 : Math.round( 40 + 60*( (x.s - min)/(max-min) ) );
+    return {...x, pct};
+  });
+}
 
-  // count weighted freq
-  windowDays.forEach((d, idx)=>{
-    d.signal.forEach(n=>{
-      freq[n] = (freq[n]||0) + wSig;
-      if(lastSeen[n] === undefined) lastSeen[n] = idx; // first time from oldest
-    });
-    d.ref.forEach(n=>{
-      freq[n] = (freq[n]||0) + wRef;
-      if(lastSeen[n] === undefined) lastSeen[n] = idx;
+/* ---------- hot/gan ---------- */
+function buildHotGan(days){
+  const freq = {};
+  days.forEach(d=>d.pool.forEach(n=>freq[n]=(freq[n]||0)+1));
+
+  const lastSeen = {};
+  days.forEach((d, idx)=>{
+    d.pool.forEach(n=>{
+      if(lastSeen[n]===undefined) lastSeen[n]=idx; // idx 0 newest
     });
   });
 
-  // gan (days since last appearance) from end
-  const lastFromEnd = {};
-  for(let i=windowDays.length-1;i>=0;i--){
-    const d = windowDays[i];
-    d.signal.concat(d.ref).forEach(n=>{
-      if(lastFromEnd[n] === undefined) lastFromEnd[n] = (windowDays.length-1 - i);
+  const gan = {};
+  for(let i=0;i<100;i++){
+    const n = pad2(i);
+    gan[n] = (lastSeen[n]===undefined) ? 999 : lastSeen[n];
+  }
+  return {freq, gan};
+}
+
+/* ---------- “trục” (heuristic): cặp đầu-đuôi nổi (đầu mạnh + đuôi mạnh giao nhau) ---------- */
+function buildHeadTail(days){
+  const h = Array(10).fill(0);
+  const t = Array(10).fill(0);
+  days.forEach(d=>{
+    d.pool.forEach(n=>{
+      h[parseInt(n[0],10)]++;
+      t[parseInt(n[1],10)]++;
     });
+  });
+  const hSorted = [...h.entries()].sort((a,b)=>b[1]-a[1]);
+  const tSorted = [...t.entries()].sort((a,b)=>b[1]-a[1]);
+  return {h, t, hSorted, tSorted};
+}
+
+function buildTrucCandidates(hSorted, tSorted, take=3){
+  const heads = hSorted.slice(0,take).map(([d])=>String(d));
+  const tails = tSorted.slice(0,take).map(([d])=>String(d));
+  const pairs = [];
+  heads.forEach(a=>tails.forEach(b=>pairs.push(a+b)));
+  // unique
+  return [...new Set(pairs)];
+}
+
+/* ---------- “nhịp G6 vs G7” (lead) ---------- */
+function calcG7Lead(days){
+  // đo: DB hôm nay có nằm trong pool G7 của hôm qua không?
+  // days[0] newest; compare day0 db2 vs day1 g7
+  if(days.length < 2) return {rate:0, hits:0, total:0};
+  let hits=0,total=0;
+  for(let i=0;i<days.length-1;i++){
+    const today = days[i];
+    const prev  = days[i+1];
+    total++;
+    if(prev.g7.includes(today.db2)) hits++;
+  }
+  return {rate: total? hits/total : 0, hits, total};
+}
+
+/* ---------- “pascal/chu kỳ” (lightweight): ưu tiên số xuất hiện theo nhịp lặp 2-3 ngày ---------- */
+function pascalPulse(days, n){
+  // heuristic: nếu n xuất hiện cách quãng 2-3 ngày lặp lại -> +1
+  const idxs = [];
+  days.forEach((d, idx)=>{ if(d.pool.includes(n)) idxs.push(idx); });
+  if(idxs.length < 2) return 0;
+  let bonus = 0;
+  for(let i=0;i<idxs.length-1;i++){
+    const gap = Math.abs(idxs[i]-idxs[i+1]);
+    if(gap===2 || gap===3) bonus += 1;
+  }
+  return Math.min(2, bonus); // cap
+}
+
+/* ---------- Anti-bẫy ---------- */
+function antiBay(days, freq, gan, top4){
+  const warns = [];
+  // bẫy gan: top toàn gan quá lớn hoặc gan=0 nhiều
+  const gan0 = top4.filter(x=>gan[x.n]===0).length;
+  const gan999 = top4.filter(x=>gan[x.n]===999).length;
+  if(gan0>=2) warns.push("⚠️ BẪY GAN: Có ≥2 số vừa nổ hôm qua (gan=0) — dễ lừa.");
+  if(gan999>=2) warns.push("⚠️ BẪY GAN DÀI: Có ≥2 số gan quá dài (999) — dễ mơ hồ.");
+
+  // bẫy cụm: top4 trùng đầu hoặc trùng đuôi quá nhiều
+  const headMap={}, tailMap={};
+  top4.forEach(x=>{
+    headMap[head(x.n)] = (headMap[head(x.n)]||0)+1;
+    tailMap[tail(x.n)] = (tailMap[tail(x.n)]||0)+1;
+  });
+  const maxH = Math.max(...Object.values(headMap));
+  const maxT = Math.max(...Object.values(tailMap));
+  if(maxH>=3) warns.push("⚠️ BẪY CỤM: 3/4 số trùng ĐẦU — dễ bị dồn ảo.");
+  if(maxT>=3) warns.push("⚠️ BẪY CỤM: 3/4 số trùng ĐUÔI — dễ bị dồn ảo.");
+
+  // đảo pha: nếu G7 lead rate thấp nhưng lại chốt theo G7
+  const g7Lead = calcG7Lead(days);
+  if(g7Lead.rate < 0.25) warns.push("⚠️ ĐẢO PHA: G7 lead yếu (ít kéo DB) — hạn chế bám G7.");
+
+  // nhiễu: phân tán hot thấp
+  const hotVals = Object.values(freq);
+  const maxHot = hotVals.length ? Math.max(...hotVals) : 0;
+  if(maxHot <= 2) warns.push("⚠️ NGÀY NHIỄU: hot phân tán (max hot ≤2) — nên đánh nhẹ/né.");
+
+  if(!warns.length) warns.push("OK (chưa thấy bẫy rõ).");
+  return warns;
+}
+
+/* ---------- Đọc PHA MASTER+++ ---------- */
+function readPhase(days, freq, gan, headTail){
+  // P1: G7 Lead mạnh (DB hay nằm trong G7 hôm trước)
+  // P2: Trục Lead (đầu/đuôi tập trung mạnh)
+  // P3: Giao thoa
+  // P4: Nhiễu (phân tán)
+  // P5: Xả (gan=0 nhiều, vừa nổ dồn)
+  // P6: Mở (vừa qua nhiễu/xả nhưng bắt đầu có trục nổi)
+  const g7Lead = calcG7Lead(days);
+  const maxHead = headTail.hSorted[0]?.[1] || 0;
+  const maxTail = headTail.tSorted[0]?.[1] || 0;
+
+  // noise check
+  const hotVals = Object.values(freq);
+  const maxHot = hotVals.length ? Math.max(...hotVals) : 0;
+
+  // xả check: ngày mới nhất (days[0]) pool trùng quá nhiều với day1?
+  let overlap = 0;
+  if(days.length>=2){
+    const a = new Set(days[0].pool);
+    const b = new Set(days[1].pool);
+    a.forEach(x=>{ if(b.has(x)) overlap++; });
   }
 
+  let pha="P3", name="Giao thoa", guide="Chọn lọc 4 số, ưu tiên số vừa hợp trục vừa hợp hot/gan.";
+  if(maxHot<=2 && maxHead<=4 && maxTail<=4){
+    pha="P4"; name="Nhiễu"; guide="Né ngày / đánh nhẹ. Ưu tiên 1–2 số chắc, bỏ dàn rộng.";
+  } else if(g7Lead.rate>=0.45){
+    pha="P1"; name="G7 Lead"; guide="Ưu tiên số bám G7 (kề/bóng/chạm) + lọc anti-bẫy.";
+  } else if(maxHead>=6 || maxTail>=6){
+    pha="P2"; name="Trục Lead"; guide="Ưu tiên theo TRỤC (đầu/đuôi nổi) + xác nhận hot/gan.";
+  } else if(overlap>=3){
+    pha="P5"; name="Xả"; guide="Hạn chế vào tiền. Dễ xả dồn — chọn 1 số thủ hoặc nghỉ.";
+  } else if(maxHot>=4 && (maxHead>=5 || maxTail>=5)){
+    pha="P6"; name="Mở"; guide="Có thể đánh mạnh hơn (nhưng vẫn anti-bẫy). Ưu tiên trục + hot.";
+  }
+
+  return {pha, name, guide, g7Lead};
+}
+
+/* ---------- FULL scoring (chỉ loto 2 số) ---------- */
+function buildScore(days, freq, gan, wHot, wGan, wPas){
   const score = {};
   for(let i=0;i<100;i++){
     const n = pad2(i);
-    const hot = safeNum(freq[n],0);
+    const hot = freq[n]||0;
+    const g = gan[n];
 
-    const gan = (lastFromEnd[n] === undefined) ? 999 : lastFromEnd[n];
-    let ganScore = 0;
-    if(gan===999) ganScore = -2.8;
-    else if(gan===0) ganScore = -1.2;          // vừa ra → phạt
-    else if(gan>=1 && gan<=3) ganScore = 2.2;  // gan đẹp
-    else if(gan>=4 && gan<=8) ganScore = 0.9;
-    else ganScore = -0.3;
+    // ganScore: ưu tiên 2..9, phạt 0 và 999
+    const ganScore = (g===999) ? -2 : (g>=2 && g<=9 ? 2 : (g===0 ? -1 : 0));
 
-    // tổng hợp
-    score[n] = hot*2.0 + ganScore*1.4;
+    // pascal pulse bonus
+    const p = pascalPulse(days, n);
+
+    score[n] = hot*wHot + ganScore*wGan + p*wPas*0.35; // nhẹ tay để không phá "scal"
   }
-
-  const sorted = Object.entries(score).sort((a,b)=>b[1]-a[1]);
-
-  // map score -> pseudo %
-  const top = sorted.slice(0, 12);
-  const maxS = top[0]?.[1] ?? 1;
-  const minS = top[top.length-1]?.[1] ?? 0;
-  const toPct = (s)=>{
-    // normalize to 52..92 range
-    const t = (maxS===minS) ? 0.5 : ( (s-minS)/(maxS-minS) );
-    return (52 + t*40);
-  };
-
-  return { sorted, toPct };
+  return score;
 }
 
-/* =========================
-   PHA MASTER+++ (pha–trục–xả–mở)
-   - P1 G7 Lead
-   - P2 Trục Lead
-   - P3 Giao thoa
-   - P4 Nhiễu/Bẫy
-   - P5 Xả (đảo mạnh sau chuỗi dồn)
-   - P6 Mở (tín hiệu đồng thuận + ít cảnh báo)
-========================= */
-function head(n){ return parseInt(n[0],10); }
-function tail(n){ return parseInt(n[1],10); }
-function canonTruc(n){
-  const a = head(n), b = tail(n);
-  const k1 = `${a}-${b}`, k2 = `${b}-${a}`;
-  return (k1 < k2) ? k1 : k2;
-}
-function entropy10(counts){
-  const sum = counts.reduce((a,b)=>a+b,0) || 1;
-  let e = 0;
-  for(const c of counts){
-    if(!c) continue;
-    const p = c/sum;
-    e += -p*Math.log2(p);
-  }
-  return e;
-}
+/* ---------- chạm/kép/bóng + kề ---------- */
+function quickSupport(topCandidates, headTail){
+  const headTop = headTail.hSorted.slice(0,3).map(([d])=>d);
+  const tailTop = headTail.tSorted.slice(0,3).map(([d])=>d);
 
-function readPhaseFromWindow(windowDays){
-  const thrTruc = safeNum(el("thrTruc").value, 4);
-  const recent = windowDays.slice(-5); // newest 5 days in window
+  const cham = [];
+  headTop.forEach(d=>cham.push(d));
+  tailTop.forEach(d=>cham.push(d));
+  const chamUni = [...new Set(cham)].slice(0,3);
 
-  const headCnt = Array(10).fill(0);
-  const tailCnt = Array(10).fill(0);
-  const chamCnt = Array(10).fill(0);
-  const trucCnt = {};
+  const kepList = topCandidates.filter(x=>isKep(x)).slice(0,4);
 
-  recent.forEach(d=>{
-    d.signal.forEach(n=>{
-      headCnt[head(n)]++;
-      tailCnt[tail(n)]++;
-      chamCnt[head(n)]++; chamCnt[tail(n)]++;
-      const k = canonTruc(n);
-      trucCnt[k] = (trucCnt[k]||0)+1;
-    });
-  });
+  const bongMain = bong(topCandidates[0] || "00");
 
-  const topHead = headCnt.map((v,i)=>[i,v]).sort((a,b)=>b[1]-a[1]).slice(0,3);
-  const topTail = tailCnt.map((v,i)=>[i,v]).sort((a,b)=>b[1]-a[1]).slice(0,3);
-  const topCham = chamCnt.map((v,i)=>[i,v]).sort((a,b)=>b[1]-a[1]).slice(0,3);
-  const topTruc = Object.entries(trucCnt).sort((a,b)=>b[1]-a[1]).slice(0,5).map(([k,v])=>({truc:k, score:v}));
-
-  const headStr = topHead[0]?.[1]||0;
-  const tailStr = topTail[0]?.[1]||0;
-  const chamStr = topCham[0]?.[1]||0;
-  const trucStr = topTruc[0]?.score||0;
-
-  // nhiễu (entropy cao = rải)
-  const eHead = entropy10(headCnt);
-  const eTail = entropy10(tailCnt);
-
-  // chấm điểm pha
-  let p1=0,p2=0,p3=0,p4=0,p5=0,p6=0;
-  // P1 (G7 lead)
-  if(chamStr>=6) p1+=2;
-  if(headStr>=4) p1+=1;
-  if(tailStr>=4) p1+=1;
-  if(trucStr < thrTruc) p1+=2;
-
-  // P2 (Trục lead)
-  if(trucStr>=thrTruc) p2+=3;
-  if(trucStr>=thrTruc+2) p2+=2;
-  if(chamStr<=5) p2+=1;
-
-  // P3 (Giao thoa)
-  if(trucStr>=thrTruc && chamStr>=6) p3+=5;
-
-  // P4 (Nhiễu)
-  if(trucStr < thrTruc && chamStr<=5) p4+=3;
-  if(eHead>2.8 && eTail>2.8) p4+=2;
-
-  // P5 (Xả): trước đó dồn mạnh nhưng hiện tại rải mạnh
-  // heuristic: trong 10 ngày cuối của window, có dồn cực, còn 5 ngày gần nhất entropy cao
-  const last10 = windowDays.slice(-10);
-  const headCnt10 = Array(10).fill(0);
-  const tailCnt10 = Array(10).fill(0);
-  last10.forEach(d=>{
-    d.signal.forEach(n=>{ headCnt10[head(n)]++; tailCnt10[tail(n)]++; });
-  });
-  const headMax10 = Math.max(...headCnt10), tailMax10 = Math.max(...tailCnt10);
-  if((headMax10>=10 || tailMax10>=10) && (eHead>2.9 || eTail>2.9)) p5 += 5;
-
-  // P6 (Mở): đồng thuận + ít nhiễu
-  if(p3>=5) p6 += 3;
-  if(p2>=4 && eHead<2.7 && eTail<2.7) p6 += 3;
-  if(p1>=4 && eHead<2.7) p6 += 2;
-
-  const scores = [
-    {pha:"P6 — MỞ", s:p6},
-    {pha:"P3 — GIAO THOA", s:p3},
-    {pha:"P2 — TRỤC LEAD", s:p2},
-    {pha:"P1 — G7 LEAD", s:p1},
-    {pha:"P5 — XẢ", s:p5},
-    {pha:"P4 — NHIỄU/BẪY", s:p4},
-  ].sort((a,b)=>b.s-a.s);
-
-  const best = scores[0];
-
-  // hướng soi
-  let guide = "";
-  if(best.pha.startsWith("P2")) guide = "ƯU TIÊN TRỤC (G7 xác nhận)";
-  else if(best.pha.startsWith("P1")) guide = "ƯU TIÊN G7/G6 (TRỤC phụ)";
-  else if(best.pha.startsWith("P3")) guide = "GIAO THOA: TRỤC làm khung, chọn đinh từ G7";
-  else if(best.pha.startsWith("P6")) guide = "MỞ: có thể đánh mạnh hơn (nếu anti-bẫy OK)";
-  else if(best.pha.startsWith("P5")) guide = "XẢ: giảm tay / né dàn to (dễ đảo)";
-  else guide = "NHIỄU: KHÔNG NÊN ĐÁNH / chỉ quan sát";
-
-  // anti-bẫy
-  const warns = [];
-  if(windowDays.length < 12) warns.push("Sample < 12: dễ lệch (app giảm tin cậy).");
-  if(headStr>=8) warns.push("Dồn ĐẦU quá mạnh → bẫy dồn.");
-  if(tailStr>=8) warns.push("Dồn ĐUÔI quá mạnh → bẫy dồn.");
-  if(best.pha.includes("NHIỄU")) warns.push("Pha nhiễu → né.");
-  if(best.pha.includes("XẢ")) warns.push("Pha xả → dễ đảo nhịp.");
-  if(eHead>2.95 && eTail>2.95) warns.push("Rải quá rộng → nhiễu cao.");
+  // kề: với n = ab -> kề (a(b±1)) và ((a±1)b) (cắt biên)
+  const main = topCandidates[0] || "00";
+  const a = parseInt(main[0],10), b = parseInt(main[1],10);
+  const ke = [];
+  if(b-1>=0) ke.push(""+a+(b-1));
+  if(b+1<=9) ke.push(""+a+(b+1));
+  if(a-1>=0) ke.push(""+(a-1)+b);
+  if(a+1<=9) ke.push(""+(a+1)+b);
+  const ke2 = [...new Set(ke.map(pad2))].slice(0,4);
 
   return {
-    best, scores, guide, warns,
-    signals: { topHead, topTail, topCham, topTruc, eHead, eTail, headStr, tailStr, chamStr, trucStr }
+    headStrong: headTop,
+    tailStrong: tailTop,
+    chamStrong: chamUni,
+    kepMain: kepList,
+    bongMain,
+    keMain: ke2
   };
 }
 
-/* =========================
-   MAIN RUN (latest prediction + log)
-========================= */
-function runGodMode(){
-  const days = parseLines(); // oldest->newest
-  const win = Math.max(8, safeNum(el("winDays").value, 20));
-  const topK = Math.max(4, safeNum(el("topK").value, 4));
-  const aiMode = el("aiMode").value;
+/* ---------- GOD MODE output builders ---------- */
+function buildGodReport(days, score, freq, gan, headTail){
+  const topN = Math.max(5, parseInt(el("topN").value||"15",10));
 
-  if(days.length < win+1){
-    setStatus("Thiếu dữ liệu", "fail");
-    el("out").textContent = `❌ Cần ít nhất ${win+1} dòng (window ${win} + 1 ngày để ổn).`;
-    el("phaseOut").textContent = "—";
-    el("btOut").textContent = "—";
-    return;
-  }
+  const scoreSorted = Object.entries(score)
+    .sort((a,b)=>b[1]-a[1])
+    .slice(0, Math.max(topN, 20))
+    .map(([n,s])=>({n, s}));
 
-  // Latest run: use last 'win' days (newest window) to predict "ngày tiếp theo"
-  const windowDays = days.slice(-win);
-  const pred = buildPrediction(windowDays);
-  const phase = readPhaseFromWindow(windowDays);
+  const scoreTop10 = scoreSorted.slice(0,10);
+  const top4 = scoreSorted.slice(0,4);
 
-  const top = pred.sorted.slice(0, topK).map(([n,s])=>({n, s, pct: pred.toPct(s)}));
-  const main = top[0]?.n || "--";
+  const top4Pct = scoreToPct(top4);
 
-  // Decision gate (cảnh báo mạnh)
-  let hardStop = false;
-  if(aiMode !== "off"){
-    const w = phase.warns.length;
-    if(phase.best.pha.includes("NHIỄU") || phase.best.pha.includes("XẢ")) hardStop = true;
-    if(w >= 2) hardStop = true;
-  }
+  const main4 = top4Pct.map(x=>`${x.n} (${x.pct}%)`);
+  const anti = antiBay(days, freq, gan, top4Pct);
 
-  // Output chốt
-  let out = `TOP ${topK} SỐ ƯU TIÊN (LOTO 2 SỐ):\n`;
-  top.forEach((x,i)=>{
-    out += `${i+1}. ${x.n}  →  ${x.pct.toFixed(1)}%\n`;
-  });
+  const pha = readPhase(days, freq, gan, headTail);
 
-  out += `\nCHỐT GOD MODE:\n`;
-  out += `🎯 Mũi chính: ${main}\n`;
-  out += `🧩 Bộ 4: ${top.map(x=>x.n).join(" ")}\n`;
-  out += `\nGHI CHÚ:\n- % là chỉ số tin cậy tương đối trong window (không phải xác suất thật)\n`;
+  const trucCand = buildTrucCandidates(headTail.hSorted, headTail.tSorted, 3);
+  const support = quickSupport(top4Pct.map(x=>x.n), headTail);
 
-  if(aiMode === "on" && hardStop){
-    out += `\n❌ AI GIÁM SÁT: KHÔNG NÊN ĐÁNH (cảnh báo mạnh)\n`;
-  }else if(aiMode === "soft" && hardStop){
-    out += `\n⚠️ AI GIÁM SÁT: GIẢM TAY / CẨN TRỌNG\n`;
-  }else{
-    out += `\n✅ AI GIÁM SÁT: OK\n`;
-  }
+  // “Trục chạy”: ưu tiên số nằm trong giao đầu mạnh + đuôi mạnh
+  const trucShown = trucCand.slice(0,9).join(" ");
 
-  el("out").textContent = out;
+  // block texts
+  const tSum =
+`=== ULTRA TỔNG HỢP (GOD MODE) ===
 
-  // Phase output (MASTER+++)
-  const sig = phase.signals;
-  let ph = `[KẾT LUẬN PHA — MASTER+++]\n${phase.best.pha}  (score=${phase.best.s})\n\n`;
-  ph += `[HƯỚNG SOI]\n${phase.guide}\n\n`;
-  ph += `[DẤU HIỆU]\n`;
-  ph += `- Trục top: ${sig.topTruc.map(x=>`${x.truc}=${x.score}`).join(", ")||"(none)"}\n`;
-  ph += `- Đầu mạnh: ${sig.topHead.map(x=>`${x[0]}(${x[1]})`).join(", ")}\n`;
-  ph += `- Đuôi mạnh: ${sig.topTail.map(x=>`${x[0]}(${x[1]})`).join(", ")}\n`;
-  ph += `- Chạm mạnh: ${sig.topCham.map(x=>`${x[0]}(${x[1]})`).join(", ")}\n`;
-  ph += `- Nhiễu (entropy): head=${sig.eHead.toFixed(2)} | tail=${sig.eTail.toFixed(2)}\n\n`;
-  ph += `[ANTI-BẪY]\n`;
-  ph += phase.warns.length ? phase.warns.map(w=>`⚠️ ${w}`).join("\n") : "OK (chưa thấy bẫy rõ).";
-  el("phaseOut").textContent = ph;
+1) TOP SCORE (Top 10):
+${scoreTop10.map(x=>`${x.n} → ${x.s.toFixed(2)}`).join("\n")}
 
-  // Backtest
-  const bt = backtest(days, win, topK);
-  el("btOut").textContent = bt.text;
+2) CHỐT 4 SỐ + %:
+${main4.map((s,i)=>`${i+1}. ${s}`).join("\n")}
 
-  // Log (only log latest “live” run)
-  const warnText = phase.warns.length ? phase.warns.join(" | ") : "OK";
-  const logEntry = {
-    ts: nowStamp(),
-    pha: phase.best.pha,
-    guide: phase.guide,
-    top: top.map(x=>x.n),
-    hardStop: (aiMode!=="off" && hardStop),
-    warn: warnText
-  };
-  addLog(logEntry);
-  setStatus("Done", "ok");
+3) HỖ TRỢ NHANH:
+- Đầu mạnh: ${support.headStrong.join(", ")}
+- Đuôi mạnh: ${support.tailStrong.join(", ")}
+- Chạm mạnh: ${support.chamStrong.join(", ")}
+- Kề MAIN:  ${support.keMain.join(" ")}
+- Bóng MAIN: ${support.bongMain}
+- Trục gợi ý: ${trucShown}
+
+4) ANTI-BẪY:
+${anti.map(x=>`- ${x}`).join("\n")}
+
+5) ĐỌC PHA (MASTER+++):
+- ${pha.pha} — ${pha.name}
+- G7 lead: ${(pha.g7Lead.rate*100).toFixed(0)}% (hits ${pha.g7Lead.hits}/${pha.g7Lead.total})
+- Hướng đánh: ${pha.guide}
+
+* Note: chỉ là tool hỗ trợ thống kê.
+`;
+
+  const tHG =
+`=== HOT / GAN (chuẩn) ===
+
+HOT Top:
+${Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,15).map(([n,c])=>`${n} → ${c}`).join("\n")}
+
+GAN (0=newest):
+- Top 4 đề xuất:
+${top4Pct.map(x=>`${x.n} → gan ${gan[x.n]} | hot ${(freq[x.n]||0)}`).join("\n")}
+
+Gợi ý:
+- gan 2..9: ổn để vào
+- gan 0: coi chừng bẫy
+- gan 999: tránh “mơ hồ” nếu không có trục xác nhận
+`;
+
+  const tHD =
+`=== ĐẦU / ĐUÔI ===
+
+Đầu Top:
+${headTail.hSorted.slice(0,10).map(([d,c])=>`${d} → ${c}`).join("\n")}
+
+Đuôi Top:
+${headTail.tSorted.slice(0,10).map(([d,c])=>`${d} → ${c}`).join("\n")}
+
+Giao đầu/đuôi (trục gợi ý):
+${trucShown}
+`;
+
+  const tCKB =
+`=== CHẠM / KÉP / BÓNG / KỀ ===
+
+Chạm mạnh: ${support.chamStrong.join(", ")}
+Kép ưu tiên (nếu có): ${support.kepMain.length ? support.kepMain.join(", ") : "(không nổi)"}
+
+Bóng MAIN: ${support.bongMain}
+Kề MAIN:  ${support.keMain.join(" ")}
+
+Gợi ý lọc:
+- Nếu pha P1 (G7 lead): ưu tiên kề/bóng/chạm quanh G7
+- Nếu pha P2 (Trục lead): ưu tiên số trục giao đầu/đuôi
+`;
+
+  const tTruc =
+`=== TRỤC (heuristic) ===
+
+Trục = giao (Đầu mạnh × Đuôi mạnh), dùng để định hướng “dòng chảy”.
+
+Trục gợi ý (Top): ${trucShown}
+
+Cách dùng (đúng MASTER+++):
+- Đọc pha trước
+- Nếu P2/P6: trục là chủ lực
+- Nếu P1: trục chỉ để xác nhận, không ép
+`;
+
+  const tPha =
+`=== AI ĐỌC PHA — MASTER+++ ===
+
+Bảng pha:
+P1: G7 Lead  → theo G7
+P2: Trục Lead → theo trục
+P3: Giao thoa → chọn lọc
+P4: Nhiễu     → né ngày
+P5: Xả        → hạn chế
+P6: Mở        → có thể đánh mạnh
+
+Kết luận hôm nay:
+- ${pha.pha} — ${pha.name}
+- G7 lead: ${(pha.g7Lead.rate*100).toFixed(0)}%
+- Hướng đánh: ${pha.guide}
+
+Cảnh báo:
+${anti.map(x=>`- ${x}`).join("\n")}
+`;
+
+  return {tSum, tHG, tHD, tCKB, tTruc, tPha, top4: top4Pct, pha};
 }
 
-/* =========================
-   BACKTEST (rolling)
-   - For t from win to N-1:
-     window = days[t-win .. t-1]
-     predict topK
-     hit if actual db2 at day t in topK
-   - Also stats by phase
-========================= */
-function backtest(days, win, topK){
-  const N = days.length;
-  let total=0, hit=0;
-  const byPha = {}; // pha -> {t,h}
-
-  for(let t=win; t<N; t++){
-    const windowDays = days.slice(t-win, t);
-    const actual = days[t].db2;
-
-    const pred = buildPrediction(windowDays);
-    const top = pred.sorted.slice(0, topK).map(x=>x[0]);
-
-    const phase = readPhaseFromWindow(windowDays);
-    const pha = phase.best.pha;
-
-    const ok = top.includes(actual);
-    total++;
-    if(ok) hit++;
-
-    if(!byPha[pha]) byPha[pha] = {t:0,h:0};
-    byPha[pha].t++;
-    if(ok) byPha[pha].h++;
-  }
-
-  const rate = total? (hit/total*100):0;
-
-  // build report
-  let text = `BACKTEST (${total} lượt) — Top${topK} trúng DB2: ${hit}/${total} = ${rate.toFixed(1)}%\n`;
-  text += `Window: ${win} ngày | Rule: dựa trên (DB2+G7) là chính, G6_2 phụ\n\n`;
-
-  // phase table
-  const rows = Object.entries(byPha).map(([pha, o])=>{
-    const r = o.t ? (o.h/o.t*100) : 0;
-    return {pha, t:o.t, h:o.h, r};
-  }).sort((a,b)=>b.r-a.r);
-
-  text += `[HIỆU SUẤT THEO PHA]\n`;
-  if(!rows.length){
-    text += "(chưa đủ dữ liệu)\n";
-  }else{
-    rows.forEach(x=>{
-      text += `- ${x.pha}: ${x.h}/${x.t} = ${x.r.toFixed(1)}%\n`;
-    });
-  }
-
-  // sanity warnings
-  text += `\n[GỢI Ý GOD MODE]\n`;
-  if(days.length < 15) text += `⚠️ Dữ liệu < 15: backtest chưa đáng tin.\n`;
-  if(rate < 20) text += `⚠️ Tỷ lệ thấp: xem lại thứ tự dữ liệu (newest/oldest) hoặc dữ liệu nhập sai format.\n`;
-  if(rate >= 35) text += `✅ Khá ổn: có thể dùng, nhưng vẫn ưu tiên AI anti-bẫy.\n`;
-
-  return {total, hit, rate, byPha, text};
-}
-
-/* =========================
-   LOG (localStorage)
-========================= */
-const LOG_KEY = "bh_godmode_log_v1";
+/* ---------- log module ---------- */
+const LOG_KEY = "BH_ULTRA_MASTER_LOG_V1";
 
 function loadLog(){
   try{
-    const s = localStorage.getItem(LOG_KEY);
-    const arr = s ? JSON.parse(s) : [];
-    return Array.isArray(arr)?arr:[];
+    return JSON.parse(localStorage.getItem(LOG_KEY) || "[]");
   }catch(e){ return []; }
 }
 function saveLog(arr){
-  localStorage.setItem(LOG_KEY, JSON.stringify(arr.slice(0,200))); // keep 200
-}
-function addLog(entry){
-  const arr = loadLog();
-  arr.unshift(entry);
-  saveLog(arr);
-  renderLog();
-}
-function clearLog(){
-  localStorage.removeItem(LOG_KEY);
-  renderLog();
+  localStorage.setItem(LOG_KEY, JSON.stringify(arr));
 }
 function renderLog(){
-  const tb = el("logTable").querySelector("tbody");
-  tb.innerHTML = "";
   const arr = loadLog();
-
   if(!arr.length){
-    const tr = document.createElement("tr");
-    tr.innerHTML = `<td colspan="5" class="small">Chưa có log.</td>`;
-    tb.appendChild(tr);
+    el("tab_log").textContent = "Chưa có nhật ký.";
+    return;
+  }
+  // stats
+  const total = arr.length;
+  const hit = arr.filter(x=>x.hit===true).length;
+  const rate = total ? (hit/total*100).toFixed(0) : "0";
+
+  const byReason = {};
+  arr.forEach(x=>{
+    const r = x.reason || "unknown";
+    byReason[r] = (byReason[r]||0)+1;
+  });
+
+  let s =
+`=== NHẬT KÝ APP (tự chấm điểm) ===
+
+Tổng ngày đã chấm: ${total}
+Trúng trong 4 số:  ${hit}
+Tỉ lệ:            ${rate}%
+
+Ghi chú (thô):
+${arr.slice(-20).reverse().map(x=>`- ${x.ts} | chốt: ${x.pick.join(" ")} | DB: ${x.db} | ${x.hit?"TRÚNG":"TRƯỢT"} | pha ${x.pha}`).join("\n")}
+`;
+  el("tab_log").textContent = s;
+}
+
+function nowStamp(){
+  const d = new Date();
+  const z = (n)=>String(n).padStart(2,"0");
+  return `${z(d.getDate())}/${z(d.getMonth()+1)} ${z(d.getHours())}:${z(d.getMinutes())}`;
+}
+
+/* ---------- tabs ---------- */
+function setTab(name){
+  const tabs = document.querySelectorAll(".tab");
+  tabs.forEach(t=>t.classList.remove("active"));
+  document.querySelector(`.tab[data-tab="${name}"]`)?.classList.add("active");
+
+  const ids = ["sum","hg","hd","ckb","truc","pha"];
+  ids.forEach(x=>{
+    const e = el("tab_"+x);
+    if(e) e.style.display = (x===name) ? "block" : "none";
+  });
+
+  el("tab_log_wrap").style.display = (name==="log") ? "block" : "none";
+}
+document.querySelectorAll(".tab").forEach(t=>{
+  t.addEventListener("click", ()=> setTab(t.dataset.tab));
+});
+
+/* ---------- FULL analysis (giữ output cũ + thêm GOD MODE) ---------- */
+function runFULL(){
+  const win = Math.max(5, parseInt(el("winDays").value||"20",10));
+  const days = parseLinesWithWin(win);
+  if(days.length < 5){
+    el("out").textContent = "❌ Thiếu dữ liệu: cần ít nhất 5 dòng (5 ngày).";
+    el("godCard").style.display = "none";
     return;
   }
 
-  for(const it of arr){
-    const tr = document.createElement("tr");
-    const top = (it.top||[]).join(" ");
-    const warn = it.hardStop ? ("❌ " + (it.warn||"Cảnh báo")) : (it.warn||"OK");
-    tr.innerHTML = `
-      <td>${it.ts||""}</td>
-      <td>${it.pha||""}</td>
-      <td>${it.guide||""}</td>
-      <td><b>${top}</b></td>
-      <td>${warn}</td>
-    `;
-    tb.appendChild(tr);
-  }
+  const topN = Math.max(5, parseInt(el("topN").value||"15",10));
+  const wHot = parseFloat(el("wHot").value||"2");
+  const wGan = parseFloat(el("wGan").value||"1.5");
+  const wPas = parseFloat(el("wPas").value||"2");
+
+  const {freq, gan} = buildHotGan(days);
+  const headTail = buildHeadTail(days);
+  const score = buildScore(days, freq, gan, wHot, wGan, wPas);
+
+  // base output (như bạn đang có, không phá)
+  const hotSorted = Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,topN);
+  const scoreSorted = Object.entries(score).sort((a,b)=>b[1]-a[1]).slice(0,topN);
+  const main = scoreSorted[0]?.[0] || "--";
+  const sub  = scoreSorted[1]?.[0] || "--";
+
+  let out =
+`Tổng ngày: ${days.length}
+
+TOP HOT:
+${hotSorted.map(([n,c])=>`${n} → ${c}`).join("\n")}
+
+TOP SCORE (hot+gan+pascal nhẹ):
+${scoreSorted.map(([n,s])=>`${n} → ${s.toFixed(2)}`).join("\n")}
+
+CHỐT GỢI Ý (tham khảo):
+🎯 Chính: ${main}
+🛡️ Phụ:  ${sub}
+
+* Tool thống kê hỗ trợ, không đảm bảo trúng
+`;
+  el("out").textContent = out;
+
+  // GOD MODE report
+  const rep = buildGodReport(days, score, freq, gan, headTail);
+
+  el("godCard").style.display = "block";
+  el("tab_sum").textContent = rep.tSum;
+  el("tab_hg").textContent  = rep.tHG;
+  el("tab_hd").textContent  = rep.tHD;
+  el("tab_ckb").textContent = rep.tCKB;
+  el("tab_truc").textContent= rep.tTruc;
+  el("tab_pha").textContent = rep.tPha;
+
+  // default tab
+  setTab("sum");
+
+  // log hint: update view
+  renderLog();
+
+  // store last pick to use when user chấm
+  window.__LAST_PICK__ = rep.top4.map(x=>x.n);
+  window.__LAST_PHA__  = rep.pha.pha;
 }
 
-/* =========================
-   IMPORT / EXPORT LOG
-========================= */
-function exportLog(){
+/* ---------- log buttons ---------- */
+el("btnLogSave").onclick = ()=>{
+  const db = (el("log_db").value||"").replace(/\D/g,"").slice(-2);
+  if(db.length!==2){ alert("Nhập DB 2 số (vd: 45)"); return; }
+  const pick = window.__LAST_PICK__ || [];
+  if(!pick.length){ alert("Chưa chạy FULL để có 4 số chốt."); return; }
+  const pha = window.__LAST_PHA__ || "--";
+  const hit = pick.includes(pad2(db));
   const arr = loadLog();
-  const blob = new Blob([JSON.stringify({exported_at: nowStamp(), log: arr}, null, 2)], {type:"application/json"});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "BuiHao_GODMODE_log.json";
-  a.click();
-  URL.revokeObjectURL(url);
-}
-function importLogFile(file){
-  const r = new FileReader();
-  r.onload = ()=>{
-    try{
-      const obj = JSON.parse(String(r.result||"{}"));
-      const incoming = Array.isArray(obj.log) ? obj.log : [];
-      const cur = loadLog();
-      const merged = [...incoming, ...cur].slice(0,200);
-      saveLog(merged);
-      renderLog();
-      alert("Import log OK.");
-    }catch(e){
-      alert("File log không hợp lệ.");
-    }
-  };
-  r.readAsText(file);
-}
-
-/* =========================
-   UI EVENTS
-========================= */
-el("btnRun").onclick = ()=>{
-  setStatus("Running…", "warn");
-  try{ runGodMode(); }catch(e){
-    setStatus("Error", "fail");
-    el("out").textContent = "❌ Lỗi runtime: " + (e?.message || e);
+  arr.push({
+    ts: nowStamp(),
+    db: pad2(db),
+    pick,
+    hit,
+    pha,
+    reason: "auto"
+  });
+  saveLog(arr);
+  renderLog();
+  alert(hit ? "✅ TRÚNG (nằm trong 4 số)" : "❌ TRƯỢT (không nằm trong 4 số)");
+};
+el("btnLogClear").onclick = ()=>{
+  if(confirm("Xóa toàn bộ nhật ký?")){
+    saveLog([]);
+    renderLog();
   }
 };
 
-el("btnSample").onclick = ()=>{
-  // Newest on top sample (common). If user keeps newest_first, app will reverse internally.
-  el("inputData").value =
-`DB 59 | G7: 21 41 02 14 | G6: 003 063 087
-DB 13 | G7: 77 19 86 10 | G6: 484 417 202
-DB 14 | G7: 81 87 60 32 | G6: 206 200 971
-DB 21 | G7: 76 47 21 77 | G6: 801 295 993
-DB 45 | G7: 03 82 85 81 | G6: 392 255 854
-DB 72 | G7: 30 92 51 66 | G6: 610 298 114
-DB 08 | G7: 71 14 20 93 | G6: 514 608 371
-DB 63 | G7: 19 82 63 27 | G6: 295 602 417
-DB 07 | G7: 07 17 27 37 | G6: 107 217 327
-DB 90 | G7: 90 09 19 29 | G6: 190 290 390
-DB 33 | G7: 03 13 23 33 | G6: 133 233 333
-DB 66 | G7: 16 26 36 46 | G6: 166 266 366
-DB 41 | G7: 41 14 24 34 | G6: 141 241 341
-DB 82 | G7: 82 28 18 08 | G6: 182 282 382
-DB 05 | G7: 05 15 25 35 | G6: 105 205 305`;
-};
-
-el("btnClearAll").onclick = ()=>{
-  if(confirm("Xóa toàn bộ dữ liệu + log?")){
-    el("inputData").value = "";
-    clearLog();
-    el("out").textContent = "Chưa chạy.";
-    el("phaseOut").textContent = "Chưa chạy.";
-    el("btOut").textContent = "Chưa chạy.";
-    setStatus("Cleared", "ok");
-  }
-};
-
-el("btnClearLog").onclick = ()=>{
-  if(confirm("Xóa log?")) clearLog();
-};
-
-el("btnExport").onclick = exportLog;
-
-el("btnImport").onclick = ()=> el("fileImport").click();
-el("fileImport").addEventListener("change", (e)=>{
-  const f = (e.target.files||[])[0];
-  if(f) importLogFile(f);
-  e.target.value = "";
-});
-
-// init
-renderLog();
+/* bind */
+el("btnFull").onclick = runFULL;
 </script>
-
-</div>
 </body>
 </html>
