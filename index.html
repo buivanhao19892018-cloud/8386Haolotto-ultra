@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
-  <title>Bùi Hào — Lotto ULTRA MASTER (OCR Gate FINAL v2.1)</title>
+  <title>Bùi Hào — Lotto ULTRA MASTER (OCR Gate FINAL v3 - PP Lô 2 số)</title>
   <meta name="theme-color" content="#0b1220"/>
   <style>
     :root{
@@ -164,6 +164,12 @@
     }
     .kpi .box .t{font-size:12px;color:var(--muted)}
     .kpi .box .v{font-size:16px;font-weight:800;margin-top:4px}
+
+    /* tab active nhẹ */
+    .btn.ghost.active{
+      border-color:rgba(255,255,255,.22);
+      box-shadow:0 10px 18px rgba(255,255,255,.05);
+    }
   </style>
 </head>
 
@@ -171,21 +177,22 @@
 <div class="wrap">
 
   <div class="card">
-    <h1>Bùi Hào — Lotto ULTRA MASTER (OCR Gate FINAL v2.1)</h1>
+    <h1>Bùi Hào — Lotto ULTRA MASTER (OCR Gate FINAL v3)</h1>
     <div class="pillrow">
       <div class="pill"><span class="dot g"></span>OpenCV</div>
       <div class="pill"><span class="dot g"></span>Tesseract OCR</div>
       <div class="pill"><span class="dot y"></span>Gate cứng</div>
       <div class="pill"><span class="dot y"></span>Batch nhiều ảnh</div>
       <div class="pill"><span class="dot y"></span>DB theo nhãn “ĐB/DB” + 5 số</div>
-      <div class="pill"><span class="dot y"></span>G7/G6 theo pattern (chống nhầm ngày)</div>
+      <div class="pill"><span class="dot y"></span>G7/G6 theo pattern (không cần số 6/7)</div>
+      <div class="pill"><span class="dot g"></span>PP Lô 2 số (xịn)</div>
     </div>
 
     <div class="hint">
       Luồng chuẩn: <b>Upload nhiều ảnh</b> → tool tự cắt vùng bảng → <b>DB: tìm nhãn ĐB/DB + 5 số</b> →
-      <b>G7: ưu tiên dòng bắt đầu “7” + lấy 4 số 2 chữ số (lấy 4 số cuối)</b> →
-      <b>G6: dòng phía trên + 3 số 3 chữ số (lấy 3 số cuối)</b> →
-      <b>Gate pass</b> mới đổ vào dữ liệu → chạy FULL. <br/>
+      <b>G7: dòng gần cuối có 4 số 2 chữ số</b> → <b>G6: dòng phía trên có 3 số 3 chữ số</b> →
+      <b>Gate pass</b> mới đổ vào dữ liệu → chạy FULL → soi PP lô 2 số.
+      <br/>
       (*Tool thống kê hỗ trợ phân tích, không đảm bảo kết quả.)
     </div>
 
@@ -211,7 +218,7 @@
       <div>
         <h2 class="sectionTitle">Ảnh → OCR → Gate</h2>
         <div class="hint">
-          Mẹo: crop sát phần bảng (từ “ĐB” tới hàng “7”). Tránh dính footer tab (Miền Bắc/Trung/Nam) và header quảng cáo.
+          Mẹo: crop sát phần bảng (từ “ĐB” tới “7”). Tránh dính footer tab (Miền Bắc/Trung/Nam) và header quảng cáo.
         </div>
 
         <div class="preview" style="margin-top:10px">
@@ -295,6 +302,25 @@
   <div class="card">
     <h2 class="sectionTitle">KẾT QUẢ FULL</h2>
     <div class="mono" id="out">Chưa có dữ liệu.</div>
+  </div>
+
+  <!-- NEW: PP SOI CẦU -->
+  <div class="card">
+    <h2 class="sectionTitle">SOI CẦU LÔ 2 SỐ — ULTRA</h2>
+    <div class="hint">
+      Tổng hợp theo: <b>Hot/Gan</b> • <b>Đầu/Đuôi</b> • <b>Chạm</b> • <b>Kề</b> • <b>Bóng</b> • <b>Trục</b> • <b>Anti-bẫy</b>.
+      (Chạy sau khi bấm <b>Chạy FULL</b>.)
+    </div>
+
+    <div class="row" style="margin-top:10px">
+      <button class="btn ghost" id="tabHot">Hot/Gan</button>
+      <button class="btn ghost" id="tabHeadTail">Đầu/Đuôi</button>
+      <button class="btn ghost" id="tabTouch">Chạm/Kề/Bóng</button>
+      <button class="btn ghost" id="tabTruc">Trục</button>
+      <button class="btn" id="tabAll">Tổng hợp</button>
+    </div>
+
+    <div class="mono" id="ppOut" style="margin-top:10px">Chưa chạy FULL.</div>
   </div>
 
   <div class="card">
@@ -400,59 +426,48 @@ function cleanOCRDigits(txt){
 }
 
 function extractDB5_fromLabel(text){
+  // tìm đoạn có nhãn ĐB / DB, sau đó bắt 5 số ngay sau
+  // OCR có thể mất dấu Đ => vẫn ưu tiên bắt "DB"
+  // dùng regex mềm: (D|Đ)\s*B\s* + 5digits
   const t = text.replace(/\s+/g," ");
   let m = t.match(/(?:Đ\s*B|D\s*B)\s*(\d{5})/);
   if(m) return m[1];
+
+  // fallback: tìm 1 số 5 chữ số "đậm" nhất gần top: lấy số 5 chữ số đầu tiên
   m = t.match(/\b\d{5}\b/);
   return m ? m[0] : "";
 }
 
-/* =========================================================
-   FIX CORE: G7/G6 robust (chống nhầm ngày, nhầm thứ tự)
-   - G7: ưu tiên dòng bắt đầu "7" + lấy 4 số 2 chữ số CUỐI
-   - G6: ưu tiên dòng trước G7 + lấy 3 số 3 chữ số CUỐI
-========================================================= */
 function findG7Line(lines){
-  // 1) Ưu tiên dòng bắt đầu bằng 7 (G7 thật)
   for(let i=lines.length-1;i>=0;i--){
-    const line = lines[i];
-    if(/^\s*7\b/.test(line)){
-      const nums2 = line.match(/\b\d{2}\b/g) || [];
-      if(nums2.length >= 4){
-        return {arr: nums2.slice(-4), idx:i, line};
-      }
-    }
-  }
-  // 2) Fallback: dòng nào có >=4 số 2 chữ số thì lấy 4 số CUỐI
-  for(let i=lines.length-1;i>=0;i--){
-    const line = lines[i];
-    const nums2 = line.match(/\b\d{2}\b/g) || [];
+    const nums2 = (lines[i].match(/\b\d{2}\b/g) || []);
     if(nums2.length >= 4){
-      return {arr: nums2.slice(-4), idx:i, line};
+      return {arr: nums2.slice(0,4), idx:i, line:lines[i]};
     }
   }
   return {arr:[], idx:-1, line:""};
 }
 
 function findG6Line(lines, g7Index){
-  // ưu tiên phía trên G7
   for(let i=g7Index-1;i>=0;i--){
     const nums3 = (lines[i].match(/\b\d{3}\b/g) || []);
     if(nums3.length >= 3){
-      return {arr: nums3.slice(-3), idx:i, line:lines[i]};
+      return {arr: nums3.slice(0,3), idx:i, line:lines[i]};
     }
   }
-  // fallback: scan toàn bộ (lấy dòng gần cuối có 3 số 3 chữ số)
   for(let i=lines.length-1;i>=0;i--){
     const nums3 = (lines[i].match(/\b\d{3}\b/g) || []);
     if(nums3.length >= 3){
-      return {arr: nums3.slice(-3), idx:i, line:lines[i]};
+      return {arr: nums3.slice(0,3), idx:i, line:lines[i]};
     }
   }
   return {arr:[], idx:-1, line:""};
 }
 
 function gateCheck(db5, g6_3, g7_4){
+  // DB: phải có 5 số, db2 là 2 số cuối
+  // G6: 3 số, mỗi số 3 chữ số
+  // G7: 4 số, mỗi số 2 chữ số
   if(!/^\d{5}$/.test(db5)) return {ok:false, reason:"DB không đủ 5 số"};
   if(!g7_4 || g7_4.length!==4 || !g7_4.every(x=>/^\d{2}$/.test(x))) return {ok:false, reason:"G7 phải đúng 4 số (2 chữ số)"};
   if(!g6_3 || g6_3.length!==3 || !g6_3.every(x=>/^\d{3}$/.test(x))) return {ok:false, reason:"G6 phải đúng 3 số (3 chữ số)"};
@@ -480,6 +495,7 @@ async function runOCRFromBlob(blob){
   setBadge("stGate", "● Gate: checking…", "warn");
   showKPI("", [], [], "--");
 
+  // load image
   const url = URL.createObjectURL(blob);
   el("imgPreview").src = url;
 
@@ -487,6 +503,7 @@ async function runOCRFromBlob(blob){
     el("imgPreview").onload = ()=>r();
   });
 
+  // draw to canvas
   const img = el("imgPreview");
   const canvas = el("cvCanvas");
   canvas.style.display = "none";
@@ -495,8 +512,8 @@ async function runOCRFromBlob(blob){
   const ctx = canvas.getContext("2d");
   ctx.drawImage(img,0,0);
 
+  // OpenCV read
   let src = cv.imread(canvas); // RGBA
-
   // crop nhẹ biên để giảm footer/header dính
   const W = src.cols, H = src.rows;
   const crop = src.roi(new cv.Rect(
@@ -517,6 +534,7 @@ async function runOCRFromBlob(blob){
   const upperCanvas = canvasFromMat(upperBin);
   const upperTxt1 = await ocrText(upperCanvas);
 
+  // invert pass upper
   const upperInv = new cv.Mat(); cv.bitwise_not(upperBin, upperInv);
   const upperCanvas2 = canvasFromMat(upperInv);
   const upperTxt2 = await ocrText(upperCanvas2);
@@ -548,9 +566,11 @@ async function runOCRFromBlob(blob){
   src.delete();
   URL.revokeObjectURL(url);
 
+  // Gate
   const gate = gateCheck(db5, g6, g7);
   const db2 = (/^\d{5}$/.test(db5)) ? db5.slice(-2) : "";
 
+  // Debug box
   el("dbg").textContent =
 `[UPPER_OCR]
 ${upperTxt || "(empty)"}
@@ -570,7 +590,6 @@ ${g6Found.line || "(none)"}
 
   showKPI(db2, g6, g7, gate.ok ? "PASS" : "FAIL");
   setBadge("stOcr", "● OCR: done", "ok");
-
   if(gate.ok){
     setBadge("stGate", "● Gate: PASS", "ok");
     addLineToInput(db5, g7, g6);
@@ -578,6 +597,8 @@ ${g6Found.line || "(none)"}
   }else{
     setBadge("stGate", `● Gate: FAIL — ${gate.reason}`, "fail");
     batchFail++;
+
+    // gợi ý manual điền sẵn (nếu có)
     el("manualDB").value = db2 || "";
     el("manualG6").value = g6.length ? g6.join(" ") : "";
     el("manualG7").value = g7.length ? g7.join(" ") : "";
@@ -595,6 +616,8 @@ function parseManual(){
   if(db2.length!==2) return {ok:false, msg:"DB manual phải đúng 2 số"};
   if(g6.length<3) return {ok:false, msg:"G6 manual phải đủ 3 số (3 chữ số)"};
   if(g7.length<4) return {ok:false, msg:"G7 manual phải đủ 4 số (2 chữ số)"};
+
+  // DB5 giả lập (để thống nhất format), chỉ cần db2 cho tool full
   const fakeDB5 = "000" + db2;
   return {ok:true, fakeDB5, g6:g6.slice(0,3), g7:g7.slice(0,4)};
 }
@@ -617,12 +640,14 @@ el("fileMulti").addEventListener("change", async (e)=>{
   if(!files.length) return;
 
   setBadge("stOcr","● OCR: batch running…","warn");
+  // reset batch counters for this run
   batchOK = 0; batchFail = 0;
   setStatus();
 
+  // chạy tuần tự để đỡ crash trên Android
   for(const f of files){
     await runOCRFromBlob(f);
-    await new Promise(r=>setTimeout(r, 120));
+    await new Promise(r=>setTimeout(r, 120)); // thở nhẹ
   }
   setBadge("stOcr","● OCR: batch done","ok");
 });
@@ -641,6 +666,7 @@ el("btnRetryLast").onclick = async ()=>{
 el("btnClear").onclick = ()=>{
   el("inputData").value = "";
   el("out").textContent = "Chưa có dữ liệu.";
+  el("ppOut").textContent = "Chưa chạy FULL.";
   el("dbg").textContent = "Chưa có OCR.";
   batchOK=0; batchFail=0;
   setBadge("stOcr","● OCR: idle","ok");
@@ -664,20 +690,24 @@ DB 59 | G7: 21 41 02 14 | G6: 03 63 87`;
 function parseLines(){
   const raw = el("inputData").value.trim().split("\n").map(s=>s.trim()).filter(Boolean);
   const win = Math.max(5, parseInt(el("winDays").value||"30",10));
-  const slice = raw.slice(0, win);
+  const slice = raw.slice(0, win); // nếu bạn dán newest ở trên
   const days = [];
 
   for(const line of slice){
+    // format: DB xx | G7: a b c d | G6: xxx yyy zzz
     const dbm = line.match(/DB\s+(\d{2})/);
     const g7m = line.match(/G7:\s*([0-9 ]+)/);
     const g6m = line.match(/G6:\s*([0-9 ]+)/);
+
     if(!dbm || !g7m || !g6m) continue;
 
     const db2 = dbm[1];
     const g7 = (g7m[1].match(/\b\d{2}\b/g)||[]).slice(0,4);
     const g6 = (g6m[1].match(/\b\d{3}\b/g)||[]).slice(0,3);
 
+    // bóc 00-99 từ g6 (3 chữ số -> lấy 2 số cuối)
     const g6_2 = g6.map(x=>x.slice(-2));
+
     const pool = [db2, ...g7, ...g6_2].map(pad2);
     days.push({db2, g7, g6_2, pool});
   }
@@ -688,40 +718,51 @@ function runFULL(){
   const days = parseLines();
   if(days.length < 5){
     el("out").textContent = "❌ Thiếu dữ liệu: cần ít nhất 5 dòng (5 ngày).";
+    el("ppOut").textContent = "❌ Thiếu dữ liệu: chưa chạy PP.";
     return;
   }
 
   const topN = Math.max(5, parseInt(el("topN").value||"15",10));
   const wHot = parseFloat(el("wHot").value||"2");
   const wGan = parseFloat(el("wGan").value||"1.5");
+  const wPas = parseFloat(el("wPas").value||"2"); // giữ nguyên (chưa dùng sâu)
 
+  // freq (hot)
   const freq = {};
   days.forEach(d=>d.pool.forEach(n=>freq[n]=(freq[n]||0)+1));
 
+  // gan: số ngày kể từ lần xuất hiện gần nhất (trong window)
   const lastSeen = {};
   days.forEach((d, idx)=>{
     d.pool.forEach(n=>{
-      if(lastSeen[n]===undefined) lastSeen[n]=idx;
+      if(lastSeen[n]===undefined) lastSeen[n]=idx; // idx 0 là newest
     });
   });
+  const gan = {};
+  for(let i=0;i<100;i++){
+    const n = pad2(i);
+    gan[n] = (lastSeen[n]===undefined) ? 999 : lastSeen[n];
+  }
 
+  // score: hot cao + gan vừa phải (không quá 999)
   const score = {};
   for(let i=0;i<100;i++){
     const n = pad2(i);
     const hot = freq[n]||0;
-    const g = (lastSeen[n]===undefined) ? 999 : lastSeen[n];
-
+    const g = gan[n];
+    // gan ưu tiên 2..9, phạt gan quá dài
     const ganScore = (g===999) ? -2 : (g>=2 && g<=9 ? 2 : (g===0 ? -1 : 0));
     score[n] = hot*wHot + ganScore*wGan;
   }
 
+  // sort
   const hotSorted = Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,topN);
   const scoreSorted = Object.entries(score).sort((a,b)=>b[1]-a[1]).slice(0,topN);
 
   const main = scoreSorted[0]?.[0] || "--";
   const sub  = scoreSorted[1]?.[0] || "--";
 
-  el("out").textContent =
+  let out =
 `Tổng ngày: ${days.length}
 
 TOP HOT:
@@ -736,9 +777,254 @@ CHỐT GỢI Ý:
 
 * Tool thống kê hỗ trợ, không đảm bảo trúng
 `;
+
+  el("out").textContent = out;
+
+  // NEW: build PP ULTRA
+  const pp = buildUltraPP(days, topN);
+  wireTabs(pp);
 }
 
 el("btnFull").onclick = runFULL;
+
+/* ===========================
+   ULTRA PP: HOT/GAN + HEAD/TAIL + TOUCH + KE + BONG + TRUC + ANTI-BAy
+=========================== */
+
+// bong (đối xứng 9)
+function bongOf(d){ return String(9 - parseInt(d,10)); }
+
+function buildPool(days){
+  const freq = {};
+  for(let i=0;i<100;i++) freq[pad2(i)] = 0;
+  days.forEach(d=>{
+    d.pool.forEach(n=>{ freq[n] = (freq[n]||0) + 1; });
+  });
+  return freq;
+}
+
+function buildLastSeen(days){
+  const lastSeen = {};
+  days.forEach((d, idx)=>{
+    d.pool.forEach(n=>{
+      if(lastSeen[n]===undefined) lastSeen[n] = idx;
+    });
+  });
+  for(let i=0;i<100;i++){
+    const n = pad2(i);
+    if(lastSeen[n]===undefined) lastSeen[n] = 999;
+  }
+  return lastSeen;
+}
+
+function headTailStats(days){
+  const head = Array(10).fill(0);
+  const tail = Array(10).fill(0);
+  days.forEach(d=>{
+    d.pool.forEach(n=>{
+      head[parseInt(n[0],10)]++;
+      tail[parseInt(n[1],10)]++;
+    });
+  });
+  return {head, tail};
+}
+
+function touchStats(days){
+  const touch = Array(10).fill(0);
+  days.forEach(d=>{
+    d.pool.forEach(n=>{
+      touch[parseInt(n[0],10)]++;
+      touch[parseInt(n[1],10)]++;
+    });
+  });
+  return touch;
+}
+
+function keSetOf(n){
+  const a = parseInt(n[0],10), b = parseInt(n[1],10);
+  const k = [];
+  const pm = (x)=>[(x+9)%10,(x+1)%10];
+  pm(a).forEach(ha=>k.push(`${ha}${b}`));
+  pm(b).forEach(tb=>k.push(`${a}${tb}`));
+  return [...new Set(k.map(pad2))];
+}
+
+function trucOf(n){
+  const a = parseInt(n[0],10), b = parseInt(n[1],10);
+  return (a+b)%10;
+}
+
+function fmtPairs(arr){
+  return arr.map(([k,v])=>`${k} → ${Number(v).toFixed(2)}`).join("\n");
+}
+
+function antiBayHints(scoreSorted, lastSeen, freq){
+  const warns = [];
+  const top = scoreSorted.slice(0, 10).map(x=>x[0]);
+
+  const justHit = top.filter(n=>lastSeen[n]===0);
+  if(justHit.length) warns.push(`⚠️ Bẫy lặp: số vừa xuất hiện (gan=0) nhưng đang top: ${justHit.join(" ")}`);
+
+  const weird = top.filter(n=>(freq[n]||0)>=3 && lastSeen[n]>=20 && lastSeen[n]!==999);
+  if(weird.length) warns.push(`⚠️ Nóng nhưng gan dài bất thường (check crop/dữ liệu): ${weird.join(" ")}`);
+
+  const heads = {}; const tails = {};
+  top.forEach(n=>{
+    heads[n[0]]=(heads[n[0]]||0)+1;
+    tails[n[1]]=(tails[n[1]]||0)+1;
+  });
+  const maxHead = Math.max(...Object.values(heads));
+  const maxTail = Math.max(...Object.values(tails));
+  if(maxHead>=6) warns.push(`⚠️ Dồn đầu mạnh (>=6/10 số top cùng 1 đầu) → dễ nhiễu/overfit.`);
+  if(maxTail>=6) warns.push(`⚠️ Dồn đuôi mạnh (>=6/10 số top cùng 1 đuôi) → dễ nhiễu/overfit.`);
+
+  return warns.length ? warns.join("\n") : "OK (chưa thấy bẫy rõ).";
+}
+
+function buildUltraPP(days, topN){
+  const freq = buildPool(days);
+  const lastSeen = buildLastSeen(days);
+  const {head, tail} = headTailStats(days);
+  const touch = touchStats(days);
+
+  // Score giữ đúng logic FULL
+  const wHot = parseFloat(el("wHot").value||"2");
+  const wGan = parseFloat(el("wGan").value||"1.5");
+
+  const score = {};
+  for(let i=0;i<100;i++){
+    const n = pad2(i);
+    const hot = freq[n]||0;
+    const g = lastSeen[n]; // 0 newest
+    const ganScore = (g===999) ? -2 : (g>=2 && g<=9 ? 2 : (g===0 ? -1 : 0));
+    score[n] = hot*wHot + ganScore*wGan;
+  }
+  const scoreSorted = Object.entries(score)
+    .sort((a,b)=>b[1]-a[1])
+    .slice(0, topN);
+
+  const main = scoreSorted[0]?.[0] || "??";
+  const sub  = scoreSorted[1]?.[0] || "??";
+
+  // top đầu/đuôi/chạm
+  const headRank = head.map((v,i)=>[String(i), v]).sort((a,b)=>b[1]-a[1]).slice(0,3);
+  const tailRank = tail.map((v,i)=>[String(i), v]).sort((a,b)=>b[1]-a[1]).slice(0,3);
+  const touchRank = touch.map((v,i)=>[String(i), v]).sort((a,b)=>b[1]-a[1]).slice(0,5);
+
+  const mainKe = keSetOf(main).join(" ");
+  const subKe  = keSetOf(sub).join(" ");
+
+  const mainBong = pad2(bongOf(main[0]) + bongOf(main[1]));
+  const subBong  = pad2(bongOf(sub[0]) + bongOf(sub[1]));
+
+  // trục sum%10 gom top20
+  const trucMap = {};
+  scoreSorted.slice(0,20).forEach(([n,s])=>{
+    const t = trucOf(n);
+    trucMap[t] = trucMap[t] || [];
+    trucMap[t].push(n);
+  });
+  const trucLines = Object.entries(trucMap)
+    .sort((a,b)=>b[1].length - a[1].length)
+    .slice(0,5)
+    .map(([t,arr])=>`Trục ${t}: ${arr.join(" ")}`)
+    .join("\n");
+
+  const warns = antiBayHints(scoreSorted, lastSeen, freq);
+
+  return {
+    hotGanBlock:
+`[HOT/GAN — TOP SCORE]
+${fmtPairs(scoreSorted)}
+
+Chốt gợi ý:
+🎯 Chính: ${main}
+🛡️ Phụ:  ${sub}
+
+Anti-bẫy:
+${warns}
+`,
+
+    headTailBlock:
+`[ĐẦU mạnh]
+${headRank.map(([d,v])=>`Đầu ${d} → ${v}`).join("\n")}
+
+[ĐUÔI mạnh]
+${tailRank.map(([d,v])=>`Đuôi ${d} → ${v}`).join("\n")}
+
+Gợi ý ráp nhanh:
+- Ráp Đầu(top) × Đuôi(top) → tạo dàn nhỏ
+- Lọc lại bằng TOP SCORE để tránh ảo
+`,
+
+    touchKeBongBlock:
+`[CHẠM mạnh (đếm chữ số xuất hiện)]
+${touchRank.map(([d,v])=>`Chạm ${d} → ${v}`).join("\n")}
+
+[KỀ]
+Kề của Chính ${main}: ${mainKe}
+Kề của Phụ  ${sub}:  ${subKe}
+
+[BÓNG (đối 9)]
+Bóng Chính ${main} → ${mainBong}
+Bóng Phụ  ${sub}  → ${subBong}
+`,
+
+    trucBlock:
+`[TRỤC (sum 2 số mod 10) — gom top 20]
+${trucLines || "(none)"}
+
+Gợi ý:
+- Trục nào gom dày → ưu tiên quan sát trục đó
+- Nhưng vẫn phải qua Anti-bẫy
+`,
+
+    allBlock:
+`=== ULTRA TỔNG HỢP ===
+
+1) TOP SCORE (Top 10):
+${fmtPairs(scoreSorted.slice(0,10))}
+
+2) CHỐT:
+🎯 Chính: ${main}
+🛡️ Phụ:  ${sub}
+
+3) HỖ TRỢ NHANH:
+- Đầu mạnh: ${headRank.map(x=>x[0]).join(", ")}
+- Đuôi mạnh: ${tailRank.map(x=>x[0]).join(", ")}
+- Chạm mạnh: ${touchRank.slice(0,3).map(x=>x[0]).join(", ")}
+- Kề Chính: ${mainKe}
+- Bóng Chính: ${mainBong}
+
+4) ANTI-BẪY:
+${warns}
+`
+  };
+}
+
+function setActiveTab(activeId){
+  const ids = ["tabHot","tabHeadTail","tabTouch","tabTruc","tabAll"];
+  ids.forEach(id=>{
+    const b = el(id);
+    if(!b) return;
+    b.classList.remove("active");
+  });
+  if(el(activeId)) el(activeId).classList.add("active");
+}
+
+function wireTabs(pp){
+  const out = el("ppOut");
+  const set = (id, txt)=>{ setActiveTab(id); out.textContent = txt; };
+
+  el("tabHot").onclick = ()=>set("tabHot", pp.hotGanBlock);
+  el("tabHeadTail").onclick = ()=>set("tabHeadTail", pp.headTailBlock);
+  el("tabTouch").onclick = ()=>set("tabTouch", pp.touchKeBongBlock);
+  el("tabTruc").onclick = ()=>set("tabTruc", pp.trucBlock);
+  el("tabAll").onclick = ()=>set("tabAll", pp.allBlock);
+
+  // mặc định mở tổng hợp
+  set("tabAll", pp.allBlock);
+}
 </script>
 </body>
 </html>
