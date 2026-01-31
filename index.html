@@ -143,7 +143,6 @@
     .kpi .box .t{font-size:12px;color:var(--muted)}
     .kpi .box .v{font-size:16px;font-weight:900;margin-top:4px}
 
-    /* GOD MODE mini panel */
     .god{
       display:grid;
       grid-template-columns:1fr;
@@ -161,7 +160,6 @@
       line-height:1.45;
     }
 
-    /* OUTPUT UI (thương mại) */
     .krow{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
     .kcard{
       flex:1;min-width:220px;
@@ -384,8 +382,6 @@
 <script>
 /* =========================================================
    PHẦN 1 — SCAN PRO (GIỮ NGUYÊN LOGIC)
-   ✅ Fix tận gốc: Upper OCR phải GIỮ chữ DB/ĐB để extract DB 5 số
-   ✅ Fix newset: prepend vào inputData
 ========================================================= */
 let cvReady = false;
 let lastImageBlob = null;
@@ -445,19 +441,7 @@ function preprocess(mat){
   return thr;
 }
 
-/* ✅ OCR text for UPPER: cho phép chữ D/B/Đ để bắt nhãn DB/ĐB */
-async function ocrTextUpper(canvas){
-  const res = await Tesseract.recognize(canvas, "eng", {
-    logger: ()=>{},
-    // cho phép chữ D B + số (Đ thường OCR ra D)
-    tessedit_char_whitelist: "0123456789DBdb",
-    preserve_interword_spaces: "1",
-  });
-  return (res.data.text || "");
-}
-
-/* ✅ OCR text for BODY: digits-only như cũ */
-async function ocrTextBody(canvas){
+async function ocrText(canvas){
   const res = await Tesseract.recognize(canvas, "eng", {
     logger: ()=>{},
     tessedit_char_whitelist: "0123456789",
@@ -466,37 +450,22 @@ async function ocrTextBody(canvas){
   return (res.data.text || "");
 }
 
-/* ✅ Clean UPPER: giữ lại DB/ĐB + số */
-function cleanUpperKeepLabel(txt){
-  return String(txt)
-    .replace(/[Oo]/g,"0")
-    .replace(/[Il|]/g,"1")
-    .replace(/S/g,"5")
-    .replace(/[^\dDBĐ\s\n]/gi," ")
-    .replace(/[ \t]+/g," ")
-    .replace(/\s+\n/g,"\n")
-    .replace(/\n\s+/g,"\n")
-    .trim();
-}
-
-/* ✅ Clean BODY: digits-only */
-function cleanBodyDigitsOnly(txt){
+function cleanOCRDigits(txt){
   return String(txt)
     .replace(/[Oo]/g,"0")
     .replace(/[Il|]/g,"1")
     .replace(/S/g,"5")
     .replace(/B/g,"8")
     .replace(/[^\d\s\n]/g," ")
-    .replace(/[ \t]+/g," ")
     .replace(/\s+\n/g,"\n")
     .replace(/\n\s+/g,"\n")
+    .replace(/[ \t]+/g," ")
     .trim();
 }
 
-/* ✅ Extract DB5: ưu tiên DB/ĐB + 5 số, fallback 5 số */
 function extractDB5_fromLabel(text){
-  const t = String(text).replace(/\s+/g," ");
-  let m = t.match(/(?:Đ\s*B|D\s*B)\s*(\d{5})/i);
+  const t = text.replace(/\s+/g," ");
+  let m = t.match(/(?:Đ\s*B|D\s*B)\s*(\d{5})/);
   if(m) return m[1];
   m = t.match(/\b\d{5}\b/);
   return m ? m[0] : "";
@@ -535,12 +504,11 @@ function gateCheck(db5, g6_3, g7_4){
   return {ok:true, reason:"OK"};
 }
 
-/* ✅ Newest ở trên (prepend) */
 function addLineToInput(db5, g7, g6){
   const db2 = db5.slice(-2);
   const line = `DB ${db2} | G7: ${g7.join(" ")} | G6: ${g6.join(" ")}`;
   const cur = el("inputData").value.trim();
-  el("inputData").value = line + (cur ? "\n" + cur : "");
+  el("inputData").value = (cur ? cur + "\n" : "") + line;
 }
 
 async function runOCRFromBlob(blob){
@@ -583,30 +551,28 @@ async function runOCRFromBlob(blob){
   const upper = src.roi(new cv.Rect(0,0, src.cols, upH));
   const body  = src.roi(new cv.Rect(0, Math.floor(src.rows*0.35), src.cols, Math.floor(src.rows*0.65)));
 
-  // UPPER
   const upperBin = preprocess(upper);
   const upperCanvas = canvasFromMat(upperBin);
-  const upperTxt1 = await ocrTextUpper(upperCanvas);
+  const upperTxt1 = await ocrText(upperCanvas);
 
   const upperInv = new cv.Mat(); cv.bitwise_not(upperBin, upperInv);
   const upperCanvas2 = canvasFromMat(upperInv);
-  const upperTxt2 = await ocrTextUpper(upperCanvas2);
+  const upperTxt2 = await ocrText(upperCanvas2);
 
-  const upperTxt = cleanUpperKeepLabel((upperTxt1||"") + "\n" + (upperTxt2||""));
+  const upperTxt = cleanOCRDigits((upperTxt1||"") + "\n" + (upperTxt2||""));
   const db5 = extractDB5_fromLabel(upperTxt);
 
   upper.delete(); upperBin.delete(); upperInv.delete();
 
-  // BODY
   const bodyBin = preprocess(body);
   const bodyCanvas = canvasFromMat(bodyBin);
-  const bodyTxt1 = await ocrTextBody(bodyCanvas);
+  const bodyTxt1 = await ocrText(bodyCanvas);
 
   const bodyInv = new cv.Mat(); cv.bitwise_not(bodyBin, bodyInv);
   const bodyCanvas2 = canvasFromMat(bodyInv);
-  const bodyTxt2 = await ocrTextBody(bodyCanvas2);
+  const bodyTxt2 = await ocrText(bodyCanvas2);
 
-  const bodyTxt = cleanBodyDigitsOnly((bodyTxt1||"") + "\n" + (bodyTxt2||""));
+  const bodyTxt = cleanOCRDigits((bodyTxt1||"") + "\n" + (bodyTxt2||""));
   const lines = bodyTxt.split("\n").map(s=>s.trim()).filter(Boolean);
 
   const g7Found = findG7Line(lines);
@@ -623,7 +589,7 @@ async function runOCRFromBlob(blob){
   const db2 = (/^\d{5}$/.test(db5)) ? db5.slice(-2) : "";
 
   el("dbg").textContent =
-`[UPPER_OCR (KEEP DB)]
+`[UPPER_OCR]
 ${upperTxt || "(empty)"}
 
 [DB_5DIG]
@@ -950,15 +916,24 @@ function scoreCandidates(days, phaObj, weights){
   days.forEach(d=>d.pool.forEach(n=>freq[n]=(freq[n]||0)+1));
   const gan = ganMap(days, K);
 
-  // head/tail
   const ht = buildHeadTail(days, K);
   const headTop = Object.entries(ht.h).sort((a,b)=>b[1]-a[1]).slice(0,5).map(x=>x[0]);
   const tailTop = Object.entries(ht.t).sort((a,b)=>b[1]-a[1]).slice(0,5).map(x=>x[0]);
 
   // trục theo threshold: lấy các đầu/đuôi đạt ngưỡng
-  const headStrong = Object.entries(ht.h).filter(([,c])=>c>=threshold).sort((a,b)=>b[1]-a[1]).slice(0,6).map(x=>x[0]);
-  const tailStrong = Object.entries(ht.t).filter(([,c])=>c>=threshold).sort((a,b)=>b[1]-a[1]).slice(0,6).map(x=>x[0]);
-  const trucSet = makeTrucSet(headStrong.length?headStrong:headTop.slice(0,4), tailStrong.length?tailStrong:tailTop.slice(0,4));
+  const headStrongAll = Object.entries(ht.h).filter(([,c])=>c>=threshold).sort((a,b)=>b[1]-a[1]).slice(0,6).map(x=>x[0]);
+  const tailStrongAll = Object.entries(ht.t).filter(([,c])=>c>=threshold).sort((a,b)=>b[1]-a[1]).slice(0,6).map(x=>x[0]);
+
+  // ===== PATCH #2: THU HẸP TRỤC 3x3 khi TRUC_MO/TRUC_GAN để tránh loãng =====
+  const isTrucMode = (phaObj.dir==="TRUC_GAN" || phaObj.dir==="TRUC_MO");
+  const headStrong = isTrucMode
+    ? (headStrongAll.length ? headStrongAll.slice(0,3) : headTop.slice(0,3))
+    : (headStrongAll.length ? headStrongAll : headTop.slice(0,4));
+  const tailStrong = isTrucMode
+    ? (tailStrongAll.length ? tailStrongAll.slice(0,3) : tailTop.slice(0,3))
+    : (tailStrongAll.length ? tailStrongAll : tailTop.slice(0,4));
+
+  const trucSet = makeTrucSet(headStrong, tailStrong);
 
   const pas = pascalSeed(days);
 
@@ -973,14 +948,20 @@ function scoreCandidates(days, phaObj, weights){
 
   for(let i=0;i<100;i++){
     const n = pad2(i);
-    const hot = (freq[n]||0);
+
+    // ===== PATCH #3: HOT mềm (sqrt) để hot không "đè" tất cả =====
+    const hotRaw = (freq[n]||0);
+    const hot = Math.sqrt(hotRaw);
+
     const g = gan[n];
 
+    // ===== PATCH #1: PHẠT GAN 0–1 mạnh, ưu tiên gan 2–9 =====
     let ganFeat = 0;
-    if(g===999) ganFeat = -2;
-    else if(g===0) ganFeat = -1;
-    else if(g>=2 && g<=9) ganFeat = 2;
-    else ganFeat = 0;
+    if(g===999) ganFeat = -2;            // gan vô hạn: không tự đẩy lên
+    else if(g===0) ganFeat = -2.2;       // vừa ra hôm qua -> phạt mạnh
+    else if(g===1) ganFeat = -1.4;       // ra cách 1 ngày -> phạt
+    else if(g>=2 && g<=9) ganFeat = 2;   // vùng gan đẹp
+    else ganFeat = 0;                    // 10+ không ưu tiên
 
     const pasFeat = pas.has(n) ? 1 : 0;
     const trucFeat = trucSet.has(n) ? 1 : 0;
@@ -991,12 +972,24 @@ function scoreCandidates(days, phaObj, weights){
     s += g7Feat*weights.wG7;
 
     if(phaObj.pha==="P4") s *= 0.55;
-    if((phaObj.dir==="TRUC_GAN" || phaObj.dir==="TRUC_MO") && !trucFeat){
+
+    // giữ logic cũ: trục mode mà không nằm trục -> trừ
+    if(isTrucMode && !trucFeat){
       s -= 0.6;
     }
 
+    // ===== PATCH #4: TRỤC mode bắt buộc "giao thoa ≥2 tiêu chí" =====
+    if(isTrucMode){
+      const hit2 =
+        (trucFeat?1:0) +
+        (g7Feat?1:0) +
+        (pasFeat?1:0) +
+        (ganFeat>0?1:0);
+      if(hit2 < 2) s -= 1.2; // thiếu giao thoa => phạt
+    }
+
     score[n]=s;
-    features[n]={hot, gan:g, pas:pasFeat, truc:trucFeat, g7:g7Feat};
+    features[n]={hot:hotRaw, gan:g, pas:pasFeat, truc:trucFeat, g7:g7Feat};
   }
 
   // sort lần 1
@@ -1025,6 +1018,19 @@ function buildWarnings(days, phaObj, meta){
     warn.push("⚠️ NHIỄU NẶNG: tín hiệu dẫn dắt yếu → nên NÉ hoặc đánh cực nhỏ.");
   }
 
+  // ===== PATCH #5a: bẫy gan 0–1 trong TOP =====
+  let topGan01 = 0;
+  for(let i=0;i<12;i++){
+    const n = meta.scoreSorted[i]?.[0];
+    if(!n) break;
+    const g = meta.gan[n];
+    if(g===0 || g===1) topGan01++;
+  }
+  if(topGan01>=2){
+    warn.push("⚠️ BẪY GAN 0–1: nhiều số vừa ra/cách 1 ngày lọt top → ưu tiên gan 2–9.");
+  }
+
+  // bẫy gan∞
   let topInf = 0;
   for(let i=0;i<12;i++){
     const n = meta.scoreSorted[i]?.[0];
@@ -1032,7 +1038,7 @@ function buildWarnings(days, phaObj, meta){
     if(meta.gan[n]===999) topInf++;
   }
   if(topInf>=3){
-    warn.push("⚠️ BẪY GAN: nhiều số gan∞ lọt top → ưu tiên gan 2–9.");
+    warn.push("⚠️ BẪY GAN∞: nhiều số gan∞ lọt top → ưu tiên gan 2–9.");
   }
 
   const hotVals = Object.values(meta.freq).sort((a,b)=>b-a);
@@ -1044,6 +1050,12 @@ function buildWarnings(days, phaObj, meta){
   const mr = phaObj.metrics;
   if(mr && mr.trucRatio>0.22 && mr.g7Ratio>0.22){
     warn.push("⚠️ ĐẢO PHA: TRỤC & G7 cùng mạnh → chỉ chọn số giao thoa (≥2 tiêu chí).");
+  }
+
+  // ===== PATCH #5b: trục loãng =====
+  const trucSize = (meta.trucSet && meta.trucSet.size) ? meta.trucSet.size : 0;
+  if(trucSize>=40){
+    warn.push("⚠️ TRỤC LOÃNG: trục quá rộng → chỉ đánh số giao thoa (TRỤC + GAN/PASCAL/G7).");
   }
 
   const uniq = [];
@@ -1253,7 +1265,6 @@ function runFULL(){
     return `${i+1}) ${x.tier}${x.n} | score ${x.s.toFixed(2)} | hot:${x.hot} | gan:${ganTag} | truc:${x.truc?"Y":"-"} | g7:${x.g7?"Y":"-"} | pas:${x.pas?"Y":"-"} | cum:${x.cum?"Y":"-"} | dau:${x.dau?"Y":"-"} | duoi:${x.duoi?"Y":"-"}`;
   });
 
-  // 7) raw full text
   const main = pickObjs[0]?.n || "--";
   const sub  = pickObjs[1]?.n || "--";
   const kem  = pickObjs[2]?.n || "";
