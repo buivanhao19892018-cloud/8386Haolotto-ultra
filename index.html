@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
-  <title>Bùi Hào — Lotto ULTRA MASTER (OCR Gate FINAL v4 • GOD MODE)</title>
+  <title>Bùi Hào — Lotto ULTRA MASTER (OCR Gate FINAL v3 • GOD MODE)</title>
   <meta name="theme-color" content="#0b1220"/>
   <style>
     :root{
@@ -42,7 +42,8 @@
     h1{margin:0 0 8px;font-size:22px;letter-spacing:.2px}
     .pillrow{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}
     .pill{
-      padding:7px 10px;border-radius:999px;
+      padding:7px 10px;
+      border-radius:999px;
       background:rgba(255,255,255,.06);
       border:1px solid var(--line);
       color:var(--muted);
@@ -63,7 +64,8 @@
     .btn.ghost{
       background:rgba(255,255,255,.06);
       border:1px solid var(--line);
-      box-shadow:none;color:var(--text);
+      box-shadow:none;
+      color:var(--text);
     }
     .btn.danger{
       background:linear-gradient(180deg,#ff4d4f,#b42318);
@@ -75,8 +77,10 @@
     @media(min-width:860px){ .grid{grid-template-columns:1.2fr .8fr} }
     .preview{
       width:100%;
-      border-radius:16px;border:1px solid var(--line);
-      background:#060b13;overflow:hidden;
+      border-radius:16px;
+      border:1px solid var(--line);
+      background:#060b13;
+      overflow:hidden;
     }
     canvas, img{display:block;width:100%;height:auto}
     .status{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
@@ -112,8 +116,13 @@
     }
     .field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
     .field input, .field textarea, .field select{
-      width:100%;border:0;outline:none;background:transparent;
-      color:var(--text);font-size:14px;padding:6px 0;
+      width:100%;
+      border:0;
+      outline:none;
+      background:transparent;
+      color:var(--text);
+      font-size:14px;
+      padding:6px 0;
     }
     textarea{min-height:150px;resize:vertical}
     .split{display:flex;gap:10px;flex-wrap:wrap}
@@ -121,7 +130,8 @@
     .kpi{
       display:grid;
       grid-template-columns:repeat(2,minmax(0,1fr));
-      gap:10px;margin-top:10px;
+      gap:10px;
+      margin-top:10px;
     }
     @media(min-width:700px){ .kpi{grid-template-columns:repeat(4,minmax(0,1fr))} }
     .kpi .box{
@@ -135,7 +145,8 @@
     .god{
       display:grid;
       grid-template-columns:1fr;
-      gap:10px;margin-top:10px;
+      gap:10px;
+      margin-top:10px;
     }
     @media(min-width:860px){ .god{grid-template-columns:1fr 1fr} }
     .callout{
@@ -157,7 +168,7 @@
        1) SCAN PRO (GIỮ NGUYÊN)
        ========================= -->
   <div class="card">
-    <h1>Bùi Hào — Lotto ULTRA MASTER (OCR Gate FINAL v4 • GOD MODE)</h1>
+    <h1>Bùi Hào — Lotto ULTRA MASTER (OCR Gate FINAL v3 • GOD MODE)</h1>
     <div class="pillrow">
       <div class="pill"><span class="dot g"></span>OpenCV</div>
       <div class="pill"><span class="dot g"></span>Tesseract OCR</div>
@@ -169,8 +180,9 @@
     </div>
 
     <div class="hint">
-      Luồng chuẩn: <b>Upload nhiều ảnh</b> → <b>DB</b> theo nhãn ĐB/DB + 5 số → <b>G7</b> 4 số 2 chữ số → <b>G6</b> 3 số 3 chữ số →
-      <b>Gate PASS</b> mới đổ dữ liệu → bấm <b>Chạy FULL</b>.
+      Luồng chuẩn: <b>Upload nhiều ảnh</b> → tool tự cắt vùng bảng → <b>DB: tìm nhãn ĐB/DB + 5 số</b> →
+      <b>G7: dòng gần cuối có 4 số 2 chữ số</b> → <b>G6: dòng phía trên có 3 số 3 chữ số</b> →
+      <b>Gate pass</b> mới đổ vào dữ liệu → bấm <b>Chạy FULL</b>.
       <br/><b>* Tool thống kê hỗ trợ phân tích, không đảm bảo kết quả.</b>
     </div>
 
@@ -195,7 +207,9 @@
     <div class="grid">
       <div>
         <h2 class="sectionTitle">Ảnh → OCR → Gate</h2>
-        <div class="hint">Mẹo: crop sát phần bảng (từ “ĐB” tới “7”). Tránh dính footer tab và header quảng cáo.</div>
+        <div class="hint">
+          Mẹo: crop sát phần bảng (từ “ĐB” tới “7”). Tránh dính footer tab (Miền Bắc/Trung/Nam) và header quảng cáo.
+        </div>
 
         <div class="preview" style="margin-top:10px">
           <img id="imgPreview" alt="preview" />
@@ -230,6 +244,7 @@
             </div>
           </div>
         </div>
+
       </div>
 
       <div>
@@ -244,7 +259,7 @@
        ========================= -->
   <div class="card">
     <h2 class="sectionTitle">Dữ liệu đầu vào (mỗi dòng = 1 ngày)</h2>
-    <div class="hint">Format: <b>DB xx | G7: a b c d | G6: xxx yyy zzz</b> (newest ở trên)</div>
+    <div class="hint">Format chuẩn auto: <b>DB xx | G7: a b c d | G6: xxx yyy zzz</b> (newest ở trên)</div>
     <div class="field" style="margin-top:10px">
       <textarea id="inputData" placeholder="Sau batch scan, tool tự đổ vào đây..."></textarea>
     </div>
@@ -256,13 +271,13 @@
       </div>
       <div class="field">
         <label>Top hiển thị (tham khảo)</label>
-        <input id="topN" type="number" value="10" min="10" max="10" />
+        <input id="topN" type="number" value="10" min="6" max="15" />
       </div>
       <div class="field">
         <label>AI giám sát</label>
         <select id="aiSup">
           <option value="on" selected>ON (khóa theo pha)</option>
-          <option value="off">OFF</option>
+          <option value="off">OFF (tay tự chỉnh)</option>
         </select>
       </div>
       <div class="field">
@@ -290,14 +305,33 @@
       </div>
     </div>
 
+    <div class="split" style="margin-top:10px">
+      <div class="field">
+        <label>Anti-gan1 (thương mại)</label>
+        <select id="antiGan1">
+          <option value="on" selected>ON (gan=1 dễ bẫy)</option>
+          <option value="off">OFF</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Chốt thương mại (2–3 số)</label>
+        <select id="pickMode">
+          <option value="safe" selected>SAFE (2 số)</option>
+          <option value="pro">PRO (3 số nếu pha đẹp)</option>
+        </select>
+      </div>
+    </div>
+
     <div class="god">
       <div class="callout">
-        <b>MASTER+++:</b> App sẽ <b>ĐỌC PHA TRƯỚC</b> → kết luận hôm nay nên ăn theo <b>TRỤC+GAN</b> hay <b>G7/G6</b> hay <b>NÉ NGÀY</b> →
-        rồi mới <b>SOI FULL LOTO 2 SỐ</b> (không đoán bừa).
+        <b>GOD MODE (MASTER+++):</b><br/>
+        App sẽ <b>ĐỌC PHA trước</b> → kết luận hôm nay nên ăn theo <b>TRỤC+GAN</b> hay <b>G7/G6</b> hay <b>NÉ NGÀY</b> → rồi mới <b>SOI FULL LOTO 2 SỐ</b>.
+        <br/>AI giám sát ON sẽ tự “kéo trọng số” đúng hướng pha để giảm lệch.
       </div>
       <div class="callout">
-        <b>Khuyến nghị số ngày:</b> <b>20</b> ổn nhất. Dữ liệu ít: 12–15. Tránh >30 vì loãng & pha cũ.
-        <br/><b>Lưu ý thương mại:</b> app có thể nói thẳng: <b>“KHÔNG NÊN ĐÁNH”</b> khi P4/nhiễu.
+        <b>Thương mại chuẩn:</b><br/>
+        - <b>A = CORE</b>: dùng chốt (ít sai).<br/>
+        - <b>B = BACKUP</b>: lấp Top10 để khách tham khảo (có penalty rõ).
       </div>
     </div>
 
@@ -320,7 +354,6 @@
 
 </div>
 
-<!-- Load libs -->
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 <script async src="https://docs.opencv.org/4.x/opencv.js" onload="onOpenCvReady()"></script>
 
@@ -340,24 +373,20 @@ function setBadge(id, text, cls){
   e.classList.remove("ok","warn","fail");
   e.classList.add(cls);
 }
-
 function setStatus(){
   setBadge("stCv", `● OpenCV: ${cvReady ? "OK" : "loading…"}`, cvReady ? "ok" : "warn");
   setBadge("stBatch", `● Batch: OK ${batchOK} | FAIL ${batchFail}`, (batchFail>0) ? "warn" : "ok");
 }
-
 function showKPI(db2, g6, g7, gate){
   el("kDB").textContent = db2 || "--";
   el("kG6").textContent = g6?.length ? g6.join(" ") : "--";
   el("kG7").textContent = g7?.length ? g7.join(" ") : "--";
   el("kGate").textContent = gate;
 }
-
 function onOpenCvReady(){
   cvReady = true;
   setStatus();
 }
-
 setStatus();
 
 function pad2(n){ return String(n).padStart(2,"0"); }
@@ -630,15 +659,27 @@ el("btnSample").onclick = ()=>{
 `DB 45 | G7: 03 82 85 81 | G6: 392 255 854
 DB 21 | G7: 76 47 21 77 | G6: 801 295 993
 DB 14 | G7: 81 87 60 32 | G6: 206 200 971
-DB 80 | G7: 22 20 16 61 | G6: 733 014 672`;
+DB 80 | G7: 22 20 16 61 | G6: 733 014 672
+DB 63 | G7: 10 12 14 20 | G6: 370 571 924
+DB 59 | G7: 58 57 94 93 | G6: 159 259 359
+DB 86 | G7: 60 26 32 49 | G6: 480 226 435
+DB 09 | G7: 04 05 06 07 | G6: 109 209 309
+DB 24 | G7: 21 22 23 24 | G6: 124 224 324
+DB 71 | G7: 69 70 71 72 | G6: 171 271 371`;
 };
 
 /* =========================================================
-   PHẦN 2 — ENGINE GOD MODE v4 (MASTER+++)
-   - Parse -> Đọc pha -> Quyết định hướng -> Soi full -> Top10 + Chốt 2–3
+   PHẦN 2 — ENGINE (Pha → Soi Loto → Anti-bẫy) • GOD MODE
+   (THƯƠNG MẠI: A CORE + B BACKUP, luôn đủ Top10)
 ========================================================= */
 
-/* ---------- Parse lines ---------- */
+function uniqArr(arr){
+  const out=[]; for(const x of arr){ if(!out.includes(x)) out.push(x); }
+  return out;
+}
+function is2(s){ return /^\d{2}$/.test(String(s||"")); }
+
+/* ----- Parse lines ----- */
 function parseLines(){
   const raw = el("inputData").value.trim().split("\n").map(s=>s.trim()).filter(Boolean);
   const win = Math.min(Math.max(10, parseInt(el("winDays").value||"20",10)), 60);
@@ -651,18 +692,18 @@ function parseLines(){
     const g6m = line.match(/G6:\s*([0-9 ]+)/);
     if(!dbm || !g7m || !g6m) continue;
 
-    const db2 = pad2(dbm[1]);
+    const db2 = dbm[1];
     const g7 = (g7m[1].match(/\b\d{2}\b/g)||[]).slice(0,4).map(pad2);
     const g6 = (g6m[1].match(/\b\d{3}\b/g)||[]).slice(0,3);
     const g6_2 = g6.map(x=>pad2(x.slice(-2)));
 
-    const pool = [db2, ...g7, ...g6_2];
-    days.push({db2, g7, g6_2, pool});
+    const pool = [pad2(db2), ...g7, ...g6_2];
+    days.push({db2:pad2(db2), g7, g6_2, pool});
   }
   return days;
 }
 
-/* ---------- Core helpers ---------- */
+/* ----- Head/Tail, Gan, sets ----- */
 function buildHeadTail(days, K){
   const h = {}; const t = {};
   days.slice(0,K).forEach(d=>{
@@ -721,6 +762,48 @@ function pascalSeed(days){
     keSet(x).forEach(v=>s.add(v));
   });
   return s;
+}
+
+/* ====== CỤM (xác nhận) ======
+   Cụm hiểu đơn giản: nếu 2 số hay đi cùng nhau quanh DB/G7/G6_2 trong K ngày,
+   ta tạo "cluster set" là union của top pairs kéo ra candidate.
+   (NHẸ, không ép cụm; dùng để boost + backup) */
+function buildClusterSet(days){
+  const K = Math.min(12, days.length);
+  const pairCnt = {};
+  for(let i=0;i<K;i++){
+    const p = days[i].pool;
+    // đếm cặp trong cùng pool ngày (8 số/ngày)
+    for(let a=0;a<p.length;a++){
+      for(let b=a+1;b<p.length;b++){
+        const x = p[a], y = p[b];
+        const key = x<y ? `${x}_${y}` : `${y}_${x}`;
+        pairCnt[key]=(pairCnt[key]||0)+1;
+      }
+    }
+  }
+  const topPairs = Object.entries(pairCnt).sort((a,b)=>b[1]-a[1]).slice(0,12);
+  const s = new Set();
+  topPairs.forEach(([k,c])=>{
+    if(c>=3){ // ngưỡng nhẹ
+      const [x,y]=k.split("_");
+      s.add(x); s.add(y);
+      keSet(x).forEach(v=>s.add(v));
+      keSet(y).forEach(v=>s.add(v));
+    }
+  });
+  return s;
+}
+
+function buildChamTop(days, K){
+  const digitCnt = Array(10).fill(0);
+  days.slice(0,K).forEach(d=>{
+    d.pool.forEach(n=>{
+      digitCnt[parseInt(n[0],10)]++;
+      digitCnt[parseInt(n[1],10)]++;
+    });
+  });
+  return digitCnt.map((c,i)=>[i,c]).sort((a,b)=>b[1]-a[1]).slice(0,3).map(x=>String(x[0]));
 }
 
 /* =========================================================
@@ -797,12 +880,15 @@ function detectPhase(days){
   return {pha,dir,conf,note,metrics:{trucRatio,ganRatio,g7Ratio,noise}, headTop, tailTop};
 }
 
-/* ---------- AI giám sát khóa trọng số theo pha ---------- */
+/* =========================================================
+   AI GIÁM SÁT — KHÓA TRỌNG SỐ THEO PHA
+========================================================= */
 function lockWeightsByPhase(phaObj){
   let wHot = parseFloat(el("wHot").value||"2");
   let wGan = parseFloat(el("wGan").value||"1.5");
   let wPas = parseFloat(el("wPas").value||"2");
-  let wTruc = 1.2, wG7 = 1.0;
+
+  let wTruc = 1.2, wG7 = 1.0, locked=true;
 
   if(el("aiSup").value==="off"){
     return {wHot,wGan,wPas,wTruc,wG7, locked:false};
@@ -833,105 +919,42 @@ function lockWeightsByPhase(phaObj){
     wTruc = 0.8; wG7 = 0.8;
   }
 
-  return {wHot,wGan,wPas,wTruc,wG7, locked:true};
+  return {wHot,wGan,wPas,wTruc,wG7, locked};
 }
 
 /* =========================================================
-   ENGINE v4: giảm lệch
-   - KHÔNG sinh bừa 00-99
-   - Chỉ sinh từ DÒNG DẪN (TRỤC hoặc G7 lead) rồi mới LỌC PP
+   PACK: TRỤC + G7LEAD + BASE THEO PHA
 ========================================================= */
-function uniqArr(arr){
-  const s = new Set(); const out = [];
-  for(const x of arr){ if(!s.has(x)){ s.add(x); out.push(x);} }
-  return out;
-}
-function clamp(n,a,b){ return Math.max(a, Math.min(b, n)); }
-function reverse2(n){ return n[1]+n[0]; }
-function is2(n){ return /^\d{2}$/.test(n); }
-
-function buildLeadSetFromG7Prev(days){
-  const idx = (days.length>=2) ? 1 : 0;
-  const lead = new Set();
-  const g7 = (days[idx]?.g7 || []).filter(is2);
-  for(const x of g7){
-    lead.add(x);
-    keSet(x).forEach(v=>lead.add(v));
-    const r = reverse2(x);
-    lead.add(r);
-    keSet(r).forEach(v=>lead.add(v));
-  }
-  return lead;
-}
-
-function buildTrucSetFromHT(days, K){
+function buildPack(days, phaObj){
+  const K = Math.min(Math.max(5, parseInt(el("phaseK").value||"9",10)), days.length);
   const ht = buildHeadTail(days, K);
   const headTop = Object.entries(ht.h).sort((a,b)=>b[1]-a[1]).slice(0,4).map(x=>x[0]);
   const tailTop = Object.entries(ht.t).sort((a,b)=>b[1]-a[1]).slice(0,4).map(x=>x[0]);
+
   const trucSet = makeTrucSet(headTop, tailTop);
-  return {trucSet, headTop, tailTop, ht};
-}
 
-function buildClusterSet(days){
-  const N = Math.min(3, days.length);
-  const cnt = {};
-  for(let i=0;i<N;i++){
-    for(const n of days[i].pool){
-      cnt[n] = (cnt[n]||0)+1;
-    }
+  const leadSet = new Set();
+  if(days.length){
+    days[0].g7.forEach(x=>keSet(x).forEach(v=>leadSet.add(v)));
   }
-  const core = Object.entries(cnt).filter(([,c])=>c>=2).map(([n])=>n);
-  const clu = new Set(core);
-  for(const n of core){
-    keSet(n).forEach(v=>clu.add(v));
-    clu.add(reverse2(n));
+
+  // base theo pha: TRỤC ưu tiên hay G7 ưu tiên hay giao thoa
+  const base = new Set();
+  if(phaObj.dir==="TRUC_GAN" || phaObj.dir==="TRUC_MO"){
+    trucSet.forEach(x=>base.add(x));
+  } else if(phaObj.dir==="THEO_G7"){
+    leadSet.forEach(x=>base.add(x));
+  } else {
+    trucSet.forEach(x=>base.add(x));
+    leadSet.forEach(x=>base.add(x));
   }
-  return clu;
+
+  return {headTop, tailTop, trucSet, leadSet, base};
 }
 
-function buildChamTop(days, K){
-  const digitCnt = Array(10).fill(0);
-  days.slice(0,K).forEach(d=>{
-    d.pool.forEach(n=>{
-      digitCnt[parseInt(n[0],10)]++;
-      digitCnt[parseInt(n[1],10)]++;
-    });
-  });
-  return digitCnt.map((c,i)=>[String(i),c]).sort((a,b)=>b[1]-a[1]).slice(0,3).map(x=>x[0]);
-}
-
-function shouldSkipByPhase(phaObj, days){
-  if(days.length < 15) return {skip:true, reason:"Thiếu dữ liệu (<15 ngày). Khuyến nghị 20 ngày để ổn định pha."};
-  if(phaObj.pha==="P4" || phaObj.dir==="NHIU_NANG") return {skip:true, reason:"P4 / Nhiễu nặng: khuyến nghị NÉ (hoặc đánh cực nhỏ)."};
-  const m = phaObj.metrics || {};
-  const tr = m.trucRatio ?? 0;
-  const gr = m.g7Ratio ?? 0;
-  const nz = m.noise ?? 0;
-  if(tr < 0.18 && gr < 0.18 && nz > 0.78) return {skip:true, reason:"Tín hiệu yếu (trục & g7 thấp, noise cao) -> NÊN NÉ."};
-  return {skip:false, reason:"OK"};
-}
-
-function buildCandidatesByDir(days, phaObj){
-  const K = Math.min(Math.max(5, parseInt(el("phaseK").value||"9",10)), days.length);
-  const {trucSet, headTop, tailTop} = buildTrucSetFromHT(days, K);
-  const leadSet = buildLeadSetFromG7Prev(days);
-
-  let base = new Set();
-  if(phaObj.dir==="TRUC_GAN" || phaObj.dir==="TRUC_MO") base = new Set(trucSet);
-  else if(phaObj.dir==="THEO_G7") base = new Set(leadSet);
-  else{
-    const inter = [];
-    trucSet.forEach(n=>{ if(leadSet.has(n)) inter.push(n); });
-    if(inter.length>=3) base = new Set(inter);
-    else{
-      const tr = phaObj.metrics?.trucRatio ?? 0;
-      const gr = phaObj.metrics?.g7Ratio ?? 0;
-      base = new Set(tr>=gr ? trucSet : leadSet);
-    }
-  }
-  return {base, trucSet, leadSet, headTop, tailTop};
-}
-
+/* =========================================================
+   FILTER CANDIDATES (A CORE + B BACKUP) — THƯƠNG MẠI
+========================================================= */
 function filterCandidates(days, phaObj, pack){
   const K = Math.min(Math.max(10, parseInt(el("winDays").value||"20",10)), days.length);
   const gan = ganMap(days, Math.min(12, K));
@@ -939,52 +962,60 @@ function filterCandidates(days, phaObj, pack){
   const cluster = buildClusterSet(days);
   const chamTop = buildChamTop(days, K);
 
-  let arr = Array.from(pack.base).filter(is2);
+  // CORE = base theo pha (đã build)
+  let core = Array.from(pack.base).filter(is2);
 
-  if(phaObj.dir==="TRUC_GAN" || phaObj.dir==="TRUC_MO") arr = arr.filter(n=>pack.trucSet.has(n));
-  if(phaObj.dir==="THEO_G7") arr = arr.filter(n=>pack.leadSet.has(n));
-
-  // loại gan=0 và gan=∞
-  arr = arr.filter(n=>{
+  // loại gan=0 và gan∞ (còn gan=1 giữ, sẽ phạt ở score)
+  core = core.filter(n=>{
     const g = gan[n];
     if(g===0) return false;
     if(g===999) return false;
     return true;
   });
 
-  // phải dính ít nhất 1 chạm top3
-  arr = arr.filter(n=> chamTop.includes(n[0]) || chamTop.includes(n[1]) );
+  // bắt buộc chạm top3 (giữ chắc)
+  core = core.filter(n=> chamTop.includes(n[0]) || chamTop.includes(n[1]) );
 
-  if(arr.length > 10){
-    return {ok:false, reason:`Candidate >10 (${arr.length}) -> tín hiệu loãng, nên NÉ hoặc giảm cửa sổ ngày.`, cands:[]};
+  if(core.length > 12){
+    return {ok:false, reason:`Candidate CORE >12 (${core.length}) -> tín hiệu loãng, nên NÉ hoặc giảm cửa sổ ngày.`, cands:[]};
   }
 
-  // nếu quá ít thì nới nhẹ bằng pas/cluster (vẫn trong base)
-  if(arr.length < 2){
-    const relax = Array.from(pack.base).filter(is2);
-    const relaxed = relax.filter(n=>{
-      const g = gan[n];
-      if(g===0 || g===999) return false;
-      const okCham = chamTop.includes(n[0]) || chamTop.includes(n[1]);
-      const okBoost = pas.has(n) || cluster.has(n);
-      return okCham && okBoost;
-    });
-    arr = uniqArr(relaxed).slice(0,10);
-  }
+  // BACKUP = union (trục ∪ g7lead ∪ pas ∪ cụm), vẫn loại gan=0/∞
+  const union = new Set();
+  Array.from(pack.trucSet||[]).forEach(x=>union.add(x));
+  Array.from(pack.leadSet||[]).forEach(x=>union.add(x));
+  Array.from(pas).forEach(x=>union.add(x));
+  Array.from(cluster).forEach(x=>union.add(x));
 
-  return {ok:true, reason:"OK", cands:arr, gan, pas, cluster, chamTop};
+  let backup = Array.from(union).filter(is2).filter(n=>{
+    const g = gan[n];
+    if(g===0 || g===999) return false;
+    const okCham = chamTop.includes(n[0]) || chamTop.includes(n[1]);
+    const okBoost = pas.has(n) || cluster.has(n);
+    return okCham || okBoost;
+  });
+
+  const coreSet = new Set(core);
+  backup = backup.filter(n=>!coreSet.has(n));
+
+  return {ok:true, reason:"OK", cands:core, backup, gan, pas, cluster, chamTop};
 }
 
+/* =========================================================
+   SCORE (A CORE trước, B BACKUP lấp TopN)
+========================================================= */
 function scoreAndPick(days, phaObj, weights, pack, filt){
   const K = Math.min(Math.max(10, parseInt(el("winDays").value||"20",10)), days.length);
-
   const freq = {};
   days.slice(0,K).forEach(d=>d.pool.forEach(n=>freq[n]=(freq[n]||0)+1));
 
-  const scored = filt.cands.map(n=>{
+  function scoreOne(n, tier){
     const hot = freq[n]||0;
     const g = filt.gan[n];
-    const ganFeat = (g>=2 && g<=9) ? 2 : 0;
+
+    let ganFeat = 0;
+    if(g>=2 && g<=9) ganFeat = 2;
+    else if(g===1) ganFeat = -0.6;
 
     const isTruc = pack.trucSet.has(n) ? 1 : 0;
     const isLead = pack.leadSet.has(n) ? 1 : 0;
@@ -1002,109 +1033,159 @@ function scoreAndPick(days, phaObj, weights, pack, filt){
       isTruc*weights.wTruc +
       isLead*weights.wG7;
 
-    return {n, s, hot, gan:g, isTruc:!!isTruc, isLead:!!isLead, isPas:!!isPas, isClu:!!isClu, isHead:!!isHead, isTail:!!isTail};
-  }).sort((a,b)=>b.s-a.s);
+    if(tier==="B") s -= 1.2; // penalty để CORE đứng trên
 
-  const top10 = scored.slice(0,10);
+    if(phaObj.pha==="P4") s *= 0.55;
+    if((phaObj.dir==="TRUC_GAN" || phaObj.dir==="TRUC_MO") && !isTruc) s -= 0.6;
 
-  const pickCount = (phaObj.pha==="P6" && (phaObj.conf||0) >= 0.75) ? 3 : 2;
-  const topPick = top10.slice(0, pickCount);
+    return {tier, n, s, hot, gan:g, truc:!!isTruc, g7:!!isLead, pas:!!isPas, cum:!!isClu, dau:!!isHead, duoi:!!isTail};
+  }
 
-  const sum = top10.reduce((acc,x)=>acc + Math.max(0,x.s), 0) || 1;
-  const pct = top10.map(x=>({n:x.n, p:(Math.max(0,x.s)/sum)*100}));
+  const A = (filt.cands||[]).map(n=>scoreOne(n,"A")).sort((a,b)=>b.s-a.s);
+  const B = (filt.backup||[]).map(n=>scoreOne(n,"B")).sort((a,b)=>b.s-a.s);
 
-  return {top10, topPick, pct, freq};
+  const topShow = Math.min(Math.max(6, parseInt(el("topN").value||"10",10)), 15);
+  const topList = [];
+  const used = new Set();
+  for(const x of A){
+    if(topList.length>=topShow) break;
+    if(!used.has(x.n)){ used.add(x.n); topList.push(x); }
+  }
+  for(const x of B){
+    if(topList.length>=topShow) break;
+    if(!used.has(x.n)){ used.add(x.n); topList.push(x); }
+  }
+
+  // pick count
+  let pickCount = 2;
+  if(el("pickMode").value==="pro"){
+    if(phaObj.pha==="P6" && (phaObj.conf||0)>=0.75) pickCount = 3;
+  }
+
+  let topPick = A.slice(0, Math.max(2, pickCount));
+
+  const sum = topList.reduce((acc,x)=>acc + Math.max(0,x.s), 0) || 1;
+  const pct = topList.map(x=>({n:x.n, p:(Math.max(0,x.s)/sum)*100, tier:x.tier}));
+
+  return {A, B, topList, topPick, pct, freq};
 }
 
-function buildWarningsCommercial(phaObj, rank){
+/* =========================================================
+   WARNINGS — THƯƠNG MẠI (không lặp OK)
+========================================================= */
+function buildWarningsCommercial(phaObj, rank, filt){
   const out = [];
-
   if(phaObj.pha==="P5" || phaObj.dir==="XA") out.push("⚠️ PHA XẢ: hot/cụm dễ đánh lừa → giảm tiền, chỉ chọn số giao thoa.");
   if(phaObj.pha==="P3") out.push("⚠️ GIAO THOA: TRỤC & G7 chưa rõ → chỉ chọn số trùng ≥2 tiêu chí.");
+  if(phaObj.pha==="P4" || phaObj.dir==="NHIU_NANG") out.push("⛔ NHIỄU NẶNG: ưu tiên NÉ ngày (hoặc đánh cực nhỏ).");
 
   const topHot = Object.values(rank.freq||{}).sort((a,b)=>b-a)[0] || 0;
-  if(topHot>=5) out.push("⚠️ BẪY CỤM/HOT: hot dày → dễ lệch, tránh all-in theo cụm.");
+  if(topHot>=5) out.push("⚠️ BẪY CỤM/HOT: hot dày → tránh all-in theo cụm.");
 
   let gan1 = 0;
-  for(const x of rank.top10){ if(x.gan===1) gan1++; }
-  if(gan1>=3) out.push("⚠️ BẪY GAN NGẮN: nhiều số gan=1 lọt top → dễ đảo nhịp.");
+  for(const x of rank.topList){ if(x.gan===1) gan1++; }
+  if(gan1>=3) out.push("⚠️ BẪY GAN=1: nhiều số mới rơi vào top → dễ đảo nhịp (ưu tiên gan 2–9).");
 
   const tr = phaObj.metrics?.trucRatio ?? 0;
   const gr = phaObj.metrics?.g7Ratio ?? 0;
   if(tr>0.22 && gr>0.22) out.push("⚠️ ĐẢO PHA: TRỤC & G7 cùng mạnh → chỉ lấy số giao thoa.");
 
   const uniq = uniqArr(out);
-  while(uniq.length<3) uniq.push("✅ OK: chưa thấy bẫy quá rõ (vẫn giữ kỷ luật tiền).");
+  while(uniq.length<3){
+    uniq.push("ℹ️ INFO: cảnh báo ít = dữ liệu đang khá “sạch”. Vẫn giữ kỷ luật tiền & không all-in.");
+  }
   return uniq.slice(0,3);
 }
 
-function renderReport(days, phaObj, weights, filt, pack, rank, skipObj){
-  if(skipObj?.skip){
-    return (
-`===== KẾT QUẢ FULL (GOD MODE • MASTER+++) =====
-Tổng ngày dùng: ${days.length}
+/* =========================================================
+   Anti-gan1 (thương mại)
+   - Nếu số #1 gan=1 và đang có bẫy cụm/hot → swap sang số tiếp theo có gan 2–9
+========================================================= */
+function applyAntiGan1(topPick, warnings){
+  if(el("antiGan1").value!=="on") return topPick;
+  if(!topPick || topPick.length<2) return topPick;
 
-KẾT LUẬN: KHÔNG NÊN ĐÁNH
-Lý do: ${skipObj.reason}
+  const hotTrap = warnings.some(w=>w.includes("CỤM/HOT") || w.includes("PHA XẢ"));
+  if(!hotTrap) return topPick;
 
-* Gợi ý: dùng 20 ngày, newest ở trên, crop ảnh sạch.
-`
-    );
+  const first = topPick[0];
+  if(first.gan!==1) return topPick;
+
+  for(let i=1;i<topPick.length;i++){
+    const cand = topPick[i];
+    if(cand.gan>=2 && cand.gan<=9){
+      const clone = topPick.slice();
+      clone[0] = cand;
+      clone[i] = first;
+      return clone;
+    }
   }
+  return topPick;
+}
 
-  const pctLine = rank.pct.map(x=>`${x.n}(${x.p.toFixed(0)}%)`).join("  ");
-  const main = rank.topPick[0]?.n || "--";
-  const sub  = rank.topPick[1]?.n || "--";
-  const third= rank.topPick[2]?.n;
+/* =========================================================
+   Report FULL PRO
+========================================================= */
+function buildDeepLotoReport(days, phaObj, weights, pack, filt, rank){
+  const K = Math.min(Math.max(10, parseInt(el("winDays").value||"20",10)), days.length);
 
-  const warnings = buildWarningsCommercial(phaObj, rank);
+  const hotTop = Object.entries(rank.freq).sort((a,b)=>b[1]-a[1]).slice(0,15);
+  const ganRank = Array.from({length:100},(_,i)=>pad2(i))
+    .map(n=>[n, filt.gan[n]])
+    .sort((a,b)=>b[1]-a[1])
+    .slice(0,15);
 
-  const explain = rank.topPick.map((x,i)=>{
-    const tags = [
-      `hot:${x.hot}`,
-      `gan:${x.gan}`,
-      `truc:${x.isTruc?"Y":"-"}`,
-      `g7:${x.isLead?"Y":"-"}`,
-      `pas:${x.isPas?"Y":"-"}`,
-      `cum:${x.isClu?"Y":"-"}`,
-      `dau:${x.isHead?"Y":"-"}`,
-      `duoi:${x.isTail?"Y":"-"}`
-    ].join(" | ");
-    return `${i+1}) ${x.n} | score ${x.s.toFixed(2)} | ${tags}`;
+  const ht = buildHeadTail(days, Math.min(K, parseInt(el("phaseK").value||"9",10)));
+  const headTop5 = Object.entries(ht.h).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const tailTop5 = Object.entries(ht.t).sort((a,b)=>b[1]-a[1]).slice(0,5);
+
+  const trucList = Array.from(pack.trucSet).sort((a,b)=>a.localeCompare(b)).slice(0,24);
+
+  const digitCnt = Array(10).fill(0);
+  days.slice(0,Math.min(K, 12)).forEach(d=>{
+    d.pool.forEach(n=>{
+      digitCnt[parseInt(n[0],10)]++;
+      digitCnt[parseInt(n[1],10)]++;
+    });
+  });
+  const chamTop5 = digitCnt.map((c,i)=>[i,c]).sort((a,b)=>b[1]-a[1]).slice(0,5).map(x=>x[0]);
+  const kepList = Array.from({length:10},(_,i)=>`${i}${i}`);
+  const g7LeadList = Array.from(pack.leadSet).sort((a,b)=>a.localeCompare(b)).slice(0,24);
+  const pasList = Array.from(filt.pas).sort((a,b)=>a.localeCompare(b));
+  const cumList = Array.from(filt.cluster).sort((a,b)=>a.localeCompare(b)).slice(0,24);
+
+  const explainTop = rank.topList.slice(0, Math.min(rank.topList.length, 10)).map((x,i)=>{
+    const ganTag = (x.gan===999) ? "gan:∞" : `gan:${x.gan}`;
+    return `${i+1}) ${x.tier}${x.n} | score ${x.s.toFixed(2)} | hot:${x.hot} | ${ganTag} | truc:${x.truc?"Y":"-"} | g7:${x.g7?"Y":"-"} | pas:${x.pas?"Y":"-"} | cum:${x.cum?"Y":"-"} | dau:${x.dau?"Y":"-"} | duoi:${x.duoi?"Y":"-"}`;
   }).join("\n");
 
-  let huong = "GIAO THOA: chọn số trùng ≥2 tiêu chí.";
-  if(phaObj.dir==="TRUC_GAN" || phaObj.dir==="TRUC_MO") huong = "ƯU TIÊN TRỤC + GAN (giảm bám G6/G7).";
-  if(phaObj.dir==="THEO_G7") huong = "ƯU TIÊN G7 (kề/bóng/đảo) + xác nhận gan.";
-  if(phaObj.dir==="XA") huong = "PHA XẢ: giảm tiền, tránh all-in.";
+  let huong = "";
+  if(phaObj.dir==="TRUC_GAN" || phaObj.dir==="TRUC_MO") huong = "Ưu tiên: TRỤC + GAN (giảm bám cụm G6/G7 thuần).";
+  else if(phaObj.dir==="THEO_G7") huong = "Ưu tiên: NHỊP G7 (kề/bóng/chạm) + xác nhận gan.";
+  else if(phaObj.pha==="P4") huong = "Ưu tiên: NÉ NGÀY / đánh cực nhỏ.";
+  else if(phaObj.dir==="XA") huong = "Ưu tiên: Giảm tiền (xả), chọn số giao thoa.";
+  else huong = "Ưu tiên: GIAO THOA (lọc số trùng ≥2 tiêu chí).";
 
-  // Full soi (đẹp mắt, có thứ tự)
   return (
-`===== KẾT QUẢ FULL (GOD MODE • MASTER+++) =====
-Tổng ngày dùng: ${days.length}
+`===== SOI FULL LOTO 2 SỐ (FULL PRO) =====
+[1] HOT (15): ${hotTop.map(([n,c])=>`${n}→${c}`).join("  ")}
+[2] GAN (15): ${ganRank.map(([n,v])=>`${n}→${v===999?"∞":v}`).join("  ")}
+[3] ĐẦU/TĐUÔI Top5 (K=${Math.min(K, parseInt(el("phaseK").value||"9",10))}):  Đầu: ${headTop5.map(([d,c])=>`${d}(${c})`).join(" ")}  |  Đuôi: ${tailTop5.map(([d,c])=>`${d}(${c})`).join(" ")}
+[4] TRỤC nổi: ${trucList.join(" ")}
+[5] CHẠM/KÉP/BÓNG/KỀ:
+    - Chạm mạnh: ${chamTop5.join(", ")}
+    - Kép: ${kepList.join(" ")}
+    - G7 lead set (kề+bóng): ${g7LeadList.join(" ")}
+[6] PASCAL seed: ${pasList.length?pasList.join(" "):"(none)"}
+[7] CỤM (xác nhận - không ép): ${cumList.length?cumList.join(" "):"(none)"}
 
-AI ĐỌC PHA:
-Pha: ${phaObj.pha} | Hướng: ${phaObj.dir} | Tin cậy: ${(phaObj.conf*100).toFixed(0)}%
-Nhận định: ${phaObj.note}
-Chỉ thị: ${huong}
+[8] GIẢI THÍCH TOP (A=CORE, B=BACKUP):
+${explainTop}
 
-TOP 10 (tham khảo) + %:
-${pctLine}
-
-CHỐT (2–3 số, thương mại):
-🎯 Chính: ${main}
-🛡️ Phụ:  ${sub}${third ? `\n➕ Kèm: ${third}` : ""}
-
-3 CẢNH BÁO MẠNH:
-1) ${warnings[0]}
-2) ${warnings[1]}
-3) ${warnings[2]}
-
-GIẢI THÍCH SỐ CHỐT:
-${explain}
-
-WEIGHTS (AI supervisor ${weights.locked?"LOCKED":"OFF"}):
+* Weight (AI supervisor ${weights.locked?"LOCKED":"OFF"}):
 wHot=${weights.wHot} | wGan=${weights.wGan} | wPas=${weights.wPas} | wTruc=${weights.wTruc} | wG7=${weights.wG7}
+
+Chỉ thị theo pha: ${huong}
 `
   );
 }
@@ -1115,46 +1196,88 @@ wHot=${weights.wHot} | wGan=${weights.wGan} | wPas=${weights.wPas} | wTruc=${wei
 function runFULL(){
   const days = parseLines();
   if(days.length < 10){
-    el("out").textContent = "❌ Thiếu dữ liệu: cần ít nhất 10 dòng. Khuyến nghị 20 dòng.";
+    el("out").textContent = "❌ Thiếu dữ liệu: cần ít nhất 10 dòng (10 ngày). Khuyến nghị 20 ngày.";
     return;
   }
 
-  // 1) Đọc pha trước
   const phaObj = detectPhase(days);
-
-  // 2) Quyết định đánh/né (giảm sai thương mại)
-  const skipObj = shouldSkipByPhase(phaObj, days);
-  if(skipObj.skip){
-    el("out").textContent = renderReport(days, phaObj, {wHot:0,wGan:0,wPas:0,wTruc:0,wG7:0,locked:false}, null, null, {pct:[],topPick:[],top10:[],freq:{}}, skipObj);
-    return;
-  }
-
-  // 3) Khóa trọng số theo pha
   const weights = lockWeightsByPhase(phaObj);
+  const pack = buildPack(days, phaObj);
 
-  // 4) Sinh theo dòng dẫn (trục hoặc g7 lead)
-  const pack = buildCandidatesByDir(days, phaObj);
-
-  // 5) Lọc full PP (gan/chạm/cụm/pascal…)
   const filt = filterCandidates(days, phaObj, pack);
   if(!filt.ok){
     el("out").textContent =
 `===== KẾT QUẢ FULL (GOD MODE • MASTER+++) =====
 Tổng ngày dùng: ${days.length}
 
-KẾT LUẬN: KHÔNG NÊN ĐÁNH
-Lý do: ${filt.reason}
+AI ĐỌC PHA:
+Pha: ${phaObj.pha} | Hướng: ${phaObj.dir} | Tin cậy: ${(phaObj.conf*100).toFixed(0)}%
+Nhận định: ${phaObj.note}
 
-* Gợi ý: giảm cửa sổ ngày về 15–20, đảm bảo newest ở trên, hoặc chỉ quan sát.
+⛔ KẾT LUẬN: ${filt.reason}
+
+Gợi ý: giảm "Cửa sổ ngày" hoặc tăng "Ngưỡng TRỤC nổi" hoặc chuyển sang SAFE.
 `;
     return;
   }
 
-  // 6) Chấm điểm + top10 + chốt 2–3
   const rank = scoreAndPick(days, phaObj, weights, pack, filt);
+  let warnings = buildWarningsCommercial(phaObj, rank, filt);
 
-  // 7) Render
-  el("out").textContent = renderReport(days, phaObj, weights, filt, pack, rank, {skip:false});
+  // pick (chỉ từ CORE A)
+  let topPick = rank.topPick.slice();
+  topPick = applyAntiGan1(topPick, warnings);
+
+  // percent line (kèm tier A/B)
+  const pctLine = rank.pct.map(x=>`${x.tier}${x.n}(${x.p.toFixed(0)}%)`).join("  ");
+
+  const main = topPick[0]?.n || "--";
+  const sub  = topPick[1]?.n || "--";
+  const kem  = topPick[2]?.n || "";
+
+  // giải thích số chốt (chỉ hiển thị tối đa 3)
+  const pickExplain = topPick.slice(0,3).map((x,i)=>{
+    const ganTag = (x.gan===999) ? "∞" : x.gan;
+    return `${i+1}) ${x.n} | score ${x.s.toFixed(2)} | hot:${x.hot} | gan:${ganTag} | truc:${x.truc?"Y":"-"} | g7:${x.g7?"Y":"-"} | pas:${x.pas?"Y":"-"} | cum:${x.cum?"Y":"-"} | dau:${x.dau?"Y":"-"} | duoi:${x.duoi?"Y":"-"}`;
+  }).join("\n");
+
+  let out =
+`===== KẾT QUẢ FULL (GOD MODE • MASTER+++) =====
+Tổng ngày dùng: ${days.length}
+
+AI ĐỌC PHA:
+Pha: ${phaObj.pha} | Hướng: ${phaObj.dir} | Tin cậy: ${(phaObj.conf*100).toFixed(0)}%
+Nhận định: ${phaObj.note}
+
+TOP ${rank.topList.length} (tham khảo) + %:
+${pctLine}
+
+CHỐT (2–3 số, thương mại):
+🎯 Chính: ${main}
+🛡️ Phụ:  ${sub}${kem?`\n➕ Kèm:  ${kem}`:""}
+
+3 CẢNH BÁO MẠNH:
+1) ${warnings[0]}
+2) ${warnings[1]}
+3) ${warnings[2]}
+
+GIẢI THÍCH SỐ CHỐT:
+${pickExplain}
+
+WEIGHTS (AI supervisor ${weights.locked?"LOCKED":"OFF"}):
+wHot=${weights.wHot} | wGan=${weights.wGan} | wPas=${weights.wPas} | wTruc=${weights.wTruc} | wG7=${weights.wG7}
+
+* Tool thống kê hỗ trợ, không đảm bảo kết quả.
+`;
+
+  const deep =
+`===== AI ĐỌC PHA (MASTER+++) =====
+Pha: ${phaObj.pha} | Hướng: ${phaObj.dir} | Tin cậy: ${(phaObj.conf*100).toFixed(0)}%
+Nhận định: ${phaObj.note}
+
+` + buildDeepLotoReport(days, phaObj, weights, pack, filt, rank);
+
+  el("out").textContent = out + "\n" + deep;
 }
 
 el("btnFull").onclick = runFULL;
