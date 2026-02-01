@@ -218,9 +218,6 @@
       <button class="btn ghost" id="btnCam">📷 Camera</button>
       <button class="btn ghost" id="btnSample">Dán mẫu</button>
       <button class="btn danger" id="btnClear">Xóa</button>
-      <!-- ✅ NEW: chạy full ngay trên cùng -->
-      <button class="btn ghost" id="btnFullTop">▶ Chạy FULL</button>
-
       <input id="fileMulti" type="file" accept="image/*" multiple hidden />
       <input id="fileCam" type="file" accept="image/*" capture="environment" hidden />
     </div>
@@ -386,39 +383,25 @@
 
 <script>
 /* =========================================================
-   MOBILE STABLE PATCH: bỏ alert(), tự chờ libs
-========================================================= */
-const el = (id)=>document.getElementById(id);
-function setBadge(id, text, cls){
-  const e = el(id);
-  e.textContent = text;
-  e.classList.remove("ok","warn","fail");
-  e.classList.add(cls);
-}
-async function waitFor(condFn, ms=3500, step=50){
-  const t0 = performance.now();
-  while(performance.now()-t0 < ms){
-    if(condFn()) return true;
-    await new Promise(r=>setTimeout(r, step));
-  }
-  return false;
-}
-function safeNote(msg){
-  el("dbg").textContent = String(msg||"");
-}
-
-/* =========================================================
    PHẦN 1 — SCAN PRO (GIỮ NGUYÊN LOGIC)
 ========================================================= */
 let cvReady = false;
 let lastImageBlob = null;
 let batchOK = 0, batchFail = 0;
 
+const el = (id)=>document.getElementById(id);
+
+function setBadge(id, text, cls){
+  const e = el(id);
+  e.textContent = text;
+  e.classList.remove("ok","warn","fail");
+  e.classList.add(cls);
+}
+
 function setStatus(){
   setBadge("stCv", `● OpenCV: ${cvReady ? "OK" : "loading…"}`, cvReady ? "ok" : "warn");
   setBadge("stBatch", `● Batch: OK ${batchOK} | FAIL ${batchFail}`, (batchFail>0) ? "warn" : "ok");
 }
-setStatus();
 
 function showKPI(db2, g6, g7, gate){
   el("kDB").textContent = db2 || "--";
@@ -431,6 +414,7 @@ function onOpenCvReady(){
   cvReady = true;
   setStatus();
 }
+setStatus();
 
 function pad2(n){ return String(n).padStart(2,"0"); }
 
@@ -460,8 +444,6 @@ function preprocess(mat){
 }
 
 async function ocrText(canvas){
-  const ok = await waitFor(()=>window.Tesseract && typeof window.Tesseract.recognize==="function", 2500, 50);
-  if(!ok) return "";
   const res = await Tesseract.recognize(canvas, "eng", {
     logger: ()=>{},
     tessedit_char_whitelist: "0123456789",
@@ -533,15 +515,9 @@ function addLineToInput(db5, g7, g6){
 
 async function runOCRFromBlob(blob){
   if(!cvReady){
-    setBadge("stCv","● OpenCV: waiting…","warn");
-    const ok = await waitFor(()=>cvReady, 4000, 50);
-    if(!ok){
-      setBadge("stCv","● OpenCV: load slow (refresh)","warn");
-      safeNote("OpenCV chưa load kịp. Đợi 2–3s rồi chọn ảnh lại (không popup).");
-      return;
-    }
+    alert("OpenCV chưa load xong. Đợi 2–3 giây rồi thử lại.");
+    return;
   }
-
   lastImageBlob = blob;
 
   setBadge("stOcr", "● OCR: running…", "warn");
@@ -614,7 +590,7 @@ async function runOCRFromBlob(blob){
   const gate = gateCheck(db5, g6, g7);
   const db2 = (/^\d{5}$/.test(db5)) ? db5.slice(-2) : "";
 
-  safeNote(
+  el("dbg").textContent =
 `[UPPER_OCR]
 ${upperTxt || "(empty)"}
 
@@ -629,12 +605,10 @@ ${g7Found.line || "(none)"}
 
 [G6_LINE]
 ${g6Found.line || "(none)"}
-`
-  );
+`;
 
   showKPI(db2, g6, g7, gate.ok ? "PASS" : "FAIL");
   setBadge("stOcr", "● OCR: done", "ok");
-
   if(gate.ok){
     setBadge("stGate", "● Gate: PASS", "ok");
     addLineToInput(db5, g7, g6);
@@ -662,10 +636,7 @@ function parseManual(){
 
 el("btnApplyManual").onclick = ()=>{
   const r = parseManual();
-  if(!r.ok){
-    setBadge("stGate", `● Gate: MANUAL FAIL — ${r.msg}`, "fail");
-    return;
-  }
+  if(!r.ok){ alert(r.msg); return; }
   addLineToInput(r.fakeDB5, r.g7, r.g6);
   setBadge("stGate","● Gate: MANUAL OK","ok");
 };
@@ -695,10 +666,7 @@ el("fileCam").addEventListener("change", async (e)=>{
 });
 
 el("btnRetryLast").onclick = async ()=>{
-  if(!lastImageBlob){
-    setBadge("stGate","● Gate: retry fail (no last img)","warn");
-    return;
-  }
+  if(!lastImageBlob){ alert("Chưa có ảnh nào để retry."); return; }
   await runOCRFromBlob(lastImageBlob);
 };
 
@@ -706,7 +674,7 @@ el("btnClear").onclick = ()=>{
   el("inputData").value = "";
   el("outHtml").textContent = "Chưa có dữ liệu.";
   el("outRaw").textContent = "Chưa có dữ liệu.";
-  safeNote("Chưa có OCR.");
+  el("dbg").textContent = "Chưa có OCR.";
   batchOK=0; batchFail=0;
   setBadge("stOcr","● OCR: idle","ok");
   setBadge("stGate","● Gate: waiting","warn");
@@ -724,7 +692,6 @@ DB 80 | G7: 22 20 16 61 | G6: 733 014 672`;
 
 /* =========================================================
    PHẦN 2 — ENGINE (MASTER+++)
-   (GIỮ NGUYÊN 100% như bản bạn gửi)
 ========================================================= */
 
 /* ----- Parse input lines ----- */
@@ -941,7 +908,7 @@ function lockWeightsByPhase(phaObj){
 }
 
 /* =========================================================
-   SCORE (giữ nguyên)
+   SCORE (giữ nguyên để có meta HOT/GAN/TRỤC/PASCAL)
 ========================================================= */
 function scoreCandidates(days, phaObj, weights){
   const K = Math.min(Math.max(5, parseInt(el("phaseK").value||"9",10)), days.length);
@@ -1189,7 +1156,7 @@ function renderOutputUI(payload){
 }
 
 /* =========================================================
-   PATCH HIT@3>=2 — DROP-IN (giữ nguyên)
+   PATCH HIT@3>=2 — DROP-IN (GIỮ NGUYÊN)
 ========================================================= */
 const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
 const sigmoid = (z) => 1 / (1 + Math.exp(-z));
@@ -1391,12 +1358,13 @@ function MASTER_HIT2OF3(ctx) {
 }
 
 /* =========================================================
-   RUN FULL — main (giữ nguyên logic bạn gửi)
+   RUN FULL — main (HIT@3>=2 — ỔN ĐỊNH)
+   (CHỈ KHÁC Ở ĐÂY: runFULL)
 ========================================================= */
 function runFULL(){
   const days = parseLines();
-  if(days.length < 10){
-    el("outHtml").textContent = "❌ Thiếu dữ liệu: cần ít nhất 10 dòng (10 ngày). Khuyến nghị 20 ngày.";
+  if(days.length < 12){
+    el("outHtml").textContent = "❌ Thiếu dữ liệu: cần ≥12 ngày (khuyến nghị 20).";
     el("outRaw").textContent = "❌ Thiếu dữ liệu.";
     return;
   }
@@ -1404,25 +1372,38 @@ function runFULL(){
   // 1) đọc pha
   const phaObj = detectPhase(days);
 
-  // 2) weights
+  // 2) weights UI (giữ nguyên)
   const weights = lockWeightsByPhase(phaObj);
 
-  // 3) score meta
+  // 3) meta full (giữ nguyên)
   const meta = scoreCandidates(days, phaObj, weights);
 
-  // 4) ctx patch
+  // 4) ctx HIT@3>=2 (cải tiến: TRỤC score theo power đầu+đuôi, GAN cắt ∞)
   const candidates = Array.from({length:100},(_,i)=>pad2(i));
+
   const hotRank = new Map(candidates.map(n => [n, meta.freq[n] || 0]));
-  const ganScore = new Map(candidates.map(n => [n, meta.gan[n] ?? 999]));
+
+  const ganScore = new Map(candidates.map(n => {
+    const v = meta.gan[n];
+    if(v === 999) return [n, 0];     // ∞ -> 0 (không kéo top)
+    return [n, Math.min(v, 20)];     // cắt trần 20
+  }));
+
   const pasScore = new Map(candidates.map(n => [n, meta.pas.has(n) ? 1 : 0]));
-  const trucScore = new Map(candidates.map(n => [n, meta.trucSet.has(n) ? 1 : 0]));
+
+  const Kp = Math.min(Math.max(5, parseInt(el("phaseK").value||"9",10)), days.length);
+  const ht = buildHeadTail(days, Kp);
+  const headPower = new Map(Object.entries(ht.h).map(([k,v])=>[k,v]));
+  const tailPower = new Map(Object.entries(ht.t).map(([k,v])=>[k,v]));
+  const trucScore = new Map(candidates.map(n=>{
+    const hp = headPower.get(n[0]) || 0;
+    const tp = tailPower.get(n[1]) || 0;
+    const bonus = meta.trucSet.has(n) ? 2 : 0;
+    return [n, hp + tp + bonus];
+  }));
+
   const g7Lead = meta.g7Lead;
   const cumConfirm = new Set(meta.cumList || []);
-
-  const ht = buildHeadTail(days, Math.min(Math.max(5, parseInt(el("phaseK").value||"9",10)), days.length));
-  const headCount = {}; const tailCount = {};
-  for(const [k,v] of Object.entries(ht.h||{})) headCount[k]=v;
-  for(const [k,v] of Object.entries(ht.t||{})) tailCount[k]=v;
 
   const ctxPatch = {
     windowN: days.length,
@@ -1433,18 +1414,18 @@ function runFULL(){
     trucScore,
     g7Lead,
     cumConfirm,
-    headCount,
-    tailCount,
+    headCount: ht.h,
+    tailCount: ht.t,
     trucThreshold: Math.min(Math.max(2, parseInt(el("trucThreshold").value||"4",10)), 10),
     phaseHint: { pha: phaObj.pha, huong: phaObj.dir, tinCay: phaObj.conf }
   };
 
   const patchOut = MASTER_HIT2OF3(ctxPatch);
 
-  // 5) warnings
+  // 5) warnings (giữ nguyên)
   const warnings = buildWarnings(days, phaObj, meta);
 
-  // 6) TOP hiển thị
+  // 6) TOP hiển thị theo PATCH
   const topN = Math.min(Math.max(4, parseInt(el("topN").value||"10",10)), 15);
   const topPickByProb = patchOut.top10.slice(0, topN);
 
@@ -1454,8 +1435,10 @@ function runFULL(){
     return `${x.n}(${p.toFixed(0)}%)`;
   });
 
+  // 7) pick 3 số (hoặc né ngày)
   const pick = patchOut.skip.skip ? [] : (patchOut.chot3 || []);
 
+  // 8) explain lines
   const explainLines = (pick.length ? pick : topPickByProb.slice(0,3).map(x=>x.n)).slice(0,3).map((n,i)=>{
     const f = meta.features[n] || {hot:0,gan:999,pas:0,truc:false,g7:false};
     const ganTag = (meta.gan[n]===999) ? "∞" : meta.gan[n];
@@ -1466,9 +1449,10 @@ function runFULL(){
   });
 
   const extraNote = patchOut.skip.skip
-    ? `🟥 NÉ NGÀY: ${patchOut.skip.reason} (mode HIT@3>=2). Chỉ hiển thị TOP tham khảo.`
+    ? `🟥 NÉ NGÀY: ${patchOut.skip.reason} (HIT@3>=2). Chỉ hiển thị TOP tham khảo.`
     : `✅ MODE: HIT@3>=2 • trust ${(patchOut.trust*100).toFixed(0)}% • noise ${(patchOut.gate.noise*100).toFixed(0)}%`;
 
+  // 9) raw text
   const main = pick[0] || "--";
   const sub  = pick[1] || "--";
   const kem  = pick[2] || "";
@@ -1524,6 +1508,7 @@ wHot=${weights.wHot} | wGan=${weights.wGan} | wPas=${weights.wPas} | wTruc=${wei
   }));
   const rawText = out + "\n\n" + deep;
 
+  // 10) render
   window.__lastRender = ()=>renderOutputUI({
     phaObj,
     pick,
@@ -1539,12 +1524,6 @@ wHot=${weights.wHot} | wGan=${weights.wGan} | wPas=${weights.wPas} | wTruc=${wei
 }
 
 el("btnFull").onclick = runFULL;
-
-/* ✅ NEW: nút chạy full ở trên cùng */
-el("btnFullTop").onclick = ()=>{
-  runFULL();
-  window.scrollTo({top: document.body.scrollHeight, behavior:"smooth"});
-};
 </script>
 </body>
 </html>
