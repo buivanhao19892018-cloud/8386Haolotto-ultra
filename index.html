@@ -143,6 +143,7 @@
     .kpi .box .t{font-size:12px;color:var(--muted)}
     .kpi .box .v{font-size:16px;font-weight:900;margin-top:4px}
 
+    /* GOD MODE mini panel */
     .god{
       display:grid;
       grid-template-columns:1fr;
@@ -160,6 +161,7 @@
       line-height:1.45;
     }
 
+    /* OUTPUT UI */
     .krow{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
     .kcard{
       flex:1;min-width:220px;
@@ -354,8 +356,8 @@
     <h2 class="sectionTitle">KẾT QUẢ FULL</h2>
 
     <div class="row" style="margin-top:6px">
-      <button class="btn ghost" id="btnViewSimple">SIMPLE</button>
-      <button class="btn ghost" id="btnViewPro">PRO</button>
+      <button class="btn ghost" id="btnViewSimple">ĐƠN GIẢN</button>
+      <button class="btn ghost" id="btnViewPro">CHUYÊN NGHIỆP</button>
       <span class="small" id="viewHint" style="opacity:.85"></span>
     </div>
 
@@ -690,6 +692,7 @@ DB 80 | G7: 22 20 16 61 | G6: 733 014 672`;
 
 /* =========================================================
    PHẦN 2 — ENGINE (MASTER+++)
+   + 5 PATCH: dedup / capHot / phạt gan0-1 pha trục / giao thoa>=2 cho số chính / cap wHot
 ========================================================= */
 
 /* ----- Parse input lines ----- */
@@ -713,7 +716,17 @@ function parseLines(){
     const pool = [db2, ...g7, ...g6_2];
     days.push({db2, g7, g6_2, pool});
   }
-  return days;
+
+  // PATCH 1: dedup theo chữ ký pool (chống trùng dòng)
+  const seen = new Set();
+  const dedup = [];
+  for (const d of days) {
+    const sig = d.pool.slice().sort().join(",");
+    if (seen.has(sig)) continue;
+    seen.add(sig);
+    dedup.push(d);
+  }
+  return dedup;
 }
 
 /* ----- Helpers ----- */
@@ -902,6 +915,10 @@ function lockWeightsByPhase(phaObj){
     wHot = 1.0; wGan = 1.0; wPas = 1.0;
     wTruc = 0.8; wG7 = 0.8;
   }
+
+  // PATCH 5: cap wHot để tránh bẫy cụm/hot (sửa nhẹ)
+  if (wHot > 2.0) wHot = 2.0;
+
   return {wHot,wGan,wPas,wTruc,wG7, locked:true};
 }
 
@@ -920,24 +937,12 @@ function scoreCandidates(days, phaObj, weights){
   const headTop = Object.entries(ht.h).sort((a,b)=>b[1]-a[1]).slice(0,5).map(x=>x[0]);
   const tailTop = Object.entries(ht.t).sort((a,b)=>b[1]-a[1]).slice(0,5).map(x=>x[0]);
 
-  // trục theo threshold: lấy các đầu/đuôi đạt ngưỡng
-  const headStrongAll = Object.entries(ht.h).filter(([,c])=>c>=threshold).sort((a,b)=>b[1]-a[1]).slice(0,6).map(x=>x[0]);
-  const tailStrongAll = Object.entries(ht.t).filter(([,c])=>c>=threshold).sort((a,b)=>b[1]-a[1]).slice(0,6).map(x=>x[0]);
-
-  // ===== PATCH #2: THU HẸP TRỤC 3x3 khi TRUC_MO/TRUC_GAN để tránh loãng =====
-  const isTrucMode = (phaObj.dir==="TRUC_GAN" || phaObj.dir==="TRUC_MO");
-  const headStrong = isTrucMode
-    ? (headStrongAll.length ? headStrongAll.slice(0,3) : headTop.slice(0,3))
-    : (headStrongAll.length ? headStrongAll : headTop.slice(0,4));
-  const tailStrong = isTrucMode
-    ? (tailStrongAll.length ? tailStrongAll.slice(0,3) : tailTop.slice(0,3))
-    : (tailStrongAll.length ? tailStrongAll : tailTop.slice(0,4));
-
-  const trucSet = makeTrucSet(headStrong, tailStrong);
+  const headStrong = Object.entries(ht.h).filter(([,c])=>c>=threshold).sort((a,b)=>b[1]-a[1]).slice(0,6).map(x=>x[0]);
+  const tailStrong = Object.entries(ht.t).filter(([,c])=>c>=threshold).sort((a,b)=>b[1]-a[1]).slice(0,6).map(x=>x[0]);
+  const trucSet = makeTrucSet(headStrong.length?headStrong:headTop.slice(0,4), tailStrong.length?tailStrong:tailTop.slice(0,4));
 
   const pas = pascalSeed(days);
 
-  // G7 lead set từ ngày gần nhất
   const g7Lead = new Set();
   if(days.length){
     days[0].g7.forEach(x=>keSet(x).forEach(v=>g7Lead.add(v)));
@@ -949,19 +954,17 @@ function scoreCandidates(days, phaObj, weights){
   for(let i=0;i<100;i++){
     const n = pad2(i);
 
-    // ===== PATCH #3: HOT mềm (sqrt) để hot không "đè" tất cả =====
+    // PATCH 2: cap hot để tránh bẫy cụm
     const hotRaw = (freq[n]||0);
-    const hot = Math.sqrt(hotRaw);
+    const hot = Math.min(hotRaw, 4);
 
     const g = gan[n];
 
-    // ===== PATCH #1: PHẠT GAN 0–1 mạnh, ưu tiên gan 2–9 =====
     let ganFeat = 0;
-    if(g===999) ganFeat = -2;            // gan vô hạn: không tự đẩy lên
-    else if(g===0) ganFeat = -2.2;       // vừa ra hôm qua -> phạt mạnh
-    else if(g===1) ganFeat = -1.4;       // ra cách 1 ngày -> phạt
-    else if(g>=2 && g<=9) ganFeat = 2;   // vùng gan đẹp
-    else ganFeat = 0;                    // 10+ không ưu tiên
+    if(g===999) ganFeat = -2;
+    else if(g===0) ganFeat = -1;
+    else if(g>=2 && g<=9) ganFeat = 2;
+    else ganFeat = 0;
 
     const pasFeat = pas.has(n) ? 1 : 0;
     const trucFeat = trucSet.has(n) ? 1 : 0;
@@ -972,34 +975,24 @@ function scoreCandidates(days, phaObj, weights){
     s += g7Feat*weights.wG7;
 
     if(phaObj.pha==="P4") s *= 0.55;
-
-    // giữ logic cũ: trục mode mà không nằm trục -> trừ
-    if(isTrucMode && !trucFeat){
+    if((phaObj.dir==="TRUC_GAN" || phaObj.dir==="TRUC_MO") && !trucFeat){
       s -= 0.6;
     }
 
-    // ===== PATCH #4: TRỤC mode bắt buộc "giao thoa ≥2 tiêu chí" =====
-    if(isTrucMode){
-      const hit2 =
-        (trucFeat?1:0) +
-        (g7Feat?1:0) +
-        (pasFeat?1:0) +
-        (ganFeat>0?1:0);
-      if(hit2 < 2) s -= 1.2; // thiếu giao thoa => phạt
+    // PATCH 3: phạt gan 0/1 trong pha TRỤC (tránh bẫy vừa ra)
+    if ((phaObj.dir==="TRUC_GAN" || phaObj.dir==="TRUC_MO") && (g===0 || g===1)) {
+      s -= 1.2;
     }
 
     score[n]=s;
-    features[n]={hot:hotRaw, gan:g, pas:pasFeat, truc:trucFeat, g7:g7Feat};
+    features[n]={hot, gan:g, pas:pasFeat, truc:trucFeat, g7:g7Feat};
   }
 
-  // sort lần 1
   let scoreSorted = Object.entries(score).sort((a,b)=>b[1]-a[1]);
 
-  // cum confirm (chỉ xác nhận)
   const cumList = buildCumConfirm(scoreSorted);
   const cumSet = new Set(cumList);
 
-  // add tiny bonus cho số nằm trong cum confirm (KHÔNG ÉP)
   for(const [n] of scoreSorted.slice(0,30)){
     if(cumSet.has(n)) score[n] += 0.35;
   }
@@ -1018,19 +1011,6 @@ function buildWarnings(days, phaObj, meta){
     warn.push("⚠️ NHIỄU NẶNG: tín hiệu dẫn dắt yếu → nên NÉ hoặc đánh cực nhỏ.");
   }
 
-  // ===== PATCH #5a: bẫy gan 0–1 trong TOP =====
-  let topGan01 = 0;
-  for(let i=0;i<12;i++){
-    const n = meta.scoreSorted[i]?.[0];
-    if(!n) break;
-    const g = meta.gan[n];
-    if(g===0 || g===1) topGan01++;
-  }
-  if(topGan01>=2){
-    warn.push("⚠️ BẪY GAN 0–1: nhiều số vừa ra/cách 1 ngày lọt top → ưu tiên gan 2–9.");
-  }
-
-  // bẫy gan∞
   let topInf = 0;
   for(let i=0;i<12;i++){
     const n = meta.scoreSorted[i]?.[0];
@@ -1038,13 +1018,13 @@ function buildWarnings(days, phaObj, meta){
     if(meta.gan[n]===999) topInf++;
   }
   if(topInf>=3){
-    warn.push("⚠️ BẪY GAN∞: nhiều số gan∞ lọt top → ưu tiên gan 2–9.");
+    warn.push("⚠️ BẪY GAN: nhiều số gan∞ lọt top → ưu tiên gan 2–9.");
   }
 
   const hotVals = Object.values(meta.freq).sort((a,b)=>b-a);
   const topHot = hotVals[0] || 0;
   if(topHot>=5 && phaObj.dir!=="TRUC_MO"){
-    warn.push("⚠️ BẪY CỤM/HOT: hot dày → dễ lệch, tránh all-in theo cụm.");
+    warn.push("⚠️ BẪY CỤM/HOT: nóng dày → dễ trượt, tránh all-in theo cụm.");
   }
 
   const mr = phaObj.metrics;
@@ -1052,16 +1032,10 @@ function buildWarnings(days, phaObj, meta){
     warn.push("⚠️ ĐẢO PHA: TRỤC & G7 cùng mạnh → chỉ chọn số giao thoa (≥2 tiêu chí).");
   }
 
-  // ===== PATCH #5b: trục loãng =====
-  const trucSize = (meta.trucSet && meta.trucSet.size) ? meta.trucSet.size : 0;
-  if(trucSize>=40){
-    warn.push("⚠️ TRỤC LOÃNG: trục quá rộng → chỉ đánh số giao thoa (TRỤC + GAN/PASCAL/G7).");
-  }
-
   const uniq = [];
   warn.forEach(w=>{ if(!uniq.includes(w)) uniq.push(w); });
   while(uniq.length<3){
-    uniq.push("✅ OK: chưa thấy bẫy quá rõ (vẫn giữ kỷ luật tiền).");
+    uniq.push("✅ OK: chưa thấy bẫy quá rõ (vẫn giữ kỷ luật).");
   }
   return uniq.slice(0,3);
 }
@@ -1125,8 +1099,8 @@ window.__lastRender = null;
 const setView = (m)=>{
   VIEW_MODE = m;
   el("viewHint").textContent = (m==="simple")
-    ? "SIMPLE: Chốt + cảnh báo + lý do (dễ nhìn)"
-    : "PRO: Thêm Top + % + mở FULL PRO chi tiết";
+    ? "ĐƠN GIẢN: Chốt + cảnh báo + lý do (dễ nhìn)"
+    : "CHUYÊN NGHIỆP: Thêm Top + % + mở FULL PRO chi tiết";
   el("detailBox").open = (m==="pro");
 };
 
@@ -1134,7 +1108,7 @@ el("btnViewSimple").onclick = ()=>{ setView("simple"); if(window.__lastRender) w
 el("btnViewPro").onclick = ()=>{ setView("pro"); if(window.__lastRender) window.__lastRender(); };
 setView("simple");
 
-function esc(s){ return String(s).replace(/[&<>"']/g, m=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[m])); }
+function esc(s){ return String(s).replace(/[&<>"']/g, m=>({ "&":"&amp;","<":"&lt;"," >":"&gt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[m])); }
 
 function renderOutputUI(payload){
   const {phaObj, pick, pctLineArr, warnings, explainLines, weights, daysLen, rawText} = payload;
@@ -1151,7 +1125,7 @@ function renderOutputUI(payload){
   }else{
     chipsHtml += `<span class="chip">🎯 Chính: ${esc(main)}</span>`;
     chipsHtml += `<span class="chip">🛡️ Phụ: ${esc(sub)}</span>`;
-    if(kem) chipsHtml += `<span class="chip">➕ Kèm: ${esc(kem)}</span>`;
+    if(kem) chipsHtml += `<span class="chip">➕ Bao: ${esc(kem)}</span>`;
   }
   chipsHtml += `</div>`;
 
@@ -1185,7 +1159,7 @@ function renderOutputUI(payload){
       <div class="khead">3 CẢNH BÁO MẠNH</div>
       ${warnHtml}
       <div class="sep"></div>
-      <div class="metaLine">AI supervisor: <b>${weights.locked?"LOCKED":"OFF"}</b><br/>${esc(weightLine)}<br/>Tổng ngày dùng: ${daysLen}</div>
+      <div class="metaLine">AI giám sát: <b>${weights.locked?"LOCKED":"OFF"}</b><br/>${esc(weightLine)}<br/>Tổng ngày dùng: ${daysLen}</div>
     </div>
   `;
 
@@ -1231,7 +1205,6 @@ function runFULL(){
   const baseTop = meta.scoreSorted.slice(0, 10);
   const sumTop = baseTop.reduce((acc, [,s])=>acc + Math.max(0,s), 0) || 1;
 
-  // build pick objects with features
   const pickObjs = topPick.map(([n,s],idx)=>{
     const f = meta.features[n] || {hot:0,gan:999,pas:0,truc:false,g7:false};
     const cum = meta.cumList.includes(n);
@@ -1251,6 +1224,16 @@ function runFULL(){
     };
   });
 
+  // PATCH 4: số CHÍNH ưu tiên giao thoa >=2 tiêu chí
+  function crossCount(x){
+    return (x.truc?1:0) + (x.g7?1:0) + (x.pas?1:0) + (x.cum?1:0) + (x.dau?1:0) + (x.duoi?1:0);
+  }
+  pickObjs.sort((a,b)=>{
+    const ca = crossCount(a), cb = crossCount(b);
+    if (cb !== ca) return cb - ca;
+    return b.s - a.s;
+  });
+
   const pctLineArr = pickObjs.map(x=>{
     const p = (Math.max(0,x.s)/sumTop)*100;
     return `${x.n}(${p.toFixed(0)}%)`;
@@ -1262,7 +1245,7 @@ function runFULL(){
   // 6) explain lines (top 3)
   const explainLines = pickObjs.slice(0,3).map((x,i)=>{
     const ganTag = (x.gan===999) ? "∞" : x.gan;
-    return `${i+1}) ${x.tier}${x.n} | score ${x.s.toFixed(2)} | hot:${x.hot} | gan:${ganTag} | truc:${x.truc?"Y":"-"} | g7:${x.g7?"Y":"-"} | pas:${x.pas?"Y":"-"} | cum:${x.cum?"Y":"-"} | dau:${x.dau?"Y":"-"} | duoi:${x.duoi?"Y":"-"}`;
+    return `${i+1}) ${x.tier}${x.n} | điểm ${x.s.toFixed(2)} | nóng:${x.hot} | gan:${ganTag} | trục:${x.truc?"Y":"-"} | g7:${x.g7?"Y":"-"} | pa:${x.pas?"Y":"-"} | cụm:${x.cum?"Y":"-"} | đầu:${x.dau?"Y":"-"} | đuôi:${x.duoi?"Y":"-"}`;
   });
 
   const main = pickObjs[0]?.n || "--";
@@ -1282,7 +1265,7 @@ ${pctLineArr.join("  ")}
 
 CHỐT (2–3 số, thương mại):
 🎯 Chính: ${main}
-🛡️ Phụ:  ${sub}${kem?`\n➕ Kèm:  ${kem}`:""}
+🛡️ Phụ:  ${sub}${kem?`\n➕ Bao:  ${kem}`:""}
 
 3 CẢNH BÁO MẠNH:
 1) ${warnings[0]}
@@ -1292,7 +1275,7 @@ CHỐT (2–3 số, thương mại):
 GIẢI THÍCH SỐ CHỐT:
 ${explainLines.join("\n")}
 
-WEIGHTS (AI supervisor ${weights.locked?"LOCKED":"OFF"}):
+WEIGHTS (AI giám sát ${weights.locked?"LOCKED":"OFF"}):
 wHot=${weights.wHot} | wGan=${weights.wGan} | wPas=${weights.wPas} | wTruc=${weights.wTruc} | wG7=${weights.wG7}
 
 * Tool thống kê hỗ trợ, không đảm bảo kết quả.
@@ -1319,3 +1302,4 @@ el("btnFull").onclick = runFULL;
 </script>
 </body>
 </html>
+```0
