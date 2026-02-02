@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+  <title>Bùi Hào — Lotto ULTRA MASTER (OCR Gate FINAL v3 • GOD MODE • HIT@3>=2)</title>
   <meta name="theme-color" content="#0b1220"/>
-  <title>Bùi Hào — Lotto ULTRA MASTER (OCR Gate FINAL v3 • GOD MODE)</title>
   <style>
     :root{
       --bg:#07101d;
@@ -16,1203 +16,1484 @@
       --good:#32d583;
       --warn:#fdb022;
       --bad:#ff4d4f;
-      --chip:#0e2144;
-      --chip2:#0b1a36;
-      --btn:#1d4ed8;
-      --btn2:#0f2c6b;
-      --shadow: 0 20px 60px rgba(0,0,0,.35);
-      --r:18px;
-      --r2:24px;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      --sans: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      --btn:#1e5eff;
+      --btn2:#1a3fa8;
     }
     *{box-sizing:border-box}
     body{
       margin:0;
-      font-family:var(--sans);
-      background: radial-gradient(1200px 600px at 20% -10%, rgba(29,78,216,.35), transparent 60%),
-                  radial-gradient(900px 500px at 90% 10%, rgba(50,213,131,.18), transparent 55%),
-                  radial-gradient(700px 500px at 40% 120%, rgba(253,176,34,.16), transparent 55%),
-                  var(--bg);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+      background:
+        radial-gradient(1200px 600px at 10% -20%, rgba(30,94,255,.25), transparent 60%),
+        radial-gradient(900px 500px at 110% 10%, rgba(50,213,131,.18), transparent 55%),
+        linear-gradient(180deg, #06101f, #050b16 45%, #050a13);
+      color:var(--text);
+      padding:18px;
+    }
+    .wrap{max-width:980px;margin:0 auto}
+    .card{
+      background:linear-gradient(180deg,var(--card),var(--card2));
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:16px;
+      box-shadow:0 10px 30px rgba(0,0,0,.35);
+      margin-bottom:14px;
+    }
+    h1{margin:0 0 8px;font-size:22px;letter-spacing:.2px}
+    .pillrow{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}
+    .pill{
+      padding:7px 10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      color:var(--muted);
+      font-size:12px;
+      white-space:nowrap;
+    }
+    .dot{display:inline-block;width:8px;height:8px;border-radius:99px;margin-right:6px;vertical-align:middle}
+    .g{background:var(--good)} .y{background:var(--warn)} .r{background:var(--bad)}
+    .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px}
+    .btn{
+      appearance:none;border:0;cursor:pointer;
+      background:linear-gradient(180deg,var(--btn),var(--btn2));
+      color:white;font-weight:800;
+      padding:12px 14px;border-radius:14px;
+      box-shadow:0 10px 18px rgba(30,94,255,.25);
+    }
+    .btn:active{transform:translateY(1px)}
+    .btn.ghost{
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      box-shadow:none;
       color:var(--text);
     }
-    a{color:inherit}
-    .wrap{
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 18px 14px 28px;
-    }
-    .hero{
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      border: 1px solid var(--line);
-      border-radius: var(--r2);
-      padding: 18px;
-      box-shadow: var(--shadow);
-      overflow:hidden;
-      position:relative;
-    }
-    .hero:before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background: radial-gradient(800px 280px at 30% 0%, rgba(29,78,216,.25), transparent 60%),
-                  radial-gradient(700px 300px at 90% 30%, rgba(50,213,131,.18), transparent 60%);
-      pointer-events:none;
-      z-index:0;
-    }
-    .hero > *{position:relative; z-index:1;}
-    h1{
-      font-size: 26px;
-      line-height:1.15;
-      margin: 0 0 10px;
-      letter-spacing:.2px;
-    }
-    .sub{
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.5;
-      margin: 0 0 14px;
-    }
-    .row{
-      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
-    }
-    .btn{
-      border:0;
-      padding: 12px 14px;
-      border-radius: 16px;
-      background: linear-gradient(180deg, rgba(29,78,216,.95), rgba(29,78,216,.75));
-      color:white;
-      font-weight: 700;
-      letter-spacing:.2px;
-      cursor:pointer;
-      box-shadow: 0 12px 30px rgba(29,78,216,.25);
-    }
-    .btn:active{transform: translateY(1px);}
-    .btn.ghost{
-      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
-      border: 1px solid var(--line);
-      color: var(--text);
-      box-shadow:none;
-    }
     .btn.danger{
-      background: linear-gradient(180deg, rgba(255,77,79,.92), rgba(255,77,79,.65));
-      box-shadow: 0 12px 30px rgba(255,77,79,.18);
+      background:linear-gradient(180deg,#ff4d4f,#b42318);
+      box-shadow:0 10px 18px rgba(255,77,79,.18);
     }
-    .btn.green{
-      background: linear-gradient(180deg, rgba(50,213,131,.92), rgba(50,213,131,.65));
-      box-shadow: 0 12px 30px rgba(50,213,131,.18);
-    }
-    .pill{
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      padding: 9px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid var(--line);
-      color: var(--muted);
-      font-size: 13px;
-    }
-    .dot{width:10px;height:10px;border-radius:999px;background: var(--good); box-shadow:0 0 0 4px rgba(50,213,131,.12);}
-    .dot.warn{background: var(--warn); box-shadow:0 0 0 4px rgba(253,176,34,.12);}
-    .dot.bad{background: var(--bad); box-shadow:0 0 0 4px rgba(255,77,79,.12);}
-    .grid{
-      display:grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap: 14px;
-      margin-top: 14px;
-    }
-    @media (max-width: 860px){
-      .grid{grid-template-columns: 1fr;}
-    }
-    .card{
-      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      border: 1px solid var(--line);
-      border-radius: var(--r2);
-      padding: 14px;
-      box-shadow: 0 12px 40px rgba(0,0,0,.25);
-    }
-    .card h2{
-      margin:0 0 10px;
-      font-size: 18px;
-      letter-spacing:.2px;
-    }
-    .hint{color:var(--muted); font-size:13px; line-height:1.5}
-    .chips{display:flex; flex-wrap:wrap; gap:8px; margin: 10px 0 6px;}
-    .chip{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding: 8px 10px;
-      border-radius: 999px;
-      background: rgba(14,33,68,.55);
-      border: 1px solid rgba(255,255,255,.08);
-      color: var(--muted);
-      font-size: 13px;
-    }
-    .chip strong{color:var(--text); font-weight:700;}
-    .chip.good{color:#c9ffe5; border-color: rgba(50,213,131,.22); background: rgba(50,213,131,.10);}
-    .chip.warn{color:#ffe7bf; border-color: rgba(253,176,34,.22); background: rgba(253,176,34,.10);}
-    .chip.bad{color:#ffd6d6; border-color: rgba(255,77,79,.22); background: rgba(255,77,79,.10);}
-    .inputs{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-      margin-top: 10px;
-    }
-    textarea{
+    .hint{color:var(--muted);line-height:1.45;font-size:13px;margin-top:6px}
+    .small{font-size:12px;color:var(--muted)}
+    .grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px}
+    @media(min-width:860px){ .grid{grid-template-columns:1.2fr .8fr} }
+    .preview{
       width:100%;
-      min-height: 170px;
-      resize: vertical;
-      padding: 14px;
-      font-size: 14px;
-      line-height: 1.5;
-      color: var(--text);
-      background: rgba(10,20,39,.75);
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 18px;
-      outline:none;
-      font-family: var(--mono);
-    }
-    textarea::placeholder{color: rgba(168,183,214,.65)}
-    .field{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 8px;
-    }
-    .label{
-      color: var(--muted);
-      font-size: 13px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-    }
-    .label small{opacity:.9}
-    .row2{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-    @media (max-width:520px){ .row2{grid-template-columns:1fr;} }
-    input[type="number"], select{
-      width:100%;
-      padding: 12px 12px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.08);
-      background: rgba(10,20,39,.75);
-      color: var(--text);
-      font-size: 14px;
-      outline:none;
-    }
-
-    .seg{
-      display:flex; gap:10px; align-items:center; flex-wrap:wrap;
-      margin-top: 10px;
-    }
-    .toggle{
-      display:flex; align-items:center; gap:10px;
-      padding: 10px 12px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.08);
-      background: rgba(10,20,39,.55);
-      color: var(--muted);
-      font-size: 13px;
-      user-select:none;
-    }
-    .toggle input{transform: scale(1.2)}
-    .divider{
-      height:1px; background: rgba(255,255,255,.08); margin: 14px 0;
-    }
-
-    .tabs{
-      display:flex; gap:10px; margin: 6px 0 10px;
-    }
-    .tab{
-      flex:0 0 auto;
-      padding: 10px 14px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.08);
-      background: rgba(10,20,39,.55);
-      color: var(--muted);
-      cursor:pointer;
-      font-weight:700;
-      letter-spacing:.2px;
-    }
-    .tab.active{
-      background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.04));
-      color: var(--text);
-      border-color: rgba(255,255,255,.14);
-    }
-
-    .resultCard{
-      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 22px;
-      padding: 14px;
-    }
-    .bigPick{
-      font-size: 34px;
-      font-weight: 900;
-      letter-spacing:.5px;
-      margin: 6px 0 6px;
-    }
-    .meta{
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.45;
-      margin: 0 0 8px;
-    }
-    .badges{
-      display:flex; gap:10px; flex-wrap:wrap; margin-top: 10px;
-    }
-    .badgeBtn{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding: 10px 12px;
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(10,20,39,.65);
-      color: var(--text);
-      font-weight:800;
-      cursor:default;
-    }
-    .badgeBtn small{font-weight:700;color: var(--muted)}
-    .warnList{
-      margin: 10px 0 0;
-      padding-left: 18px;
-      color: var(--text);
-    }
-    .warnList li{margin: 6px 0; color: var(--muted)}
-    .warnList b{color: var(--text)}
-    .monoBox{
-      margin-top: 12px;
-      padding: 12px;
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,.08);
-      background: rgba(10,20,39,.72);
-      font-family: var(--mono);
-      font-size: 14px;
-      line-height: 1.45;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-    details{
-      margin-top: 10px;
-      border-radius: 18px;
+      border-radius:16px;
+      border:1px solid var(--line);
+      background:#060b13;
       overflow:hidden;
-      border: 1px solid rgba(255,255,255,.08);
-      background: rgba(10,20,39,.55);
     }
-    summary{
-      cursor:pointer;
-      list-style:none;
-      padding: 12px 14px;
-      color: var(--text);
-      font-weight: 800;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
+    canvas, img{display:block;width:100%;height:auto}
+    .status{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .badge{
+      padding:8px 10px;border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.06);
+      font-weight:800;font-size:12px
+    }
+    .badge.ok{color:var(--good)}
+    .badge.fail{color:var(--bad)}
+    .badge.warn{color:var(--warn)}
+    .sectionTitle{font-size:18px;margin:0 0 6px}
+    .mono{
+      font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:12.5px;
+      color:#d7e2ff;
+      background:rgba(0,0,0,.25);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:12px;
+      overflow:auto;
+      white-space:pre-wrap;
+      word-break:break-word;
+    }
+    .inputs{display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px}
+    @media(min-width:700px){ .inputs{grid-template-columns:1fr 1fr} }
+    .field{
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:10px;
+    }
+    .field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+    .field input, .field textarea, .field select{
+      width:100%;
+      border:0;
+      outline:none;
+      background:transparent;
+      color:var(--text);
+      font-size:14px;
+      padding:6px 0;
+    }
+    textarea{min-height:150px;resize:vertical}
+    .split{display:flex;gap:10px;flex-wrap:wrap}
+    .split .field{flex:1;min-width:180px}
+    .kpi{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
       gap:10px;
+      margin-top:10px;
     }
-    summary::-webkit-details-marker{display:none;}
-    .detailBody{
-      padding: 0 14px 14px;
-      color: var(--muted);
-      font-size: 13px;
+    @media(min-width:700px){ .kpi{grid-template-columns:repeat(4,minmax(0,1fr))} }
+    .kpi .box{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.06);
+      border-radius:14px;
+      padding:10px;
     }
-    .footer{
-      margin-top: 14px;
-      color: rgba(168,183,214,.70);
-      font-size: 13px;
-      text-align:center;
+    .kpi .box .t{font-size:12px;color:var(--muted)}
+    .kpi .box .v{font-size:16px;font-weight:900;margin-top:4px}
+
+    .god{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+      margin-top:10px;
     }
-    .mini{
-      color: rgba(168,183,214,.70);
-      font-size: 12px;
+    @media(min-width:860px){ .god{grid-template-columns:1fr 1fr} }
+    .callout{
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(0,0,0,.22);
+      border-radius:14px;
+      padding:10px;
+      color:var(--muted);
+      font-size:12.5px;
       line-height:1.45;
     }
-    .fileList{
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 13px;
+
+    .krow{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+    .kcard{
+      flex:1;min-width:220px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.06);
+      border-radius:14px;
+      padding:12px;
     }
-    .fileList b{color:var(--text)}
-    .toast{
-      position: fixed;
-      left: 50%;
-      bottom: 18px;
-      transform: translateX(-50%);
-      background: rgba(10,20,39,.92);
-      border: 1px solid rgba(255,255,255,.10);
-      color: var(--text);
-      padding: 10px 12px;
-      border-radius: 14px;
-      box-shadow: 0 18px 50px rgba(0,0,0,.35);
-      max-width: 94vw;
-      display:none;
-      z-index: 9999;
-      font-size: 13px;
+    .khead{font-weight:900;font-size:12px;color:var(--muted);letter-spacing:.2px}
+    .kbig{font-size:22px;font-weight:1000;margin-top:6px}
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .chip{
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.18);
+      border-radius:999px;
+      padding:7px 10px;
+      font-weight:900;
+      font-size:14px;
     }
+    .warnList{margin:10px 0 0;padding-left:18px;color:var(--text)}
+    .warnList li{margin:6px 0}
+    .sep{height:1px;background:var(--line);margin:12px 0}
+    .metaLine{color:var(--muted);font-size:12px;line-height:1.45}
   </style>
 </head>
 
 <body>
-  <div class="wrap">
+<div class="wrap">
 
-    <div class="hero">
-      <div class="row" style="justify-content:space-between; gap:12px;">
-        <div>
-          <h1>Bùi Hào — Lotto ULTRA MASTER (OCR Gate FINAL v3 • GOD MODE)</h1>
-          <div class="sub">
-            A-FULL • 1-file • ưu tiên chốt 3 • có DEMO test<br/>
-            <span class="mini">Tool thống kê hỗ trợ phân tích/soi, không đảm bảo kết quả.</span>
+  <!-- =========================
+       1) OCR GATE + SCALE/UPLOAD (ỔN ĐỊNH)
+       ========================= -->
+  <div class="card">
+    <h1>Bùi Hào — Lotto ULTRA MASTER (OCR Gate FINAL v3 • GOD MODE • HIT@3>=2)</h1>
+    <div class="pillrow">
+      <div class="pill"><span class="dot g"></span>OpenCV (preprocess)</div>
+      <div class="pill"><span class="dot g"></span>Tesseract OCR</div>
+      <div class="pill"><span class="dot y"></span>Batch nhiều ảnh</div>
+      <div class="pill"><span class="dot y"></span>Crop + Scale ổn định</div>
+      <div class="pill"><span class="dot y"></span>DB theo nhãn “ĐB/DB” + 5 số</div>
+      <div class="pill"><span class="dot y"></span>G7/G6 theo pattern</div>
+      <div class="pill"><span class="dot g"></span>✅ Không “né ngày” để trống</div>
+    </div>
+
+    <div class="hint">
+      Luồng: <b>Upload nhiều ảnh</b> → tự cắt vùng bảng → <b>DB: tìm nhãn ĐB/DB + 5 số</b> →
+      <b>G7: dòng gần cuối có 4 số 2 chữ số</b> → <b>G6: dòng phía trên có 3 số 3 chữ số</b> →
+      pass thì đổ dữ liệu → <b>Chạy FULL</b>.
+      <br/><b>* Tool thống kê hỗ trợ phân tích, không đảm bảo kết quả.</b>
+    </div>
+
+    <div class="row">
+      <button class="btn" id="btnMulti">📸 Upload nhiều ảnh</button>
+      <button class="btn ghost" id="btnCam">📷 Camera</button>
+      <button class="btn ghost" id="btnSample">Dán mẫu</button>
+      <button class="btn danger" id="btnClearAll">RESET SẠCH</button>
+      <input id="fileMulti" type="file" accept="image/*" multiple hidden />
+      <input id="fileCam" type="file" accept="image/*" capture="environment" hidden />
+    </div>
+
+    <div class="status">
+      <div class="badge warn" id="stCv">● OpenCV: loading…</div>
+      <div class="badge ok" id="stOcr">● OCR: idle</div>
+      <div class="badge warn" id="stGate">● Gate: waiting</div>
+      <div class="badge warn" id="stBatch">● Batch: 0</div>
+      <div class="badge warn" id="stSave">● Save: --</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="grid">
+      <div>
+        <h2 class="sectionTitle">Ảnh → OCR → Gate</h2>
+        <div class="hint">
+          Mẹo: crop sát phần bảng (từ “ĐB” tới “7”). Tránh dính footer tab (Miền Bắc/Trung/Nam) và header quảng cáo.
+          Nếu ảnh “dính” nhiều thứ, Gate dễ fail → dùng Manual.
+        </div>
+
+        <div class="preview" style="margin-top:10px">
+          <img id="imgPreview" alt="preview" />
+          <canvas id="cvCanvas" style="display:none"></canvas>
+        </div>
+
+        <div class="kpi">
+          <div class="box"><div class="t">DB (2 số)</div><div class="v" id="kDB">--</div></div>
+          <div class="box"><div class="t">G6 (3 số)</div><div class="v" id="kG6">--</div></div>
+          <div class="box"><div class="t">G7 (4 số)</div><div class="v" id="kG7">--</div></div>
+          <div class="box"><div class="t">Gate</div><div class="v" id="kGate">--</div></div>
+        </div>
+
+        <div class="inputs">
+          <div class="field">
+            <label>Manual (khi Gate fail) — DB (2 số)</label>
+            <input id="manualDB" placeholder="VD: 45" />
+          </div>
+          <div class="field">
+            <label>Manual — G6 (3 số 3 chữ số)</label>
+            <input id="manualG6" placeholder="VD: 392 255 854" />
+          </div>
+          <div class="field">
+            <label>Manual — G7 (4 số 2 chữ số)</label>
+            <input id="manualG7" placeholder="VD: 03 82 85 81" />
+          </div>
+          <div class="field">
+            <label>Hành động</label>
+            <div class="split">
+              <button class="btn ghost" id="btnApplyManual">Áp manual → thêm dòng</button>
+              <button class="btn ghost" id="btnRetryLast">Thử OCR lại ảnh cuối</button>
+            </div>
           </div>
         </div>
-        <div class="row">
-          <button class="btn green" id="btnRun">RUN</button>
-          <button class="btn ghost" id="btnDemo">DEMO</button>
-          <button class="btn danger" id="btnClear">CLEAR</button>
-        </div>
+
       </div>
 
-      <div class="chips" aria-label="status chips">
-        <span class="chip good" id="stOpenCV"><span class="dot"></span> OpenCV: <strong>OK</strong></span>
-        <span class="chip good" id="stOCR"><span class="dot"></span> OCR: <strong>ready</strong></span>
-        <span class="chip warn" id="stGate"><span class="dot warn"></span> Gate: <strong>WAIT</strong></span>
-        <span class="chip" id="stBatch"><span class="dot"></span> Batch: <strong>0</strong> | FAIL: <strong>0</strong></span>
+      <div>
+        <h2 class="sectionTitle">Debug OCR</h2>
+        <div class="mono" id="dbg">Chưa có OCR.</div>
       </div>
+    </div>
+  </div>
 
-      <div class="grid">
-        <!-- LEFT: OCR / Upload -->
-        <div class="card">
-          <h2>Ảnh → OCR → Gate</h2>
-          <div class="hint">
-            Mẹo: crop sát phần bảng (từ “ĐB” tới “7”). Tránh dính footer tab (Miền Bắc/Trung/Nam) và header quảng cáo.
-          </div>
+  <!-- =========================
+       2) INPUT DATA + GOD MODE
+       ========================= -->
+  <div class="card">
+    <h2 class="sectionTitle">Dữ liệu đầu vào (mỗi dòng = 1 ngày)</h2>
+    <div class="hint">Format chuẩn auto: <b>DB xx | G7: a b c d | G6: xxx yyy zzz</b> (newest ở trên)</div>
+    <div class="field" style="margin-top:10px">
+      <textarea id="inputData" placeholder="Sau batch scan, tool tự đổ vào đây..."></textarea>
+    </div>
 
-          <div class="seg" style="margin-top:12px;">
-            <!-- A: Upload nhiều ảnh -->
-            <button class="btn" id="btnPickFiles">📸 Upload nhiều ảnh</button>
-            <!-- B: Camera -->
-            <button class="btn ghost" id="btnCamera">📷 Camera</button>
-            <button class="btn ghost" id="btnPasteSample">Dán mẫu</button>
-            <button class="btn danger" id="btnWipeInput">Xóa</button>
-
-            <!-- hidden inputs -->
-            <input id="fileInput" type="file" accept="image/*" multiple style="display:none" />
-            <input id="camInput" type="file" accept="image/*" capture="environment" style="display:none" />
-          </div>
-
-          <!-- SCALE / SCAN -->
-          <div class="divider"></div>
-          <div class="row" style="justify-content:space-between; gap:10px;">
-            <div class="pill"><span class="dot"></span> Không phá scan / scale</div>
-            <div class="pill"><span class="dot warn"></span> Gate cứng</div>
-          </div>
-
-          <div class="seg">
-            <label class="toggle">
-              <input type="checkbox" id="togNoScale" checked />
-              <span>Giữ nguyên tỉ lệ (không scale)</span>
-            </label>
-            <label class="toggle">
-              <input type="checkbox" id="togAutoCrop" checked />
-              <span>Auto-crop (mô phỏng)</span>
-            </label>
-            <label class="toggle">
-              <input type="checkbox" id="togStrictGate" checked />
-              <span>Gate cứng (lọc format)</span>
-            </label>
-          </div>
-
-          <div class="fileList" id="fileList">
-            <div><b>Chưa chọn ảnh.</b> (Bạn vẫn có thể dùng phần “Dữ liệu đầu vào” bên phải để test/soi.)</div>
-          </div>
-
-          <div class="divider"></div>
-          <div class="hint">
-            <b>Lưu ý thật:</b> HTML 1-file trên GitHub Pages không chạy OpenCV/Tesseract “đúng nghĩa” nếu không nhúng thư viện nặng.
-            Nên phần OCR ở đây là <b>mô phỏng luồng</b> + <b>Gate/Parse/Run</b>. Muốn OCR thật, mình sẽ nâng cấp bản v4 (nhúng worker Tesseract + pipeline crop).
-          </div>
-        </div>
-
-        <!-- RIGHT: Input + Settings -->
-        <div class="card">
-          <h2>Dữ liệu đầu vào (mỗi dòng = 1 ngày)</h2>
-          <div class="hint">
-            Format chuẩn auto: <b>DB xx | G7: a b c d | G6: xxx yyy zzz</b> (newest ở trên).<br/>
-            Tool sẽ đọc DB (2 số), G7 (4 số), G6 (3 số 3 chữ số).
-          </div>
-
-          <div class="inputs">
-            <div class="field">
-              <div class="label">
-                <span>Nhập dữ liệu</span>
-                <small id="lineCount">0 dòng</small>
-              </div>
-              <textarea id="taInput" placeholder="Ví dụ:
-DB 54 | G7: 77 51 67 47 | G6: 813 258 481
-DB 45 | G7: 03 82 85 81 | G6: 392 255 854
-..."></textarea>
-            </div>
-
-            <div class="row2">
-              <div class="field">
-                <div class="label"><span>Cửa sổ ngày (khuyến nghị)</span><small>window</small></div>
-                <input id="inWindow" type="number" min="3" max="60" value="20"/>
-              </div>
-              <div class="field">
-                <div class="label"><span>Top hiển thị (tham khảo)</span><small>topN</small></div>
-                <input id="inTopN" type="number" min="5" max="30" value="10"/>
-              </div>
-            </div>
-
-            <div class="field">
-              <div class="label"><span>AI giám sát</span><small>phase lock</small></div>
-              <select id="selSupervisor">
-                <option value="on" selected>ON (khóa theo pha)</option>
-                <option value="off">OFF (thả tay)</option>
-              </select>
-            </div>
-
-            <div class="row2">
-              <div class="field">
-                <div class="label"><span>Ngưỡng TRỤC nổi (&gt;=)</span><small>trucMin</small></div>
-                <input id="inTrucMin" type="number" min="2" max="12" value="4"/>
-              </div>
-              <div class="field">
-                <div class="label"><span>K đọc pha (ngày gần nhất)</span><small>K</small></div>
-                <input id="inKPhase" type="number" min="3" max="15" value="9"/>
-              </div>
-            </div>
-
-            <div class="row2">
-              <div class="field">
-                <div class="label"><span>Trọng số Hot</span><small>wHot</small></div>
-                <input id="wHot" type="number" step="0.1" value="2"/>
-              </div>
-              <div class="field">
-                <div class="label"><span>Trọng số Gan</span><small>wGan</small></div>
-                <input id="wGan" type="number" step="0.1" value="1.5"/>
-              </div>
-            </div>
-
-            <div class="row2">
-              <div class="field">
-                <div class="label"><span>Trọng số Pascal</span><small>wPas</small></div>
-                <input id="wPas" type="number" step="0.1" value="2"/>
-              </div>
-              <div class="field">
-                <div class="label"><span>Trọng số Trục</span><small>wTruc</small></div>
-                <input id="wTruc" type="number" step="0.1" value="2.4"/>
-              </div>
-            </div>
-
-            <div class="field">
-              <div class="label"><span>Trọng số G7 lead</span><small>wG7</small></div>
-              <input id="wG7" type="number" step="0.1" value="0.9"/>
-            </div>
-          </div>
-        </div>
+    <div class="split" style="margin-top:10px">
+      <div class="field">
+        <label>Cửa sổ ngày (khuyến nghị 20)</label>
+        <input id="winDays" type="number" value="20" min="6" max="60" />
       </div>
-
-      <!-- RESULT -->
-      <div class="card" style="margin-top:14px;">
-        <div class="row" style="justify-content:space-between; gap:12px;">
-          <h2 style="margin:0;">KẾT QUẢ FULL</h2>
-          <div class="tabs">
-            <button class="tab active" id="tabSimple">SIMPLE</button>
-            <button class="tab" id="tabPro">PRO</button>
-          </div>
-        </div>
-
-        <div class="hint" id="tabHint">SIMPLE: Chốt + cảnh báo + lý do (dễ nhìn)</div>
-
-        <div class="resultCard" id="viewSimple">
-          <div class="bigPick" id="pick3">-- / -- / --</div>
-          <p class="meta" id="phaseLine">Pha: -- • Hướng: -- • Tin cậy: --</p>
-          <p class="meta" id="phaseNote">Nhận định: --</p>
-
-          <div class="badges">
-            <div class="badgeBtn">🎯 <span>Chính:</span> <small id="pickMain">--</small></div>
-            <div class="badgeBtn">🛡️ <span>Phụ:</span> <small id="pickSub">--</small></div>
-            <div class="badgeBtn">➕ <span>Kèm:</span> <small id="pickAdd">--</small></div>
-          </div>
-
-          <div class="divider"></div>
-
-          <div style="font-weight:900; letter-spacing:.2px; margin-bottom:6px;">3 CẢNH BÁO MẠNH</div>
-          <ul class="warnList" id="warns">
-            <li><b>OK:</b> chưa thấy bẫy quá rõ (vẫn giữ kỷ luật tiền).</li>
-            <li><b>OK:</b> chưa thấy bẫy quá rõ (vẫn giữ kỷ luật tiền).</li>
-            <li><b>OK:</b> chưa thấy bẫy quá rõ (vẫn giữ kỷ luật tiền).</li>
-          </ul>
-
-          <div class="divider"></div>
-
-          <div class="meta" id="noteLine">✅ MODE: HIT@3&gt;=2 • trust --% • noise --% • BUILD --</div>
-
-          <details open>
-            <summary>
-              <span>▼ Xem chi tiết FULL PRO</span>
-              <span style="color:rgba(168,183,214,.8); font-weight:800;">(mở/đóng)</span>
-            </summary>
-            <div class="detailBody">
-              <div class="monoBox" id="fullProText">Chưa có dữ liệu. Bấm RUN hoặc DEMO.</div>
-            </div>
-          </details>
-        </div>
-
-        <div class="resultCard" id="viewPro" style="display:none;">
-          <div class="hint" style="margin-bottom:10px;">
-            PRO: Thêm Top + % + mở FULL PRO chi tiết
-          </div>
-
-          <div class="resultCard" style="border-radius:22px;">
-            <div class="bigPick" id="pick3Pro">-- / -- / --</div>
-            <p class="meta" id="phaseLinePro">Pha: -- • Hướng: -- • Tin cậy: --</p>
-            <p class="meta" id="phaseNotePro">Nhận định: --</p>
-
-            <div class="divider"></div>
-
-            <div style="font-weight:900; letter-spacing:.2px; margin-bottom:8px;">TOP + % (THAM KHẢO)</div>
-            <div class="chips" id="topChips"></div>
-
-            <div class="divider"></div>
-
-            <div style="font-weight:900; letter-spacing:.2px; margin-bottom:8px;">GIẢI THÍCH SỐ CHỐT</div>
-            <div class="monoBox" id="explainBox">--</div>
-
-            <div class="divider"></div>
-
-            <div class="meta" id="noteLinePro">✅ MODE: HIT@3&gt;=2 • trust --% • noise --% • BUILD --</div>
-
-            <details open>
-              <summary>
-                <span>▼ FULL PRO (GOD MODE • MASTER+++)</span>
-                <span style="color:rgba(168,183,214,.8); font-weight:800;">(mở/đóng)</span>
-              </summary>
-              <div class="detailBody">
-                <div class="monoBox" id="fullProText2">Chưa có dữ liệu. Bấm RUN hoặc DEMO.</div>
-              </div>
-            </details>
-          </div>
-        </div>
-
-        <div class="footer">© Bùi Hào — Tool thống kê hỗ trợ phân tích. Không đảm bảo kết quả.</div>
+      <div class="field">
+        <label>Top hiển thị (tham khảo)</label>
+        <input id="topN" type="number" value="10" min="4" max="15" />
+      </div>
+      <div class="field">
+        <label>AI giám sát</label>
+        <select id="aiSup">
+          <option value="on" selected>ON (khóa theo pha)</option>
+          <option value="off">OFF</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Ngưỡng TRỤC nổi (>=)</label>
+        <input id="trucThreshold" type="number" value="4" min="2" max="10" />
       </div>
     </div>
 
+    <div class="split" style="margin-top:10px">
+      <div class="field">
+        <label>K đọc pha (ngày gần nhất)</label>
+        <input id="phaseK" type="number" value="9" min="5" max="20" />
+      </div>
+      <div class="field">
+        <label>Trọng số Hot</label>
+        <input id="wHot" type="number" value="2" step="0.5" />
+      </div>
+      <div class="field">
+        <label>Trọng số Gan</label>
+        <input id="wGan" type="number" value="1.5" step="0.5" />
+      </div>
+      <div class="field">
+        <label>Trọng số Pascal</label>
+        <input id="wPas" type="number" value="2" step="0.5" />
+      </div>
+    </div>
+
+    <div class="god">
+      <div class="callout">
+        <b>GOD MODE (MASTER+++):</b><br/>
+        App sẽ <b>ĐỌC PHA trước</b> → chọn hướng trọng số → rồi mới <b>CHỐT 3 SỐ</b> theo mục tiêu <b>HIT@3>=2</b>.
+        <br/><b>Quan trọng:</b> Bản này <b>KHÔNG “né ngày” để trống</b>. Ngày nhiễu vẫn chốt 3 nhưng sẽ gắn cảnh báo rủi ro.
+      </div>
+      <div class="callout">
+        <b>Khuyến nghị số ngày:</b> <b>20</b> là hợp lý nhất.<br/>
+        Nếu dữ liệu ít: 10–15. Nếu dài: tối đa 30 (tránh loãng/pha cũ).
+      </div>
+    </div>
+
+    <div class="row">
+      <button class="btn" id="btnFull">🚀 Chạy FULL (Pha → HIT@3>=2 → Anti-bẫy)</button>
+      <button class="btn ghost" id="btnSave">💾 Lưu dữ liệu</button>
+      <button class="btn ghost" id="btnLoad">📥 Tải dữ liệu</button>
+      <button class="btn ghost" id="btnClearData">🧹 Clear input/output</button>
+    </div>
   </div>
 
-  <div class="toast" id="toast"></div>
+  <!-- =========================
+       3) OUTPUT
+       ========================= -->
+  <div class="card">
+    <h2 class="sectionTitle">KẾT QUẢ FULL</h2>
+
+    <div class="row" style="margin-top:6px">
+      <button class="btn ghost" id="btnViewSimple">SIMPLE</button>
+      <button class="btn ghost" id="btnViewPro">PRO</button>
+      <span class="small" id="viewHint" style="opacity:.85"></span>
+    </div>
+
+    <div id="outBox" class="field" style="margin-top:10px">
+      <div id="outHtml" style="padding:10px 6px;color:var(--text)">Chưa có dữ liệu.</div>
+    </div>
+
+    <details id="detailBox" style="margin-top:10px">
+      <summary class="pill" style="cursor:pointer">Xem chi tiết FULL PRO</summary>
+      <div class="mono" id="outRaw" style="margin-top:10px">Chưa có dữ liệu.</div>
+    </details>
+  </div>
+
+  <div class="card">
+    <div class="small">© Bùi Hào — Tool thống kê hỗ trợ phân tích. Không đảm bảo kết quả.</div>
+  </div>
+
+</div>
+
+<!-- Load libs -->
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script async src="https://docs.opencv.org/4.x/opencv.js" onload="onOpenCvReady()"></script>
 
 <script>
-/* =========================
-   ULTRA MASTER v3 • 1-file
-   - Upload nhiều ảnh + Camera (A+B)
-   - Gate format + Parse input
-   - Scoring mô phỏng (hot/gan/truc/pas/g7)
-   - Output SIMPLE/PRO + FULL PRO text
-   ========================= */
-
-const $ = (id)=>document.getElementById(id);
-
-const state = {
-  files: [],
-  batchOK: 0,
-  batchFail: 0,
-  build: "A-FULL-2026-02-02-02",
-  mode: "HIT@3>=2",
-};
-
-function toast(msg){
-  const t = $("toast");
-  t.textContent = msg;
-  t.style.display = "block";
-  clearTimeout(toast._tm);
-  toast._tm = setTimeout(()=>t.style.display="none", 2400);
+/* =========================================================
+   UTIL
+========================================================= */
+const el = (id)=>document.getElementById(id);
+function pad2(n){ return String(n).padStart(2,"0"); }
+function setBadge(id, text, cls){
+  const e = el(id);
+  e.textContent = text;
+  e.classList.remove("ok","warn","fail");
+  e.classList.add(cls);
+}
+function showKPI(db2, g6, g7, gate){
+  el("kDB").textContent = db2 || "--";
+  el("kG6").textContent = g6?.length ? g6.join(" ") : "--";
+  el("kG7").textContent = g7?.length ? g7.join(" ") : "--";
+  el("kGate").textContent = gate;
 }
 
-function setGate(status, tone){
-  const el = $("stGate");
-  el.className = "chip " + (tone || "warn");
-  el.innerHTML = `<span class="dot ${tone==='good'?'':tone==='bad'?'bad':'warn'}"></span> Gate: <strong>${status}</strong>`;
+/* =========================================================
+   PART 1 — OCR GATE (UPLOAD/SCALE/CROP ỔN ĐỊNH)
+========================================================= */
+let cvReady = false;
+let lastImageBlob = null;
+let batchOK = 0, batchFail = 0;
+
+function setStatus(){
+  setBadge("stCv", `● OpenCV: ${cvReady ? "OK" : "loading…"}`, cvReady ? "ok" : "warn");
+  setBadge("stBatch", `● Batch: OK ${batchOK} | FAIL ${batchFail}`, (batchFail>0) ? "warn" : "ok");
+}
+function onOpenCvReady(){ cvReady = true; setStatus(); }
+setStatus();
+
+function canvasFromMat(mat){
+  const canvas = document.createElement("canvas");
+  canvas.width = mat.cols;
+  canvas.height = mat.rows;
+  cv.imshow(canvas, mat);
+  return canvas;
 }
 
-function setOCR(status, tone){
-  const el = $("stOCR");
-  el.className = "chip " + (tone || "good");
-  el.innerHTML = `<span class="dot ${tone==='good'?'':tone==='bad'?'bad':'warn'}"></span> OCR: <strong>${status}</strong>`;
+function preprocess(mat){
+  const gray = new cv.Mat();
+  cv.cvtColor(mat, gray, cv.COLOR_RGBA2GRAY, 0);
+  const blur = new cv.Mat();
+  cv.GaussianBlur(gray, blur, new cv.Size(3,3), 0, 0, cv.BORDER_DEFAULT);
+
+  // adaptive threshold giúp ăn chữ số tốt hơn
+  const thr = new cv.Mat();
+  cv.adaptiveThreshold(
+    blur, thr, 255,
+    cv.ADAPTIVE_THRESH_GAUSSIAN_C,
+    cv.THRESH_BINARY, 31, 8
+  );
+
+  gray.delete(); blur.delete();
+  return thr;
 }
 
-function setBatch(){
-  $("stBatch").innerHTML = `<span class="dot"></span> Batch: <strong>${state.batchOK}</strong> | FAIL: <strong>${state.batchFail}</strong>`;
-}
-
-function updateLineCount(){
-  const lines = $("taInput").value.trim() ? $("taInput").value.trim().split(/\n+/).length : 0;
-  $("lineCount").textContent = `${lines} dòng`;
-}
-
-$("taInput").addEventListener("input", updateLineCount);
-updateLineCount();
-
-/* -------------------------
-   Upload / Camera (A+B)
--------------------------- */
-$("btnPickFiles").addEventListener("click", ()=>{
-  $("fileInput").click();
-});
-$("btnCamera").addEventListener("click", ()=>{
-  $("camInput").click();
-});
-
-$("fileInput").addEventListener("change", (e)=>{
-  handleFiles(Array.from(e.target.files || []), "upload");
-  e.target.value = "";
-});
-$("camInput").addEventListener("change", (e)=>{
-  handleFiles(Array.from(e.target.files || []), "camera");
-  e.target.value = "";
-});
-
-function handleFiles(files, src){
-  if(!files.length){
-    toast("Chưa chọn ảnh.");
-    return;
-  }
-  // Add
-  state.files.push(...files);
-  // Update pseudo OCR progress
-  setOCR("batch queued", "warn");
-  renderFileList(src);
-  // mô phỏng xử lý batch
-  fakeBatchOCR(files);
-}
-
-function renderFileList(src){
-  const list = state.files;
-  if(!list.length){
-    $("fileList").innerHTML = `<div><b>Chưa chọn ảnh.</b> (Bạn vẫn có thể dùng “Dữ liệu đầu vào” để test.)</div>`;
-    return;
-  }
-  const last = list.slice(-8).map(f=>`• ${escapeHtml(f.name)} (${Math.round(f.size/1024)}KB)`).join("<br/>");
-  $("fileList").innerHTML = `
-    <div><b>Đã chọn:</b> ${list.length} ảnh • nguồn: <b>${src}</b></div>
-    <div class="mini" style="margin-top:6px;">${last}${list.length>8?`<br/>… (+${list.length-8} ảnh)`:""}</div>
-  `;
-}
-
-function fakeBatchOCR(files){
-  // mô phỏng: 85% OK
-  setTimeout(()=>{
-    const ok = Math.max(1, Math.round(files.length * 0.85));
-    const fail = files.length - ok;
-    state.batchOK += ok;
-    state.batchFail += Math.max(0, fail);
-    setBatch();
-
-    // Gate PASS nếu có dữ liệu text sẵn (vì OCR thật chưa nhúng)
-    // => Ở đây chỉ báo "OCR batch done", còn gate dựa vào parse input
-    setOCR("batch done", "good");
-    toast("OCR: batch done (mô phỏng). Gate phụ thuộc dữ liệu đầu vào.");
-  }, 550);
-}
-
-function escapeHtml(s){
-  return (s||"").replace(/[&<>"']/g, m=>({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
-  }[m]));
-}
-
-/* -------------------------
-   Tabs
--------------------------- */
-$("tabSimple").addEventListener("click", ()=>{
-  $("tabSimple").classList.add("active");
-  $("tabPro").classList.remove("active");
-  $("viewSimple").style.display = "";
-  $("viewPro").style.display = "none";
-  $("tabHint").textContent = "SIMPLE: Chốt + cảnh báo + lý do (dễ nhìn)";
-});
-$("tabPro").addEventListener("click", ()=>{
-  $("tabPro").classList.add("active");
-  $("tabSimple").classList.remove("active");
-  $("viewPro").style.display = "";
-  $("viewSimple").style.display = "none";
-  $("tabHint").textContent = "PRO: Thêm Top + % + mở FULL PRO chi tiết";
-});
-
-/* -------------------------
-   DEMO / CLEAR
--------------------------- */
-$("btnDemo").addEventListener("click", ()=>{
-  const demo =
-`DB 54 | G7: 77 51 67 47 | G6: 813 258 481
-DB 45 | G7: 03 82 85 81 | G6: 392 255 854
-DB 14 | G7: 81 87 60 32 | G6: 206 200 971
-DB 21 | G7: 76 47 21 77 | G6: 801 295 993
-DB 22 | G7: 21 00 14 71 | G6: 497 368 374
-DB 17 | G7: 71 15 99 52 | G6: 945 187 978
-DB 27 | G7: 82 24 25 16 | G6: 508 652 762
-DB 94 | G7: 31 34 20 42 | G6: 301 697 335`;
-  $("taInput").value = demo;
-  updateLineCount();
-  toast("Đã dán DEMO test.");
-  setGate("WAIT", "warn");
-});
-
-$("btnClear").addEventListener("click", ()=>{
-  $("taInput").value = "";
-  updateLineCount();
-  state.files = [];
-  state.batchOK = 0;
-  state.batchFail = 0;
-  renderFileList("—");
-  setBatch();
-  setOCR("ready", "good");
-  setGate("WAIT", "warn");
-  resetOutput();
-  toast("Đã CLEAR.");
-});
-
-$("btnWipeInput").addEventListener("click", ()=>{
-  $("taInput").value = "";
-  updateLineCount();
-  toast("Đã xóa dữ liệu đầu vào.");
-});
-
-$("btnPasteSample").addEventListener("click", ()=>{
-  if($("taInput").value.trim()){
-    toast("Đang có dữ liệu rồi (không ghi đè). Muốn dán DEMO thì bấm DEMO.");
-    return;
-  }
-  $("btnDemo").click();
-});
-
-/* -------------------------
-   RUN
--------------------------- */
-$("btnRun").addEventListener("click", ()=>{
-  const raw = $("taInput").value.trim();
-  if(!raw){
-    toast("Chưa có dữ liệu. Bấm DEMO hoặc dán dữ liệu vào.");
-    setGate("FAIL", "bad");
-    return;
-  }
-
-  const strict = $("togStrictGate").checked;
-  const parsed = parseLines(raw, strict);
-
-  if(parsed.bad.length){
-    setGate("FAIL", "bad");
-    setOCR("needs manual fix", "warn");
-    toast(`Gate FAIL: ${parsed.bad.length} dòng sai format. Sửa rồi RUN lại.`);
-    // vẫn show lỗi để sửa nhanh
-    $("fullProText").textContent = "GATE FAIL (dòng sai format):\n" + parsed.bad.join("\n");
-    $("fullProText2").textContent = $("fullProText").textContent;
-    return;
-  }
-
-  setGate("PASS", "good");
-
-  // Settings
-  const cfg = {
-    window: clamp(+$("inWindow").value, 3, 60),
-    topN: clamp(+$("inTopN").value, 5, 30),
-    supervisor: $("selSupervisor").value,
-    trucMin: clamp(+$("inTrucMin").value, 2, 12),
-    kPhase: clamp(+$("inKPhase").value, 3, 15),
-    wHot: +$("wHot").value || 2,
-    wGan: +$("wGan").value || 1.5,
-    wPas: +$("wPas").value || 2,
-    wTruc: +$("wTruc").value || 2.4,
-    wG7: +$("wG7").value || 0.9,
-    noScale: $("togNoScale").checked,
-    autoCrop: $("togAutoCrop").checked,
-    strictGate: strict,
-  };
-
-  const res = analyze(parsed.good, cfg);
-  renderResult(res, cfg);
-  toast("RUN xong ✅ (mô phỏng phân tích).");
-});
-
-function clamp(v, a, b){ return Math.max(a, Math.min(b, v)); }
-
-/* -------------------------
-   Parse input lines
--------------------------- */
-function parseLines(raw, strictGate=true){
-  const lines = raw.split(/\n+/).map(s=>s.trim()).filter(Boolean);
-  const good = [];
-  const bad = [];
-
-  const re = /^DB\s+(\d{1,2})\s*\|\s*G7\s*:\s*(\d{2})\s+(\d{2})\s+(\d{2})\s+(\d{2})\s*\|\s*G6\s*:\s*(\d{3})\s+(\d{3})\s+(\d{3})$/i;
-
-  for(const ln of lines){
-    const m = ln.match(re);
-    if(!m){
-      if(strictGate) bad.push(ln);
-      else {
-        // cố gắng lỏng: lấy số theo pattern
-        const nums = ln.match(/\d+/g) || [];
-        // kỳ vọng: DB(1) + G7(4) + G6(3) = 8 cụm
-        if(nums.length >= 8){
-          const db = pad2(nums[0]);
-          const g7 = nums.slice(1,5).map(pad2);
-          const g6 = nums.slice(5,8).map(pad3);
-          good.push({ db, g7, g6, raw: ln });
-        } else bad.push(ln);
-      }
-      continue;
-    }
-    const db = pad2(m[1]);
-    const g7 = [m[2],m[3],m[4],m[5]].map(pad2);
-    const g6 = [m[6],m[7],m[8]].map(pad3);
-    good.push({ db, g7, g6, raw: ln });
-  }
-  return { good, bad, lines };
-}
-function pad2(x){ x = String(x); return x.length===1 ? "0"+x : x.slice(-2); }
-function pad3(x){ x = String(x); return x.padStart(3,"0").slice(-3); }
-
-/* -------------------------
-   Core analysis (mô phỏng)
-   - hot: tần suất xuất hiện (G7 ưu tiên)
-   - gan: ngày không xuất hiện
-   - truc: "trục nổi" theo cặp đầu/đuôi (ab)
-   - pascal: seed mô phỏng (không phải pascal thật)
--------------------------- */
-function analyze(days, cfg){
-  const newestFirst = days; // input newest ở trên
-  const N = Math.min(cfg.window, newestFirst.length);
-  const slice = newestFirst.slice(0, N);
-
-  // Collect loto 2 số từ: DB(2 số), G7(4), G6 last2 (3 số)
-  const pool = [];
-  slice.forEach((d, idx)=>{
-    pool.push({num: d.db, src:"DB", day: idx});
-    d.g7.forEach(n=>pool.push({num:n, src:"G7", day: idx}));
-    d.g6.forEach(x=>{
-      const last2 = pad2(String(x).slice(-2));
-      pool.push({num:last2, src:"G6", day: idx});
-    });
+async function ocrText(canvas){
+  const res = await Tesseract.recognize(canvas, "eng", {
+    logger: ()=>{},
+    tessedit_char_whitelist: "0123456789DBdbĐđB",
+    preserve_interword_spaces: "1",
   });
+  return (res.data.text || "");
+}
 
-  // Frequency (hot)
-  const freq = new Map();
-  const freqG7 = new Map();
-  for(const p of pool){
-    freq.set(p.num, (freq.get(p.num)||0) + 1);
-    if(p.src==="G7") freqG7.set(p.num, (freqG7.get(p.num)||0) + 1);
-  }
+function cleanOCR(txt){
+  return String(txt)
+    .replace(/[Oo]/g,"0")
+    .replace(/[Il|]/g,"1")
+    .replace(/S/g,"5")
+    .replace(/B/g,"8")
+    .replace(/[^\d\s\nĐđDBdb]/g," ")
+    .replace(/\s+\n/g,"\n")
+    .replace(/\n\s+/g,"\n")
+    .replace(/[ \t]+/g," ")
+    .trim();
+}
 
-  // Gan (last seen)
-  const lastSeen = new Map();
-  for(const p of pool){
-    if(!lastSeen.has(p.num)) lastSeen.set(p.num, p.day); // first encounter is newest => day index
-  }
-  const ganDays = (n)=> lastSeen.has(n) ? lastSeen.get(n) : 999;
+function extractDB5_fromLabel(text){
+  const t = text.replace(/\s+/g," ");
+  let m = t.match(/(?:Đ\s*B|D\s*B)\s*(\d{5})/);
+  if(m) return m[1];
+  m = t.match(/\b\d{5}\b/);
+  return m ? m[0] : "";
+}
 
-  // Trục nổi (mô phỏng): đếm theo "đầu+đuôi" bucket
-  // ví dụ num=74 => head=7 tail=4 => key "7-4"
-  const trucCount = new Map();
-  for(const p of pool){
-    const head = p.num[0], tail = p.num[1];
-    const key = head+"-"+tail;
-    trucCount.set(key, (trucCount.get(key)||0) + 1);
-  }
-  // trục nổi: key có count >= trucMin
-  const trucKeys = [...trucCount.entries()].filter(([k,c])=>c>=cfg.trucMin).sort((a,b)=>b[1]-a[1]);
-
-  // Pascal seed (mô phỏng): lấy các số xuất hiện ở DB và G7 newest 2 ngày → unique
-  const seedSet = new Set();
-  slice.slice(0, Math.min(2, slice.length)).forEach(d=>{
-    seedSet.add(d.db);
-    d.g7.forEach(n=>seedSet.add(n));
-  });
-  const pasSeed = [...seedSet].slice(0, 12);
-
-  // Candidate scoring 00-99
-  const cand = [];
-  for(let i=0;i<100;i++){
-    const num = String(i).padStart(2,"0");
-    const hot = freq.get(num)||0;
-    const g7lead = freqG7.get(num)||0;
-    const gan = ganDays(num); // 0 means seen newest day
-    // map gan to score: gan vừa/đủ tốt, quá lâu coi như nhiễu -> dùng curve
-    const ganScore = gan===999 ? 0 : Math.max(0, 10 - Math.abs(gan - 3)); // peak around 3
-    // trục score: dựa theo bucket head-tail count
-    const tk = num[0]+"-"+num[1];
-    const tcnt = trucCount.get(tk)||0;
-
-    // pas score: nếu num nằm trong seed
-    const pas = seedSet.has(num) ? 1 : 0;
-
-    const score =
-      cfg.wHot*hot +
-      cfg.wG7*g7lead +
-      cfg.wGan*ganScore +
-      cfg.wTruc*tcnt +
-      cfg.wPas*pas;
-
-    cand.push({num, score, hot, gan, ganScore, tcnt, g7lead, pas});
-  }
-  cand.sort((a,b)=>b.score-a.score);
-
-  const topN = cand.slice(0, cfg.topN);
-  const top10 = cand.slice(0, 10);
-
-  // Pick 3: ưu tiên HIT@3>=2 (mô phỏng): chọn 3 số sao cho "hot>=3 hoặc g7lead>=1" (tương đối)
-  const pick = [];
-  for(const c of cand){
-    const hit = (c.hot>=3?1:0) + (c.g7lead>=1?1:0) + (c.tcnt>=cfg.trucMin?1:0);
-    if(hit>=2){
-      pick.push(c.num);
-      if(pick.length===3) break;
+function findG7Line(lines){
+  for(let i=lines.length-1;i>=0;i--){
+    const nums2 = (lines[i].match(/\b\d{2}\b/g) || []);
+    if(nums2.length >= 4){
+      return {arr: nums2.slice(0,4), idx:i, line:lines[i]};
     }
   }
-  if(pick.length<3){
-    // fallback top score
-    pick.length=0;
-    top10.slice(0,3).forEach(x=>pick.push(x.num));
+  return {arr:[], idx:-1, line:""};
+}
+
+function findG6Line(lines, g7Index){
+  for(let i=g7Index-1;i>=0;i--){
+    const nums3 = (lines[i].match(/\b\d{3}\b/g) || []);
+    if(nums3.length >= 3){
+      return {arr: nums3.slice(0,3), idx:i, line:lines[i]};
+    }
   }
+  for(let i=lines.length-1;i>=0;i--){
+    const nums3 = (lines[i].match(/\b\d{3}\b/g) || []);
+    if(nums3.length >= 3){
+      return {arr: nums3.slice(0,3), idx:i, line:lines[i]};
+    }
+  }
+  return {arr:[], idx:-1, line:""};
+}
 
-  const main = pick[0], sub = pick[1], add = pick[2];
+function gateCheck(db5, g6_3, g7_4){
+  if(!/^\d{5}$/.test(db5)) return {ok:false, reason:"DB không đủ 5 số"};
+  if(!g7_4 || g7_4.length!==4 || !g7_4.every(x=>/^\d{2}$/.test(x))) return {ok:false, reason:"G7 phải đúng 4 số (2 chữ số)"};
+  if(!g6_3 || g6_3.length!==3 || !g6_3.every(x=>/^\d{3}$/.test(x))) return {ok:false, reason:"G6 phải đúng 3 số (3 chữ số)"};
+  return {ok:true, reason:"OK"};
+}
 
-  // Phase (mô phỏng MASTER+++): dựa tỉ lệ "trục nổi"
-  const phase = inferPhase(trucKeys, cfg);
-  // trust/noise mô phỏng
-  const trust = clamp(Math.round(60 + Math.min(35, trucKeys.length*6 + (cfg.supervisor==="on"?8:0))), 55, 92);
-  const noise = clamp(100 - trust + Math.round(Math.random()*8), 15, 65);
+function addLineToInput(db5, g7, g6){
+  const db2 = db5.slice(-2);
+  const line = `DB ${db2} | G7: ${g7.join(" ")} | G6: ${g6.join(" ")}`;
+  const cur = el("inputData").value.trim();
+  el("inputData").value = (cur ? cur + "\n" : "") + line;
+}
 
-  // Warnings: cụm/hot dày => dễ lệch
-  const warn = [];
-  const hotDense = top10.filter(x=>x.hot>=4).length>=4;
-  if(hotDense) warn.push("⚠️ BẪY CỤM/HOT: hot dày → dễ lệch, tránh all-in theo cụm.");
-  else warn.push("✅ OK: chưa thấy bẫy quá rõ (vẫn giữ kỷ luật tiền).");
-  warn.push("✅ OK: chưa thấy bẫy quá rõ (vẫn giữ kỷ luật tiền).");
-  warn.push("✅ OK: chưa thấy bẫy quá rõ (vẫn giữ kỷ luật tiền).");
+async function runOCRFromBlob(blob){
+  if(!cvReady){
+    alert("OpenCV chưa load xong. Đợi 2–3 giây rồi thử lại.");
+    return;
+  }
+  lastImageBlob = blob;
 
-  // Full Pro text (giống style ảnh)
-  const weightsLine = `WEIGHTS (UI — để tham khảo/soi full):\nwHot=${cfg.wHot} | wGan=${cfg.wGan} | wPas=${cfg.wPas} | wTruc=${cfg.wTruc} | wG7=${cfg.wG7}`;
-  const topLine = top10.map(x=>{
-    const pct = Math.round((x.score / top10[0].score)*100);
-    return `${x.num}(${pct}%)`;
+  setBadge("stOcr", "● OCR: running…", "warn");
+  setBadge("stGate", "● Gate: checking…", "warn");
+  showKPI("", [], [], "--");
+
+  const url = URL.createObjectURL(blob);
+  el("imgPreview").src = url;
+
+  await new Promise(r=>{
+    el("imgPreview").onload = ()=>r();
   });
-  const topLineFmt = chunkJoin(topLine, 6).join("  ");
 
-  const hot15 = cand.filter(x=>x.hot>0).slice(0, 15);
-  const hot15Fmt = hot15.map(x=>`${x.num}→${x.hot}`).join("  ");
+  const img = el("imgPreview");
+  const canvas = el("cvCanvas");
+  canvas.style.display = "none";
+  canvas.width = img.naturalWidth;
+  canvas.height = img.naturalHeight;
+  const ctx2d = canvas.getContext("2d");
+  ctx2d.drawImage(img,0,0);
 
-  const gan15 = cand.slice().sort((a,b)=>b.ganScore-a.ganScore).slice(0,15);
-  const gan15Fmt = gan15.map(x=>`${x.num}→${x.gan===999?"∞":x.gan}`).join("  ");
+  // ===== SCALE/CROP STABLE: crop 2% viền + tách upper/body theo tỉ lệ =====
+  let src = cv.imread(canvas);
+  const W = src.cols, H = src.rows;
 
-  const headTail = summarizeHeadTail(pool);
-  const trucNoi = trucKeys.slice(0, 30).map(([k,c])=>{
-    // convert "7-4" => examples 74 style bucket: show head+tail only
-    const parts = k.split("-");
-    return `${parts[0]}${parts[1]}`;
-  });
+  const x = Math.floor(W*0.02);
+  const y = Math.floor(H*0.02);
+  const w = Math.floor(W*0.96);
+  const h = Math.floor(H*0.96);
+  const crop = src.roi(new cv.Rect(x,y,w,h));
+  src.delete(); src = crop;
 
-  const g7LeadSet = [...freqG7.entries()].sort((a,b)=>b[1]-a[1]).slice(0, 18).map(([n])=>n);
+  // split vùng: upper (label + DB), body (G6/G7)
+  const upH = Math.floor(src.rows * 0.55);
+  const upper = src.roi(new cv.Rect(0,0, src.cols, upH));
+  const body  = src.roi(new cv.Rect(0, Math.floor(src.rows*0.35), src.cols, Math.floor(src.rows*0.65)));
 
-  const full =
-`===== KẾT QUẢ FULL (GOD MODE • MASTER+++ • ${state.mode}) =====
-BUILD: ${state.build}
-Tổng ngày dùng: ${N}
+  // OCR upper
+  const upperBin = preprocess(upper);
+  const upperCanvas = canvasFromMat(upperBin);
+  const upperTxt1 = await ocrText(upperCanvas);
 
-AI ĐỌC PHA:
-Pha: ${phase.pha} | Hướng: ${phase.huong} | Tin cậy: ${trust}%
-Nhận định: ${phase.note}
+  const upperInv = new cv.Mat(); cv.bitwise_not(upperBin, upperInv);
+  const upperCanvas2 = canvasFromMat(upperInv);
+  const upperTxt2 = await ocrText(upperCanvas2);
 
-TOP 10 (tham khảo) + %:
-${topLineFmt}
+  const upperTxt = cleanOCR((upperTxt1||"") + "\n" + (upperTxt2||""));
+  const db5 = extractDB5_fromLabel(upperTxt);
 
-CHỐT (3 số, ưu tiên HIT@3>=2):
-🎯 Chính: ${main}
-🛡️ Phụ:  ${sub}
-➕ Kèm:  ${add}
+  upper.delete(); upperBin.delete(); upperInv.delete();
 
-3 CẢNH BÁO MẠNH:
-1) ${warn[0]}
-2) ${warn[1]}
-3) ${warn[2]}
+  // OCR body
+  const bodyBin = preprocess(body);
+  const bodyCanvas = canvasFromMat(bodyBin);
+  const bodyTxt1 = await ocrText(bodyCanvas);
 
-NOTE:
-✅ MODE: ${state.mode} • trust ${trust}% • noise ${noise}% • BUILD ${state.build}
+  const bodyInv = new cv.Mat(); cv.bitwise_not(bodyBin, bodyInv);
+  const bodyCanvas2 = canvasFromMat(bodyInv);
+  const bodyTxt2 = await ocrText(bodyCanvas2);
 
-GIẢI THÍCH (Top 3):
-1) ${explainOne(cand, main, cfg)}
-2) ${explainOne(cand, sub, cfg)}
-3) ${explainOne(cand, add, cfg)}
+  const bodyTxt = cleanOCR((bodyTxt1||"") + "\n" + (bodyTxt2||""));
+  const lines = bodyTxt.split("\n").map(s=>s.trim()).filter(Boolean);
 
-${weightsLine}
+  const g7Found = findG7Line(lines);
+  const g6Found = findG6Line(lines, g7Found.idx);
 
-* Tool thống kê hỗ trợ, không đảm bảo kết quả.
+  const g7 = g7Found.arr;
+  const g6 = g6Found.arr;
 
-===== AI ĐỌC PHA (MASTER+++) =====
-Pha: ${phase.pha} | Hướng: ${phase.huong} | Tin cậy: ${trust}%
-Nhận định: ${phase.note}
+  body.delete(); bodyBin.delete(); bodyInv.delete();
+  src.delete();
+  URL.revokeObjectURL(url);
 
-===== SOI FULL LOTO 2 SỐ (FULL PRO) =====
-[1] HOT (15): ${hot15Fmt}
-[2] GAN (15): ${gan15Fmt}
-[3] ĐẦU/ĐUÔI Top5 (K=${cfg.kPhase}):  Đầu: ${headTail.headTop}  |  Đuôi: ${headTail.tailTop}
-[4] TRỤC nổi: ${trucNoi.join(" ")}
-[5] G7 lead set (kè+bóng): ${g7LeadSet.join(" ")}
-[6] PASCAL seed: ${pasSeed.join(" ")}
-[7] CỤM xác nhận (không ép): ${top10.slice(0,4).map(x=>x.num).join(" ")}
-[8] GIẢI THÍCH TOP (A=CORE, B=BACKUP):
-${formatTopExplain(top10, cfg)}
+  const gate = gateCheck(db5, g6, g7);
+  const db2 = (/^\d{5}$/.test(db5)) ? db5.slice(-2) : "";
+
+  el("dbg").textContent =
+`[UPPER_OCR]
+${upperTxt || "(empty)"}
+
+[DB_5DIG]
+${db5 || "(none)"}
+
+[LOWER_OCR]
+${bodyTxt || "(empty)"}
+
+[G7_LINE]
+${g7Found.line || "(none)"}
+
+[G6_LINE]
+${g6Found.line || "(none)"}
 `;
 
-  // Explain short for PRO box
-  const explainShort =
-`• 1) ${explainOne(cand, main, cfg)}
-• 2) ${explainOne(cand, sub, cfg)}
-• 3) ${explainOne(cand, add, cfg)}`;
+  showKPI(db2, g6, g7, gate.ok ? "PASS" : "FAIL");
+  setBadge("stOcr", "● OCR: done", "ok");
 
-  return {
-    N, cfg,
-    phase, trust, noise,
-    main, sub, add,
-    top10, topN,
-    warn,
-    fullText: full,
-    explainShort,
-  };
-}
-
-function inferPhase(trucKeys, cfg){
-  // mô phỏng 4 pha: mở – chạy – đảo – xả
-  // logic: nhiều trục nổi => mở/chạy; ít trục nổi => đảo/xả
-  const k = trucKeys.length;
-  if(k >= 10) return { pha:"P6", huong:"TRUC_MO", note:"Mở TRỤC — gan vừa/đủ, trục đang nổ. Ưu tiên TRỤC + xác nhận gan." };
-  if(k >= 6)  return { pha:"P2", huong:"TRUC_GAN", note:"TRỤC + GAN lead — ưu tiên trục nổi, tránh bám cụm G6/G7 thuần." };
-  if(k >= 3)  return { pha:"P4", huong:"DAO", note:"Pha đảo — tránh all-in 1 cụm, ưu tiên chống bẫy/đảo kề." };
-  return        { pha:"P1", huong:"XA", note:"Pha xả/loãng — cân nhắc dừng hoặc dùng PA B (10 giả thiết) nếu vẫn vào." };
-}
-
-function chunkJoin(arr, n){
-  const out=[];
-  for(let i=0;i<arr.length;i+=n){
-    out.push(arr.slice(i,i+n).join("  "));
+  if(gate.ok){
+    setBadge("stGate", "● Gate: PASS", "ok");
+    addLineToInput(db5, g7, g6);
+    batchOK++;
+  }else{
+    setBadge("stGate", `● Gate: FAIL — ${gate.reason}`, "fail");
+    batchFail++;
+    el("manualDB").value = db2 || "";
+    el("manualG6").value = g6.length ? g6.join(" ") : "";
+    el("manualG7").value = g7.length ? g7.join(" ") : "";
   }
-  return out;
+  setStatus();
 }
 
-function summarizeHeadTail(pool){
-  const head = new Map();
-  const tail = new Map();
-  for(const p of pool){
-    head.set(p.num[0], (head.get(p.num[0])||0)+1);
-    tail.set(p.num[1], (tail.get(p.num[1])||0)+1);
+/* manual */
+function parseManual(){
+  const db2 = (el("manualDB").value || "").replace(/\D/g,"").slice(-2);
+  const g6 = (el("manualG6").value || "").match(/\b\d{3}\b/g) || [];
+  const g7 = (el("manualG7").value || "").match(/\b\d{2}\b/g) || [];
+  if(db2.length!==2) return {ok:false, msg:"DB manual phải đúng 2 số"};
+  if(g6.length<3) return {ok:false, msg:"G6 manual phải đủ 3 số (3 chữ số)"};
+  if(g7.length<4) return {ok:false, msg:"G7 manual phải đủ 4 số (2 chữ số)"};
+  const fakeDB5 = "000" + db2;
+  return {ok:true, fakeDB5, g6:g6.slice(0,3), g7:g7.slice(0,4)};
+}
+el("btnApplyManual").onclick = ()=>{
+  const r = parseManual();
+  if(!r.ok){ alert(r.msg); return; }
+  addLineToInput(r.fakeDB5, r.g7, r.g6);
+  setBadge("stGate","● Gate: MANUAL OK","ok");
+};
+
+/* buttons upload */
+el("btnMulti").onclick = ()=> el("fileMulti").click();
+el("btnCam").onclick   = ()=> el("fileCam").click();
+
+el("fileMulti").addEventListener("change", async (e)=>{
+  const files = [...(e.target.files || [])];
+  if(!files.length) return;
+
+  setBadge("stOcr","● OCR: batch running…","warn");
+  batchOK = 0; batchFail = 0;
+  setStatus();
+
+  for(const f of files){
+    await runOCRFromBlob(f);
+    await new Promise(r=>setTimeout(r, 120));
   }
-  const headTop = [...head.entries()].sort((a,b)=>b[1]-a[1]).slice(0,5).map(([d,c])=>`${d}(${c})`).join(" ");
-  const tailTop = [...tail.entries()].sort((a,b)=>b[1]-a[1]).slice(0,5).map(([d,c])=>`${d}(${c})`).join(" ");
-  return { headTop, tailTop };
+  setBadge("stOcr","● OCR: batch done","ok");
+});
+
+el("fileCam").addEventListener("change", async (e)=>{
+  const f = (e.target.files || [])[0];
+  if(!f) return;
+  await runOCRFromBlob(f);
+});
+
+el("btnRetryLast").onclick = async ()=>{
+  if(!lastImageBlob){ alert("Chưa có ảnh nào để retry."); return; }
+  await runOCRFromBlob(lastImageBlob);
+};
+
+el("btnSample").onclick = ()=>{
+  el("inputData").value =
+`DB 77 | G7: 03 82 85 81 | G6: 392 255 854
+DB 21 | G7: 76 47 21 77 | G6: 801 295 993
+DB 14 | G7: 81 87 60 32 | G6: 206 200 971
+DB 80 | G7: 22 20 16 61 | G6: 733 014 672
+DB 45 | G7: 18 62 05 74 | G6: 615 901 330
+DB 09 | G7: 90 11 27 63 | G6: 402 578 119`;
+};
+
+/* =========================================================
+   PART 2 — ENGINE (CHỐT 3 CON LUÔN, KHÔNG “NÉ NGÀY”)
+========================================================= */
+
+/* Parse lines */
+function parseLines(){
+  const raw = el("inputData").value.trim().split("\n").map(s=>s.trim()).filter(Boolean);
+  const win = Math.min(Math.max(6, parseInt(el("winDays").value||"20",10)), 60);
+  const slice = raw.slice(0, win); // newest ở trên
+  const days = [];
+
+  for(const line of slice){
+    const dbm = line.match(/DB\s+(\d{2})/);
+    const g7m = line.match(/G7:\s*([0-9 ]+)/);
+    const g6m = line.match(/G6:\s*([0-9 ]+)/);
+    if(!dbm || !g7m || !g6m) continue;
+
+    const db2 = pad2(dbm[1]);
+    const g7 = (g7m[1].match(/\b\d{2}\b/g)||[]).slice(0,4).map(pad2);
+    const g6 = (g6m[1].match(/\b\d{3}\b/g)||[]).slice(0,3);
+    const g6_2 = g6.map(x=>pad2(String(x).slice(-2)));
+
+    // pool = DB2 + 4 số G7 + 3 số (2 số cuối G6)
+    const pool = [db2, ...g7, ...g6_2];
+    days.push({db2, g7, g6_2, pool});
+  }
+  return days;
 }
 
-function explainOne(cand, num, cfg){
-  const c = cand.find(x=>x.num===num);
-  if(!c) return `${num} | (no data)`;
-  // flags
-  const trucY = (c.tcnt>=cfg.trucMin) ? "Y" : "-";
-  const g7Y = (c.g7lead>=1) ? "Y" : "-";
-  const pasY = (c.pas===1) ? "Y" : "-";
-  const cumY = (c.hot>=3) ? "Y" : "-";
-  const dauY = (c.hot>=2) ? "Y" : "-";
-  const duoiY = (c.hot>=2) ? "Y" : "-";
-  const ganView = (c.gan===999) ? "∞" : String(c.gan);
-  // score display
-  const score = (Math.round(c.score*100)/100).toFixed(2);
-  return `${num} | score ${score} | hot:${c.hot} | gan:${ganView} | truc:${trucY} | g7:${g7Y} | pas:${pasY} | cum:${cumY} | dau:${dauY} | duoi:${duoiY}`;
-}
-
-function formatTopExplain(top10, cfg){
-  // In style like A71 ... from screenshot (A/B bucket)
-  // We'll label A for top6, B for rest
-  return top10.slice(0, 10).map((x, i)=>{
-    const tag = i<6 ? "A" : "B";
-    const ganView = (x.gan===999) ? "∞" : String(x.gan);
-    const trucY = (x.tcnt>=cfg.trucMin) ? "Y" : "-";
-    const g7Y = (x.g7lead>=1) ? "Y" : "-";
-    const pasY = (x.pas===1) ? "Y" : "-";
-    const cumY = (x.hot>=3) ? "Y" : "-";
-    const dauY = (x.hot>=2) ? "Y" : "-";
-    const duoiY = (x.hot>=2) ? "Y" : "-";
-    const score = (Math.round(x.score*100)/100).toFixed(2);
-    return `${i+1}) ${tag}${x.num} | score ${score} | hot:${x.hot} | gan:${ganView} | truc:${trucY} | g7:${g7Y} | pas:${pasY} | cum:${cumY} | dau:${dauY} | duoi:${duoiY}`;
-  }).join("\n");
-}
-
-/* -------------------------
-   Render result
--------------------------- */
-function resetOutput(){
-  ["pick3","pick3Pro"].forEach(id=>$(id).textContent="-- / -- / --");
-  ["pickMain","pickSub","pickAdd"].forEach(id=>$(id).textContent="--");
-  ["phaseLine","phaseLinePro"].forEach(id=>$(id).textContent="Pha: -- • Hướng: -- • Tin cậy: --");
-  ["phaseNote","phaseNotePro"].forEach(id=>$(id).textContent="Nhận định: --");
-  ["fullProText","fullProText2"].forEach(id=>$(id).textContent="Chưa có dữ liệu. Bấm RUN hoặc DEMO.");
-  $("topChips").innerHTML = "";
-  $("explainBox").textContent = "--";
-  $("noteLine").textContent = "✅ MODE: HIT@3>=2 • trust --% • noise --% • BUILD --";
-  $("noteLinePro").textContent = $("noteLine").textContent;
-}
-
-function renderResult(res, cfg){
-  const pickText = `${res.main} / ${res.sub} / ${res.add}`;
-  $("pick3").textContent = pickText;
-  $("pick3Pro").textContent = pickText;
-  $("pickMain").textContent = res.main;
-  $("pickSub").textContent = res.sub;
-  $("pickAdd").textContent = res.add;
-
-  const ph = `Pha: ${res.phase.pha} • Hướng: ${res.phase.huong} • Tin cậy: ${res.trust}%`;
-  $("phaseLine").textContent = ph;
-  $("phaseLinePro").textContent = ph;
-  $("phaseNote").textContent = `Nhận định: ${res.phase.note}`;
-  $("phaseNotePro").textContent = `Nhận định: ${res.phase.note}`;
-
-  // warnings
-  const warnEl = $("warns");
-  warnEl.innerHTML = res.warn.map(w=>{
-    if(w.startsWith("⚠️")) return `<li><b>${escapeHtml(w.slice(0,2))}</b> ${escapeHtml(w.slice(2).trim())}</li>`;
-    return `<li><b>OK:</b> ${escapeHtml(w.replace("✅ OK:", "").trim())}</li>`;
-  }).join("");
-
-  const note = `✅ MODE: ${state.mode} • trust ${res.trust}% • noise ${res.noise}% • BUILD ${state.build}`;
-  $("noteLine").textContent = note;
-  $("noteLinePro").textContent = note;
-
-  $("fullProText").textContent = res.fullText;
-  $("fullProText2").textContent = res.fullText;
-
-  // Top chips in PRO
-  const top = res.top10.map((x, idx)=>{
-    const pct = Math.round((x.score / res.top10[0].score)*100);
-    return { num:x.num, pct };
+/* stats */
+function buildHeadTail(days, K){
+  const h = {}; const t = {};
+  days.slice(0,K).forEach(d=>{
+    d.pool.forEach(n=>{
+      const a=n[0], b=n[1];
+      h[a]=(h[a]||0)+1;
+      t[b]=(t[b]||0)+1;
+    });
   });
-  $("topChips").innerHTML = top.map(t=>(
-    `<span class="chip" style="background:rgba(255,255,255,.06); color:var(--text);">
-      <strong style="color:var(--text)">${t.num}(${t.pct}%)</strong>
-    </span>`
-  )).join("");
-
-  $("explainBox").textContent = res.explainShort;
+  return {h,t};
+}
+function ganMap(days, K){
+  const lastSeen = {};
+  days.slice(0,K).forEach((d, idx)=>{
+    d.pool.forEach(n=>{
+      if(lastSeen[n]===undefined) lastSeen[n]=idx;
+    });
+  });
+  const gan = {};
+  for(let i=0;i<100;i++){
+    const n = pad2(i);
+    gan[n] = (lastSeen[n]===undefined) ? 999 : lastSeen[n];
+  }
+  return gan;
+}
+function makeTrucSet(topHeads, topTails){
+  const s = new Set();
+  for(const a of topHeads) for(const b of topTails) s.add(`${a}${b}`);
+  return s;
+}
+function keSet(n2){
+  const x = parseInt(n2,10);
+  const prev = pad2((x+99)%100);
+  const next = pad2((x+1)%100);
+  const bong = pad2(99-x);
+  return new Set([pad2(x), prev, next, bong]);
+}
+function pascalSeed(days){
+  if(days.length<2) return new Set();
+  const a = parseInt(days[0].db2,10);
+  const b = parseInt(days[1].db2,10);
+  const sum = pad2((a+b)%100);
+  const dif = pad2((a-b+100)%100);
+  const s = new Set([sum,dif]);
+  [sum,dif].forEach(x=>{
+    const rev = x[1]+x[0];
+    s.add(rev);
+    keSet(x).forEach(v=>s.add(v));
+  });
+  return s;
+}
+function buildCumConfirm(scoreSorted){
+  const top10 = scoreSorted.slice(0,10).map(([n])=>n);
+  const headCnt = {}; const tailCnt = {};
+  top10.forEach(n=>{
+    headCnt[n[0]]=(headCnt[n[0]]||0)+1;
+    tailCnt[n[1]]=(tailCnt[n[1]]||0)+1;
+  });
+  const heads = Object.entries(headCnt).sort((a,b)=>b[1]-a[1]).slice(0,2).map(x=>x[0]);
+  const tails = Object.entries(tailCnt).sort((a,b)=>b[1]-a[1]).slice(0,2).map(x=>x[0]);
+  const cum = [];
+  for(const a of heads) for(const b of tails) cum.push(a+b);
+  return Array.from(new Set(cum)).slice(0,8);
 }
 
-/* init */
-resetOutput();
-setBatch();
-setGate("WAIT","warn");
-setOCR("ready","good");
+/* detect phase (hỗ trợ trọng số + cảnh báo) */
+function detectPhase(days){
+  const K = Math.min(Math.max(5, parseInt(el("phaseK").value||"9",10)), days.length);
+  const ht = buildHeadTail(days, K);
+  const headTop = Object.entries(ht.h).sort((a,b)=>b[1]-a[1]).slice(0,4).map(x=>x[0]);
+  const tailTop = Object.entries(ht.t).sort((a,b)=>b[1]-a[1]).slice(0,4).map(x=>x[0]);
+  const trucSet = makeTrucSet(headTop, tailTop);
+  const g = ganMap(days, K);
+
+  let hitTruc = 0, total=0;
+  let ganLong = 0;
+  let g7LeadHit = 0;
+
+  for(let i=0;i<K;i++){
+    const d = days[i];
+    d.pool.forEach(n=>{
+      total++;
+      if(trucSet.has(n)) hitTruc++;
+      const gv = g[n];
+      if(gv>=5 && gv!==999) ganLong++;
+    });
+    if(i+1 < K){
+      const lead = new Set();
+      days[i+1].g7.forEach(x=>keSet(x).forEach(v=>lead.add(v)));
+      const inter = d.pool.filter(n=>lead.has(n)).length;
+      g7LeadHit += inter;
+    }
+  }
+
+  const trucRatio = total ? hitTruc/total : 0;
+  const ganRatio  = total ? ganLong/total : 0;
+  const g7Ratio   = total ? g7LeadHit/(total) : 0;
+
+  const freq = {};
+  days.slice(0,K).forEach(d=>d.pool.forEach(n=>freq[n]=(freq[n]||0)+1));
+  const topHot = Object.values(freq).sort((a,b)=>b-a)[0] || 0;
+  const uniq = Object.keys(freq).length || 1;
+  const noise = (1 - (topHot/(K*8)));
+
+  let pha="P3", dir="GIAO_THAO", conf=0.62, note="Giao thoa – cần số giao ≥2 tiêu chí.";
+  if(noise>0.82 && trucRatio<0.16 && g7Ratio<0.18){
+    pha="P4"; dir="NHIU_NANG"; conf=0.78; note="Nhiễu nặng – vẫn chốt 3 nhưng rủi ro cao.";
+    return {pha,dir,conf,note,metrics:{trucRatio,ganRatio,g7Ratio,noise}, headTop, tailTop};
+  }
+  if(trucRatio>=0.20 && ganRatio>=0.18 && g7Ratio<0.22){
+    pha = (ganRatio>=0.25) ? "P6" : "P2";
+    dir = (pha==="P6") ? "TRUC_MO" : "TRUC_GAN";
+    conf = Math.min(0.92, 0.68 + trucRatio + ganRatio);
+    note = (pha==="P6")
+      ? "MỞ TRỤC – ưu tiên TRỤC + xác nhận gan."
+      : "TRỤC + GAN – ưu tiên trục nổi, tránh bám G7 thuần.";
+    return {pha,dir,conf,note,metrics:{trucRatio,ganRatio,g7Ratio,noise}, headTop, tailTop};
+  }
+  if(g7Ratio>=0.22 && trucRatio<0.20){
+    pha="P1"; dir="THEO_G7"; conf=Math.min(0.90, 0.62 + g7Ratio);
+    note="G7 lead – ưu tiên kề/bóng/chạm từ G7.";
+    return {pha,dir,conf,note,metrics:{trucRatio,ganRatio,g7Ratio,noise}, headTop, tailTop};
+  }
+  if(topHot>=4 && ganRatio<0.14 && noise<0.75){
+    pha="P5"; dir="XA"; conf=0.74; note="Pha xả – hot dễ bẫy, giảm tiền.";
+    return {pha,dir,conf,note,metrics:{trucRatio,ganRatio,g7Ratio,noise}, headTop, tailTop};
+  }
+  return {pha,dir,conf,note,metrics:{trucRatio,ganRatio,g7Ratio,noise}, headTop, tailTop};
+}
+
+/* lock weights */
+function lockWeightsByPhase(phaObj){
+  let wHot = parseFloat(el("wHot").value||"2");
+  let wGan = parseFloat(el("wGan").value||"1.5");
+  let wPas = parseFloat(el("wPas").value||"2");
+  let wTruc = 1.2, wG7 = 1.0;
+
+  if(el("aiSup").value==="off"){
+    return {wHot,wGan,wPas,wTruc,wG7, locked:false};
+  }
+
+  if(phaObj.dir==="TRUC_GAN"){
+    wHot = Math.min(wHot, 1.5);
+    wGan = Math.max(wGan, 2.0);
+    wTruc = 2.4;
+    wG7 = 0.9;
+  } else if(phaObj.dir==="TRUC_MO"){
+    wHot = Math.min(wHot, 1.8);
+    wGan = Math.max(wGan, 1.8);
+    wTruc = 2.8;
+    wG7 = 1.0;
+  } else if(phaObj.dir==="THEO_G7"){
+    wHot = Math.max(wHot, 2.0);
+    wGan = Math.max(1.2, wGan);
+    wTruc = 1.2;
+    wG7 = 2.2;
+  } else if(phaObj.dir==="XA"){
+    wHot = Math.max(wHot, 2.2);
+    wGan = Math.min(wGan, 1.2);
+    wTruc = 1.0;
+    wG7 = 1.0;
+  } else if(phaObj.pha==="P4"){
+    // nhiễu nặng: vẫn chốt 3 nhưng giảm “tự tin”
+    wHot = 1.2; wGan = 1.1; wPas = 1.2;
+    wTruc = 0.9; wG7 = 0.9;
+  }
+  return {wHot,wGan,wPas,wTruc,wG7, locked:true};
+}
+
+/* score candidates (meta) */
+function scoreCandidates(days, phaObj, weights){
+  const K = Math.min(Math.max(5, parseInt(el("phaseK").value||"9",10)), days.length);
+  const threshold = Math.min(Math.max(2, parseInt(el("trucThreshold").value||"4",10)), 10);
+
+  const freq = {};
+  days.forEach(d=>d.pool.forEach(n=>freq[n]=(freq[n]||0)+1));
+  const gan = ganMap(days, K);
+
+  const ht = buildHeadTail(days, K);
+  const headTop = Object.entries(ht.h).sort((a,b)=>b[1]-a[1]).slice(0,5).map(x=>x[0]);
+  const tailTop = Object.entries(ht.t).sort((a,b)=>b[1]-a[1]).slice(0,5).map(x=>x[0]);
+
+  const headStrong = Object.entries(ht.h).filter(([,c])=>c>=threshold).sort((a,b)=>b[1]-a[1]).slice(0,6).map(x=>x[0]);
+  const tailStrong = Object.entries(ht.t).filter(([,c])=>c>=threshold).sort((a,b)=>b[1]-a[1]).slice(0,6).map(x=>x[0]);
+  const trucSet = makeTrucSet(headStrong.length?headStrong:headTop.slice(0,4), tailStrong.length?tailStrong:tailTop.slice(0,4));
+
+  const pas = pascalSeed(days);
+
+  const g7Lead = new Set();
+  if(days.length){
+    days[0].g7.forEach(x=>keSet(x).forEach(v=>g7Lead.add(v)));
+  }
+
+  const score = {};
+  const features = {};
+
+  for(let i=0;i<100;i++){
+    const n = pad2(i);
+    const hot = (freq[n]||0);
+    const g = gan[n];
+
+    let ganFeat = 0;
+    if(g===999) ganFeat = -2;
+    else if(g===0) ganFeat = -1;
+    else if(g>=2 && g<=9) ganFeat = 2;
+    else ganFeat = 0;
+
+    const pasFeat = pas.has(n) ? 1 : 0;
+    const trucFeat = trucSet.has(n) ? 1 : 0;
+    const g7Feat = g7Lead.has(n) ? 1 : 0;
+
+    let s = hot*weights.wHot + ganFeat*weights.wGan + pasFeat*weights.wPas;
+    s += trucFeat*weights.wTruc;
+    s += g7Feat*weights.wG7;
+
+    if((phaObj.dir==="TRUC_GAN" || phaObj.dir==="TRUC_MO") && !trucFeat){
+      s -= 0.6;
+    }
+
+    score[n]=s;
+    features[n]={hot, gan:g, pas:pasFeat, truc:trucFeat, g7:g7Feat};
+  }
+
+  let scoreSorted = Object.entries(score).sort((a,b)=>b[1]-a[1]);
+
+  const cumList = buildCumConfirm(scoreSorted);
+  const cumSet = new Set(cumList);
+
+  for(const [n] of scoreSorted.slice(0,30)){
+    if(cumSet.has(n)) score[n] += 0.35;
+  }
+  scoreSorted = Object.entries(score).sort((a,b)=>b[1]-a[1]);
+
+  return {scoreSorted, freq, gan, trucSet, pas, g7Lead, headTop, tailTop, cumList, features};
+}
+
+/* warnings */
+function buildWarnings(phaObj, meta){
+  const warn = [];
+  if(phaObj.pha==="P4") warn.push("⚠️ NHIỄU NẶNG: vẫn chốt 3 nhưng rủi ro cao, giảm tiền.");
+  let topInf = 0;
+  for(let i=0;i<12;i++){
+    const n = meta.scoreSorted[i]?.[0];
+    if(!n) break;
+    if(meta.gan[n]===999) topInf++;
+  }
+  if(topInf>=3) warn.push("⚠️ BẪY GAN: nhiều số gan∞ lọt top → ưu tiên gan 2–9.");
+  const hotVals = Object.values(meta.freq).sort((a,b)=>b-a);
+  const topHot = hotVals[0] || 0;
+  if(topHot>=5 && phaObj.dir!=="TRUC_MO") warn.push("⚠️ BẪY CỤM/HOT: hot dày → tránh all-in.");
+  if(warn.length<3) warn.push("✅ OK: chưa thấy bẫy quá rõ (vẫn giữ kỷ luật tiền).");
+  if(warn.length<3) warn.push("✅ OK: ưu tiên số giao thoa ≥2 tiêu chí.");
+  return warn.slice(0,3);
+}
+
+/* =========================================================
+   HIT@3>=2 PATCH — LUÔN CHỐT 3 (KHÔNG TRỐNG)
+========================================================= */
+const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+const sigmoid = (z) => 1 / (1 + Math.exp(-z));
+const to2 = (n) => String(n).padStart(2, "0");
+
+function entropyFromCounts(countsObj) {
+  const vals = Object.values(countsObj);
+  const sum = vals.reduce((a, b) => a + b, 0) || 1;
+  let H = 0;
+  for (const v of vals) {
+    const p = v / sum;
+    if (p > 0) H += -p * Math.log(p);
+  }
+  return H;
+}
+function jaccard(aSet, bSet) {
+  let inter = 0;
+  for (const x of aSet) if (bSet.has(x)) inter++;
+  const union = aSet.size + bSet.size - inter;
+  return union === 0 ? 0 : inter / union;
+}
+
+function computeProbabilities(ctx, weights) {
+  const { candidates, hotRank, ganScore, pasScore, trucScore, g7Lead, cumConfirm } = ctx;
+
+  const maxHot = Math.max(...candidates.map(n => hotRank.get(n) ?? 0), 1);
+  const maxTruc = Math.max(...candidates.map(n => trucScore.get(n) ?? 0), 1);
+  const maxGan = Math.max(...candidates.map(n => ganScore.get(n) ?? 0), 1);
+
+  const probs = new Map();
+  for (const n of candidates) {
+    const hotN  = (hotRank.get(n) ?? 0) / maxHot;
+    const trucN = (trucScore.get(n) ?? 0) / maxTruc;
+    const pasN  = clamp((pasScore.get(n) ?? 0), 0, 1);
+    const g7N   = g7Lead?.has(n) ? 1 : 0;
+    const cumN  = cumConfirm?.has(n) ? 1 : 0;
+
+    const ganLen = ganScore.get(n) ?? 0;
+    const ganNraw = ganLen / maxGan;
+    const ganSweet = 1 - Math.abs(ganNraw - 0.5) * 2;
+    const ganN = clamp(ganSweet, 0, 1);
+
+    const z =
+      (weights.base ?? -2.2) +
+      (weights.wHot  ?? 1.2) * hotN +
+      (weights.wTruc ?? 1.4) * trucN +
+      (weights.wG7   ?? 0.7) * g7N +
+      (weights.wPas  ?? 0.8) * pasN +
+      (weights.wGan  ?? 0.6) * ganN +
+      (weights.wCum  ?? 0.3) * cumN;
+
+    probs.set(n, sigmoid(z));
+  }
+  return probs;
+}
+
+function deriveGate(ctx) {
+  const Hh = entropyFromCounts(ctx.headCount || {});
+  const Ht = entropyFromCounts(ctx.tailCount || {});
+  const H = (Hh + Ht) / 2;
+
+  const pha = ctx.phaseHint?.pha || "";
+  const huong = ctx.phaseHint?.huong || "";
+
+  const isTrucMo = /TRUC_MO/i.test(huong);
+  const isTrucGan = /TRUC_GAN/i.test(huong);
+  const isDaoXa = /DAO|XA|NHIU/i.test(huong) || /P3|P4|P5/i.test(pha);
+
+  const noise = clamp((H - 1.9) / (2.5 - 1.9), 0, 1);
+
+  let aT = 0.45, aG = 0.30, aP = 0.25;
+  if (isTrucMo) { aT += 0.10; aP -= 0.05; }
+  if (isTrucGan) { aG += 0.08; aT -= 0.04; }
+  if (isDaoXa) { aT -= 0.12; aP += 0.08; aG += 0.04; }
+
+  aT = aT * (1 - 0.6 * noise);
+  aP = aP + 0.35 * noise;
+  aG = aG + 0.25 * noise;
+
+  const s = aT + aG + aP;
+  aT /= s; aG /= s; aP /= s;
+
+  return { noise, isDaoXa, isTrucMo, isTrucGan, aT, aG, aP };
+}
+
+function computeEnsembleProb(ctx) {
+  const gate = deriveGate(ctx);
+
+  const wT = { base:-2.25, wHot:1.05, wTruc:1.65, wG7:0.85, wPas:0.45, wGan:0.35, wCum:0.20 };
+  const wG = { base:-2.20, wHot:0.95, wTruc:1.05, wG7:0.45, wPas:0.35, wGan:0.95, wCum:0.20 };
+  const wP = { base:-2.30, wHot:0.90, wTruc:0.95, wG7:0.35, wPas:1.05, wGan:0.35, wCum:0.55 };
+
+  const pT = computeProbabilities(ctx, wT);
+  const pG = computeProbabilities(ctx, wG);
+  const pP = computeProbabilities(ctx, wP);
+
+  const p = new Map();
+  for (const n of ctx.candidates) {
+    const v =
+      gate.aT * (pT.get(n) || 0) +
+      gate.aG * (pG.get(n) || 0) +
+      gate.aP * (pP.get(n) || 0);
+    p.set(n, v);
+  }
+  return { p, gate };
+}
+
+function buildNumberProfile(ctx, n) {
+  const head = parseInt(n[0], 10);
+  const tail = parseInt(n[1], 10);
+  const trucTier = (ctx.trucScore.get(n) ?? 0) >= (ctx.trucThreshold ?? 4) ? "T" : "t";
+  const cum = ctx.cumConfirm?.has(n) ? "C" : "c";
+  const g7 = ctx.g7Lead?.has(n) ? "G" : "g";
+  const pas = (ctx.pasScore.get(n) ?? 0) ? "P" : "p";
+  const feat = new Set([`H${head}`, `D${tail}`, `TR${trucTier}`, `CU${cum}`, `G7${g7}`, `PA${pas}`]);
+  return { head, tail, feat };
+}
+
+function pickTop3WithDiversity(ctx, pMap) {
+  const arr = [...pMap.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .map(([n, p]) => ({ n, p, prof: buildNumberProfile(ctx, n) }));
+
+  const picked = [];
+  const maxTry = Math.min(arr.length, 40);
+
+  for (let i = 0; i < maxTry && picked.length < 3; i++) {
+    const cand = arr[i];
+    if (picked.length === 0) { picked.push(cand); continue; }
+
+    let ok = true;
+    for (const pk of picked) {
+      const sameTail = cand.prof.tail === pk.prof.tail;
+      const sim = jaccard(cand.prof.feat, pk.prof.feat);
+      if (sameTail) ok = false;
+      if (sim >= 0.55) ok = false;
+    }
+    if (ok) picked.push(cand);
+  }
+
+  // fallback luôn đủ 3
+  if (picked.length < 3) {
+    for (let i = 0; i < maxTry && picked.length < 3; i++) {
+      const cand = arr[i];
+      if (picked.some(x => x.n === cand.n)) continue;
+      picked.push(cand);
+    }
+  }
+  return picked.slice(0, 3);
+}
+
+function MASTER_HIT2OF3(ctx) {
+  if (!ctx.candidates || ctx.candidates.length === 0) {
+    ctx.candidates = Array.from({ length: 100 }, (_, i) => to2(i));
+  }
+  ctx.trucThreshold = ctx.trucThreshold ?? 4;
+
+  const { p, gate } = computeEnsembleProb(ctx);
+
+  const top10 = [...p.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 10)
+    .map(([n, prob]) => ({ n, prob }));
+
+  // ===== KHÔNG “NÉ NGÀY” NỮA: LUÔN CHỐT 3 =====
+  const chot3 = pickTop3WithDiversity(ctx, p).map(x => x.n);
+
+  const phaseConf = ctx.phaseHint?.tinCay ?? 0.75;
+  const trust = clamp(0.55 + 0.35 * (1 - gate.noise) + 0.20 * (phaseConf - 0.75), 0.40, 0.92);
+
+  // chỉ đưa cảnh báo risk
+  const risk = (gate.noise >= 0.65 && phaseConf < 0.80) ? "RISK: noise cao + pha chưa chắc" :
+               (gate.isDaoXa && gate.noise >= 0.55) ? "RISK: pha đảo/xả + noise" : "OK";
+
+  return { mode:"HIT@3>=2", gate, trust, top10, chot3, risk };
+}
+
+/* =========================================================
+   OUTPUT UI
+========================================================= */
+let VIEW_MODE = "simple";
+window.__lastRender = null;
+
+const setView = (m)=>{
+  VIEW_MODE = m;
+  el("viewHint").textContent = (m==="simple")
+    ? "SIMPLE: Chốt 3 + cảnh báo (dễ nhìn)"
+    : "PRO: Thêm TOP + % + FULL PRO chi tiết";
+  el("detailBox").open = (m==="pro");
+};
+el("btnViewSimple").onclick = ()=>{ setView("simple"); if(window.__lastRender) window.__lastRender(); };
+el("btnViewPro").onclick = ()=>{ setView("pro"); if(window.__lastRender) window.__lastRender(); };
+setView("simple");
+
+function esc(s){ return String(s).replace(/[&<>"']/g, m=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[m])); }
+
+function renderOutputUI(payload){
+  const {phaObj, pick, pctLineArr, warnings, explainLines, weights, daysLen, rawText, extraNote} = payload;
+
+  const main = pick[0] || "--";
+  const sub  = pick[1] || "--";
+  const kem  = pick[2] || "--";
+
+  const phaText = `Pha ${phaObj.pha} • ${phaObj.dir} • Tin cậy ${(phaObj.conf*100).toFixed(0)}%`;
+
+  let chipsHtml = `<div class="chips">`;
+  if(VIEW_MODE==="pro"){
+    chipsHtml += pctLineArr.map(x=>`<span class="chip">${esc(x)}</span>`).join("");
+  }else{
+    chipsHtml += `<span class="chip">🎯 Chính: ${esc(main)}</span>`;
+    chipsHtml += `<span class="chip">🛡️ Phụ: ${esc(sub)}</span>`;
+    chipsHtml += `<span class="chip">➕ Kèm: ${esc(kem)}</span>`;
+  }
+  chipsHtml += `</div>`;
+
+  const warnHtml = `
+    <ul class="warnList">
+      ${warnings.map(w=>`<li>${esc(w)}</li>`).join("")}
+    </ul>
+  `;
+
+  const explainHtml = `
+    <div class="sep"></div>
+    <div class="khead">GIẢI THÍCH</div>
+    <div class="metaLine" style="margin-top:6px">
+      ${explainLines.map(l=>`• ${esc(l)}`).join("<br/>")}
+      ${extraNote ? `<div class="sep"></div><b>${esc(extraNote)}</b>` : ``}
+    </div>
+  `;
+
+  const weightLine = `wHot=${weights.wHot} • wGan=${weights.wGan} • wPas=${weights.wPas} • wTruc=${weights.wTruc} • wG7=${weights.wG7}`;
+
+  const left = `
+    <div class="kcard">
+      <div class="khead">CHỐT 3 (ƯU TIÊN KQ)</div>
+      <div class="kbig">${esc(main)} <span style="opacity:.65;font-weight:800">/</span> ${esc(sub)} <span style="opacity:.65;font-weight:800">/</span> ${esc(kem)}</div>
+      <div class="metaLine" style="margin-top:6px">${esc(phaText)}<br/>${esc(phaObj.note)}</div>
+      ${chipsHtml}
+    </div>
+  `;
+
+  const right = `
+    <div class="kcard">
+      <div class="khead">3 CẢNH BÁO</div>
+      ${warnHtml}
+      <div class="sep"></div>
+      <div class="metaLine">AI supervisor: <b>${weights.locked?"LOCKED":"OFF"}</b><br/>${esc(weightLine)}<br/>Tổng ngày dùng: ${daysLen}</div>
+    </div>
+  `;
+
+  const topBlock = (VIEW_MODE==="pro")
+    ? `<div class="sep"></div>
+       <div class="khead">TOP + % (THAM KHẢO)</div>
+       <div class="chips">${pctLineArr.map(x=>`<span class="chip">${esc(x)}</span>`).join("")}</div>`
+    : "";
+
+  el("outHtml").innerHTML = `
+    <div class="krow">${left}${right}</div>
+    ${topBlock}
+    ${explainHtml}
+  `;
+  el("outRaw").textContent = rawText || "";
+}
+
+/* FULL PRO raw */
+function buildDeepLotoReport(days, phaObj, weights, meta, topPickObjs){
+  const K = Math.min(Math.max(5, parseInt(el("phaseK").value||"9",10)), days.length);
+  const hotTop = Object.entries(meta.freq).sort((a,b)=>b[1]-a[1]).slice(0,15);
+  const ganRank = Array.from({length:100},(_,i)=>pad2(i))
+    .map(n=>[n, meta.gan[n]])
+    .sort((a,b)=>b[1]-a[1])
+    .slice(0,15);
+
+  const ht = buildHeadTail(days, K);
+  const headTop = Object.entries(ht.h).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const tailTop = Object.entries(ht.t).sort((a,b)=>b[1]-a[1]).slice(0,5);
+
+  const trucList = Array.from(meta.trucSet).sort((a,b)=>a.localeCompare(b)).slice(0,28);
+  const g7LeadList = Array.from(meta.g7Lead).sort((a,b)=>a.localeCompare(b)).slice(0,28);
+  const pasList = Array.from(meta.pas).sort((a,b)=>a.localeCompare(b));
+
+  const explainTop = topPickObjs.slice(0,6).map((x,i)=>{
+    const ganTag = (x.gan===999) ? "∞" : x.gan;
+    return `${i+1}) ${x.tier}${x.n} | score ${x.s.toFixed(2)} | hot:${x.hot} | gan:${ganTag} | truc:${x.truc?"Y":"-"} | g7:${x.g7?"Y":"-"} | pas:${x.pas?"Y":"-"} | cum:${x.cum?"Y":"-"} | dau:${x.dau?"Y":"-"} | duoi:${x.duoi?"Y":"-"}`;
+  }).join("\n");
+
+  return (
+`===== AI ĐỌC PHA (MASTER+++) =====
+Pha: ${phaObj.pha} | Hướng: ${phaObj.dir} | Tin cậy: ${(phaObj.conf*100).toFixed(0)}%
+Nhận định: ${phaObj.note}
+
+===== SOI FULL LOTO 2 SỐ (FULL PRO) =====
+[1] HOT (15): ${hotTop.map(([n,c])=>`${n}→${c}`).join("  ")}
+[2] GAN (15): ${ganRank.map(([n,v])=>`${n}→${v===999?"∞":v}`).join("  ")}
+[3] ĐẦU/ĐUÔI Top5 (K=${K}):  Đầu: ${headTop.map(([d,c])=>`${d}(${c})`).join(" ")}  |  Đuôi: ${tailTop.map(([d,c])=>`${d}(${c})`).join(" ")}
+[4] TRỤC nổi: ${trucList.join(" ")}
+[5] G7 lead set (kề+bóng): ${g7LeadList.join(" ")}
+[6] PASCAL seed: ${pasList.length?pasList.join(" "):"(none)"}
+[7] CỤM xác nhận: ${meta.cumList.join(" ")}
+
+[8] GIẢI THÍCH TOP:
+${explainTop}
+
+WEIGHTS (AI supervisor ${weights.locked?"LOCKED":"OFF"}):
+wHot=${weights.wHot} | wGan=${weights.wGan} | wPas=${weights.wPas} | wTruc=${weights.wTruc} | wG7=${weights.wG7}
+`
+  );
+}
+
+/* =========================================================
+   RUN FULL — MAIN
+========================================================= */
+function runFULL(){
+  const days = parseLines();
+  if(days.length < 6){
+    el("outHtml").textContent = "❌ Thiếu dữ liệu: cần ≥6 ngày (khuyến nghị 20).";
+    el("outRaw").textContent = "❌ Thiếu dữ liệu.";
+    return;
+  }
+
+  const phaObj = detectPhase(days);
+  const weights = lockWeightsByPhase(phaObj);
+  const meta = scoreCandidates(days, phaObj, weights);
+
+  const candidates = Array.from({length:100},(_,i)=>pad2(i));
+  const hotRank = new Map(candidates.map(n => [n, meta.freq[n] || 0]));
+  const ganScore = new Map(candidates.map(n => {
+    const v = meta.gan[n];
+    if(v === 999) return [n, 0];
+    return [n, Math.min(v, 20)];
+  }));
+  const pasScore = new Map(candidates.map(n => [n, meta.pas.has(n) ? 1 : 0]));
+
+  const Kp = Math.min(Math.max(5, parseInt(el("phaseK").value||"9",10)), days.length);
+  const ht = buildHeadTail(days, Kp);
+  const headPower = new Map(Object.entries(ht.h).map(([k,v])=>[k,v]));
+  const tailPower = new Map(Object.entries(ht.t).map(([k,v])=>[k,v]));
+  const trucScore = new Map(candidates.map(n=>{
+    const hp = headPower.get(n[0]) || 0;
+    const tp = tailPower.get(n[1]) || 0;
+    const bonus = meta.trucSet.has(n) ? 2 : 0;
+    return [n, hp + tp + bonus];
+  }));
+
+  const ctxPatch = {
+    candidates,
+    hotRank,
+    ganScore,
+    pasScore,
+    trucScore,
+    g7Lead: meta.g7Lead,
+    cumConfirm: new Set(meta.cumList || []),
+    headCount: ht.h,
+    tailCount: ht.t,
+    trucThreshold: Math.min(Math.max(2, parseInt(el("trucThreshold").value||"4",10)), 10),
+    phaseHint: { pha: phaObj.pha, huong: phaObj.dir, tinCay: phaObj.conf }
+  };
+
+  const patchOut = MASTER_HIT2OF3(ctxPatch);
+
+  const warnings = buildWarnings(phaObj, meta);
+
+  const topN = Math.min(Math.max(4, parseInt(el("topN").value||"10",10)), 15);
+  const topPickByProb = patchOut.top10.slice(0, topN);
+  const maxP = Math.max(...topPickByProb.map(x=>x.prob), 0.0001);
+  const pctLineArr = topPickByProb.map(x=>{
+    const p = (x.prob / maxP) * 100;
+    return `${x.n}(${p.toFixed(0)}%)`;
+  });
+
+  // ===== CHỐT 3 LUÔN =====
+  const pick = patchOut.chot3 || topPickByProb.slice(0,3).map(x=>x.n);
+
+  const explainLines = pick.slice(0,3).map((n,i)=>{
+    const f = meta.features[n] || {hot:0,gan:999,pas:0,truc:false,g7:false};
+    const ganTag = (meta.gan[n]===999) ? "∞" : meta.gan[n];
+    const cum = (meta.cumList||[]).includes(n);
+    const dau = meta.headTop.slice(0,5).includes(n[0]);
+    const duoi = meta.tailTop.slice(0,5).includes(n[1]);
+    return `${i+1}) ${n} | hot:${f.hot||0} | gan:${ganTag} | truc:${f.truc?"Y":"-"} | g7:${f.g7?"Y":"-"} | pas:${f.pas?"Y":"-"} | cum:${cum?"Y":"-"} | dau:${dau?"Y":"-"} | duoi:${duoi?"Y":"-"}`;
+  });
+
+  const extraNote =
+    `✅ MODE: HIT@3>=2 • trust ${(patchOut.trust*100).toFixed(0)}% • noise ${(patchOut.gate.noise*100).toFixed(0)}% • ${patchOut.risk}`;
+
+  const out =
+`===== KẾT QUẢ FULL (HIT@3>=2 — LUÔN CHỐT 3) =====
+Tổng ngày dùng: ${days.length}
+
+AI ĐỌC PHA:
+Pha: ${phaObj.pha} | Hướng: ${phaObj.dir} | Tin cậy: ${(phaObj.conf*100).toFixed(0)}%
+Nhận định: ${phaObj.note}
+
+TOP ${topN} (tham khảo) + %:
+${pctLineArr.join("  ")}
+
+CHỐT 3 (mục tiêu HIT@3>=2):
+🎯 Chính: ${pick[0]}
+🛡️ Phụ:  ${pick[1]}
+➕ Kèm:  ${pick[2]}
+
+3 CẢNH BÁO:
+1) ${warnings[0]}
+2) ${warnings[1]}
+3) ${warnings[2]}
+
+NOTE:
+${extraNote}
+
+GIẢI THÍCH:
+${explainLines.join("\n")}
+
+WEIGHTS:
+wHot=${weights.wHot} | wGan=${weights.wGan} | wPas=${weights.wPas} | wTruc=${weights.wTruc} | wG7=${weights.wG7}
+`;
+
+  const deep = buildDeepLotoReport(days, phaObj, weights, meta, meta.scoreSorted.slice(0,10).map(([n,s],idx)=>{
+    const f = meta.features[n] || {hot:0,gan:999,pas:0,truc:false,g7:false};
+    const cum = (meta.cumList||[]).includes(n);
+    const dau = meta.headTop.slice(0,5).includes(n[0]);
+    const duoi = meta.tailTop.slice(0,5).includes(n[1]);
+    return {
+      tier: idx<6 ? "A" : "B",
+      n, s,
+      hot: f.hot||0,
+      gan: meta.gan[n],
+      pas: !!f.pas,
+      truc: !!f.truc,
+      g7: !!f.g7,
+      cum,
+      dau,
+      duoi
+    };
+  }));
+
+  const rawText = out + "\n\n" + deep;
+
+  window.__lastRender = ()=>renderOutputUI({
+    phaObj,
+    pick,
+    pctLineArr,
+    warnings,
+    explainLines,
+    weights,
+    daysLen: days.length,
+    rawText,
+    extraNote
+  });
+  window.__lastRender();
+}
+el("btnFull").onclick = runFULL;
+
+/* =========================================================
+   SAVE/LOAD/RESET (đỡ rối khi test thương mại)
+========================================================= */
+const LS_KEY = "BH_ULTRA_MASTER_V3_DATA";
+
+function saveData(){
+  const payload = {
+    inputData: el("inputData").value || "",
+    settings: {
+      winDays: el("winDays").value,
+      topN: el("topN").value,
+      aiSup: el("aiSup").value,
+      trucThreshold: el("trucThreshold").value,
+      phaseK: el("phaseK").value,
+      wHot: el("wHot").value,
+      wGan: el("wGan").value,
+      wPas: el("wPas").value,
+    },
+    ts: Date.now()
+  };
+  localStorage.setItem(LS_KEY, JSON.stringify(payload));
+  setBadge("stSave", "● Save: OK", "ok");
+}
+function loadData(){
+  const raw = localStorage.getItem(LS_KEY);
+  if(!raw){ setBadge("stSave","● Save: empty","warn"); return; }
+  try{
+    const p = JSON.parse(raw);
+    el("inputData").value = p.inputData || "";
+    const s = p.settings || {};
+    if(s.winDays!=null) el("winDays").value = s.winDays;
+    if(s.topN!=null) el("topN").value = s.topN;
+    if(s.aiSup!=null) el("aiSup").value = s.aiSup;
+    if(s.trucThreshold!=null) el("trucThreshold").value = s.trucThreshold;
+    if(s.phaseK!=null) el("phaseK").value = s.phaseK;
+    if(s.wHot!=null) el("wHot").value = s.wHot;
+    if(s.wGan!=null) el("wGan").value = s.wGan;
+    if(s.wPas!=null) el("wPas").value = s.wPas;
+    setBadge("stSave","● Save: loaded","ok");
+  }catch(e){
+    setBadge("stSave","● Save: corrupt","fail");
+  }
+}
+function clearIO(){
+  el("outHtml").textContent = "Chưa có dữ liệu.";
+  el("outRaw").textContent = "Chưa có dữ liệu.";
+}
+function resetAll(){
+  // reset app state
+  el("inputData").value = "";
+  el("dbg").textContent = "Chưa có OCR.";
+  clearIO();
+  showKPI("", [], [], "--");
+  batchOK=0; batchFail=0;
+  setBadge("stOcr","● OCR: idle","ok");
+  setBadge("stGate","● Gate: waiting","warn");
+  setBadge("stSave","● Save: --","warn");
+  setStatus();
+  // nuke storage
+  localStorage.removeItem(LS_KEY);
+}
+
+el("btnSave").onclick = saveData;
+el("btnLoad").onclick = loadData;
+el("btnClearData").onclick = ()=>{ el("inputData").value=""; clearIO(); };
+el("btnClearAll").onclick = resetAll;
+
+// auto load nếu có
+loadData();
 </script>
 </body>
 </html>
