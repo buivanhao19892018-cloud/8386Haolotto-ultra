@@ -143,6 +143,7 @@
     .kpi .box .t{font-size:12px;color:var(--muted)}
     .kpi .box .v{font-size:16px;font-weight:900;margin-top:4px}
 
+    /* GOD MODE mini panel */
     .god{
       display:grid;
       grid-template-columns:1fr;
@@ -160,6 +161,7 @@
       line-height:1.45;
     }
 
+    /* OUTPUT UI (thương mại) */
     .krow{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
     .kcard{
       flex:1;min-width:220px;
@@ -189,6 +191,9 @@
 <body>
 <div class="wrap">
 
+  <!-- =========================
+       1) SCAN PRO (GIỮ NGUYÊN)
+       ========================= -->
   <div class="card">
     <h1>Bùi Hào — Lotto ULTRA MASTER (OCR Gate FINAL v3 • GOD MODE)</h1>
     <div class="pillrow">
@@ -276,6 +281,9 @@
     </div>
   </div>
 
+  <!-- =========================
+       2) INPUT DATA + GOD MODE
+       ========================= -->
   <div class="card">
     <h2 class="sectionTitle">Dữ liệu đầu vào (mỗi dòng = 1 ngày)</h2>
     <div class="hint">Format chuẩn auto: <b>DB xx | G7: a b c d | G6: xxx yyy zzz</b> (newest ở trên)</div>
@@ -341,6 +349,9 @@
     </div>
   </div>
 
+  <!-- =========================
+       3) OUTPUT (SIMPLE/PRO)
+       ========================= -->
   <div class="card">
     <h2 class="sectionTitle">KẾT QUẢ FULL</h2>
 
@@ -366,10 +377,16 @@
 
 </div>
 
+<!-- Load libs -->
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 <script async src="https://docs.opencv.org/4.x/opencv.js" onload="onOpenCvReady()"></script>
 
 <script>
+/* =========================================================
+   BUILD ID (SỬA #3: hiển thị để tránh cache)
+========================================================= */
+const BUILD_ID = "A-FULL-2026-02-02-01";
+
 /* =========================================================
    PHẦN 1 — SCAN PRO (GIỮ NGUYÊN LOGIC)
 ========================================================= */
@@ -494,11 +511,15 @@ function gateCheck(db5, g6_3, g7_4){
   return {ok:true, reason:"OK"};
 }
 
+/* =========================================================
+   SỬA #1: addLineToInput() PREPEND (newest ở trên)
+========================================================= */
 function addLineToInput(db5, g7, g6){
   const db2 = db5.slice(-2);
   const line = `DB ${db2} | G7: ${g7.join(" ")} | G6: ${g6.join(" ")}`;
   const cur = el("inputData").value.trim();
-  el("inputData").value = (cur ? cur + "\n" : "") + line;
+  // PREPEND để newest ở trên (đúng như engine parseLines slice(0,win))
+  el("inputData").value = line + (cur ? "\n" + cur : "");
 }
 
 async function runOCRFromBlob(blob){
@@ -681,6 +702,8 @@ DB 80 | G7: 22 20 16 61 | G6: 733 014 672`;
 /* =========================================================
    PHẦN 2 — ENGINE (MASTER+++)
 ========================================================= */
+
+/* ----- Parse input lines ----- */
 function parseLines(){
   const raw = el("inputData").value.trim().split("\n").map(s=>s.trim()).filter(Boolean);
   const win = Math.min(Math.max(10, parseInt(el("winDays").value||"20",10)), 60);
@@ -704,6 +727,7 @@ function parseLines(){
   return days;
 }
 
+/* ----- Helpers ----- */
 function buildHeadTail(days, K){
   const h = {}; const t = {};
   days.slice(0,K).forEach(d=>{
@@ -778,6 +802,9 @@ function buildCumConfirm(scoreSorted){
   return Array.from(new Set(cum)).slice(0,8);
 }
 
+/* =========================================================
+   MASTER+++ đọc pha (pha–trục–xả–mở)
+========================================================= */
 function detectPhase(days){
   const K = Math.min(Math.max(5, parseInt(el("phaseK").value||"9",10)), days.length);
   const ht = buildHeadTail(days, K);
@@ -849,6 +876,9 @@ function detectPhase(days){
   return {pha,dir,conf,note,metrics:{trucRatio,ganRatio,g7Ratio,noise}, headTop, tailTop};
 }
 
+/* =========================================================
+   AI supervisor: khóa trọng số theo pha (giữ nguyên)
+========================================================= */
 function lockWeightsByPhase(phaObj){
   let wHot = parseFloat(el("wHot").value||"2");
   let wGan = parseFloat(el("wGan").value||"1.5");
@@ -886,6 +916,9 @@ function lockWeightsByPhase(phaObj){
   return {wHot,wGan,wPas,wTruc,wG7, locked:true};
 }
 
+/* =========================================================
+   SCORE (giữ nguyên để có meta HOT/GAN/TRỤC/PASCAL)
+========================================================= */
 function scoreCandidates(days, phaObj, weights){
   const K = Math.min(Math.max(5, parseInt(el("phaseK").value||"9",10)), days.length);
   const threshold = Math.min(Math.max(2, parseInt(el("trucThreshold").value||"4",10)), 10);
@@ -953,6 +986,9 @@ function scoreCandidates(days, phaObj, weights){
   return {scoreSorted, freq, gan, trucSet, pas, g7Lead, headTop, tailTop, cumList, features};
 }
 
+/* =========================================================
+   WARNINGS (giữ nguyên)
+========================================================= */
 function buildWarnings(days, phaObj, meta){
   const warn = [];
 
@@ -989,6 +1025,9 @@ function buildWarnings(days, phaObj, meta){
   return uniq.slice(0,3);
 }
 
+/* =========================================================
+   FULL PRO report (raw text) (giữ nguyên)
+========================================================= */
 function buildDeepLotoReport(days, phaObj, weights, meta, topPickObjs){
   const K = Math.min(Math.max(5, parseInt(el("phaseK").value||"9",10)), days.length);
 
@@ -1037,7 +1076,7 @@ wHot=${weights.wHot} | wGan=${weights.wGan} | wPas=${weights.wPas} | wTruc=${wei
 }
 
 /* =========================================================
-   OUTPUT UI renderer (SIMPLE / PRO)
+   OUTPUT UI renderer (SIMPLE / PRO) (giữ nguyên)
 ========================================================= */
 let VIEW_MODE = "simple";
 window.__lastRender = null;
@@ -1106,7 +1145,7 @@ function renderOutputUI(payload){
       <div class="khead">3 CẢNH BÁO MẠNH</div>
       ${warnHtml}
       <div class="sep"></div>
-      <div class="metaLine">AI supervisor: <b>${weights.locked?"LOCKED":"OFF"}</b><br/>${esc(weightLine)}<br/>Tổng ngày dùng: ${daysLen}</div>
+      <div class="metaLine">AI supervisor: <b>${weights.locked?"LOCKED":"OFF"}</b><br/>${esc(weightLine)}<br/>Tổng ngày dùng: ${daysLen}<br/>BUILD: <b>${esc(BUILD_ID)}</b></div>
     </div>
   `;
 
@@ -1126,7 +1165,7 @@ function renderOutputUI(payload){
 }
 
 /* =========================================================
-   PATCH HIT@3>=2 — DROP-IN
+   PATCH HIT@3>=2 — DROP-IN (GIỮ NGUYÊN)
 ========================================================= */
 const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
 const sigmoid = (z) => 1 / (1 + Math.exp(-z));
@@ -1294,16 +1333,15 @@ function pickTop3WithDiversity(ctx, pMap) {
 }
 
 /* =========================================================
-   GIẢM NÉ NGÀY: chỉ "cảnh báo NE" ở trường hợp cực đoan
-   (Vẫn CHỐT 3 số để test/thương mại)
+   SỬA #2: GIẢM NÉ NGÀY — ƯU TIÊN CHỐT 3
+   -> chỉ “né” khi dữ liệu quá ít/lỗi nặng.
 ========================================================= */
 function shouldSkipDay(ctx, gate) {
   const conf = ctx.phaseHint?.tinCay ?? 0.0;
   const noise = gate.noise;
 
-  // Chỉ gắn nhãn "NE" khi cực đoan (ưu tiên luôn chốt 3)
-  if (noise >= 0.80 && conf < 0.72) return { skip:true, reason:"NOISE rất cao + pha yếu" };
-  if (gate.isDaoXa && noise >= 0.78 && conf < 0.75) return { skip:true, reason:"Pha đảo/xả mạnh + noise rất cao" };
+  // Chỉ né khi cực đoan (rất nhiễu + pha cực thấp)
+  if (noise >= 0.78 && conf < 0.62) return { skip:true, reason:"NOISE rất cao + pha thấp" };
 
   return { skip:false, reason:"OK" };
 }
@@ -1323,7 +1361,7 @@ function MASTER_HIT2OF3(ctx) {
 
   const skip = shouldSkipDay(ctx, gate);
 
-  // ✅ LUÔN CHỐT 3 (ưu tiên thương mại)
+  // ƯU TIÊN CHỐT 3: kể cả khi skip, vẫn chốt nhưng gắn cảnh báo “đánh nhỏ”
   const chot3 = pickTop3WithDiversity(ctx, p).map(x => x.n);
 
   const phaseConf = ctx.phaseHint?.tinCay ?? 0.75;
@@ -1333,7 +1371,7 @@ function MASTER_HIT2OF3(ctx) {
 }
 
 /* =========================================================
-   RUN FULL — main (HIT@3>=2 — ƯU TIÊN CHỐT 3)
+   RUN FULL — main (HIT@3>=2 — ỔN ĐỊNH)
 ========================================================= */
 function runFULL(){
   const days = parseLines();
@@ -1348,13 +1386,14 @@ function runFULL(){
   const meta = scoreCandidates(days, phaObj, weights);
 
   const candidates = Array.from({length:100},(_,i)=>pad2(i));
-
   const hotRank = new Map(candidates.map(n => [n, meta.freq[n] || 0]));
+
   const ganScore = new Map(candidates.map(n => {
     const v = meta.gan[n];
     if(v === 999) return [n, 0];
     return [n, Math.min(v, 20)];
   }));
+
   const pasScore = new Map(candidates.map(n => [n, meta.pas.has(n) ? 1 : 0]));
 
   const Kp = Math.min(Math.max(5, parseInt(el("phaseK").value||"9",10)), days.length);
@@ -1392,18 +1431,16 @@ function runFULL(){
 
   const topN = Math.min(Math.max(4, parseInt(el("topN").value||"10",10)), 15);
   const topPickByProb = patchOut.top10.slice(0, topN);
-
   const maxP = Math.max(...topPickByProb.map(x=>x.prob), 0.0001);
   const pctLineArr = topPickByProb.map(x=>{
     const p = (x.prob / maxP) * 100;
     return `${x.n}(${p.toFixed(0)}%)`;
   });
 
-  // ✅ LUÔN CÓ PICK (fallback top3 nếu vì lý do nào đó chot3 rỗng)
-  const fallback3 = topPickByProb.slice(0,3).map(x=>x.n);
-  const pick = (patchOut.chot3 && patchOut.chot3.length) ? patchOut.chot3.slice(0,3) : fallback3;
+  // Luôn chốt 3
+  const pick = (patchOut.chot3 || []).slice(0,3);
 
-  const explainLines = pick.slice(0,3).map((n,i)=>{
+  const explainLines = (pick.length ? pick : topPickByProb.slice(0,3).map(x=>x.n)).slice(0,3).map((n,i)=>{
     const f = meta.features[n] || {hot:0,gan:999,pas:0,truc:false,g7:false};
     const ganTag = (meta.gan[n]===999) ? "∞" : meta.gan[n];
     const cum = (meta.cumList||[]).includes(n);
@@ -1413,8 +1450,8 @@ function runFULL(){
   });
 
   const extraNote = patchOut.skip.skip
-    ? `🟥 NE (cực đoan): ${patchOut.skip.reason}. Vẫn CHỐT 3 số để test/thương mại. trust ${(patchOut.trust*100).toFixed(0)}% • noise ${(patchOut.gate.noise*100).toFixed(0)}%`
-    : `✅ MODE: HIT@3>=2 • trust ${(patchOut.trust*100).toFixed(0)}% • noise ${(patchOut.gate.noise*100).toFixed(0)}%`;
+    ? `🟠 CẢNH BÁO: ${patchOut.skip.reason} (vẫn chốt 3 nhưng đánh nhỏ). • MODE HIT@3>=2 • trust ${(patchOut.trust*100).toFixed(0)}% • noise ${(patchOut.gate.noise*100).toFixed(0)}% • BUILD ${BUILD_ID}`
+    : `✅ MODE: HIT@3>=2 • trust ${(patchOut.trust*100).toFixed(0)}% • noise ${(patchOut.gate.noise*100).toFixed(0)}% • BUILD ${BUILD_ID}`;
 
   const main = pick[0] || "--";
   const sub  = pick[1] || "--";
@@ -1422,6 +1459,7 @@ function runFULL(){
 
   const out =
 `===== KẾT QUẢ FULL (GOD MODE • MASTER+++ • HIT@3>=2) =====
+BUILD: ${BUILD_ID}
 Tổng ngày dùng: ${days.length}
 
 AI ĐỌC PHA:
@@ -1431,8 +1469,7 @@ Nhận định: ${phaObj.note}
 TOP ${topN} (tham khảo) + %:
 ${pctLineArr.join("  ")}
 
-CHỐT (3 số, tối ưu HIT@3>=2):
-${patchOut.skip.skip ? "🟥 NE (trả 3 số THAM KHẢO để test)" : "✅ OK (chốt theo HIT@3>=2)"}
+CHỐT (3 số, ưu tiên HIT@3>=2):
 🎯 Chính: ${main}
 🛡️ Phụ:  ${sub}${kem?`\n➕ Kèm:  ${kem}`:""}
 
