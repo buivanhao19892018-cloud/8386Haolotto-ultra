@@ -431,6 +431,7 @@ function showKPI(db2, g6, g7, gate){
 
 /* =========================================================
    INPUT NORMALIZE — 1 NGÀY / 1 DÒNG (GIẢM NHIỄU)
+   (CHỈ SỬA NHẸ: mở ngày mới phải có DB + có nhãn G7/G6)
 ========================================================= */
 function normalizeInputToOneDayOneLine(rawText){
   const lines = String(rawText||"")
@@ -441,9 +442,10 @@ function normalizeInputToOneDayOneLine(rawText){
 
   const out = [];
   for(const ln of lines){
-    const isNew = /(^|\s)DB\s*\d{0,2}\b/i.test(ln) || /(^|\s)ĐB\s*\d{0,2}\b/i.test(ln);
-    const hasG7 = /G7\s*:/i.test(ln);
-    const hasG6 = /G6\s*:/i.test(ln);
+    // CHẶT HƠN: DB/ĐB phải có đủ 1-2 số; và phải kèm nhãn G7/G6 để coi là “mở ngày”
+    const isNew = /(^|\s)(DB|ĐB)\s*\d{1,2}\b/i.test(ln);
+    const hasG7 = /\bG7\s*:/i.test(ln);
+    const hasG6 = /\bG6\s*:/i.test(ln);
 
     if(isNew && (hasG7 || hasG6)){
       out.push(ln);
@@ -1261,7 +1263,7 @@ el("btnViewSimple").onclick = ()=>{ setView("simple"); if(window.__lastRender) w
 el("btnViewPro").onclick = ()=>{ setView("pro"); if(window.__lastRender) window.__lastRender(); };
 setView("simple");
 
-function esc(s){ return String(s).replace(/[&<>"']/g, m=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[m])); }
+function esc(s){ return String(s).replace(/[&<>"']/g, m=>({ "&":"&amp;","<":"&lt;"," >":"&gt;",'"':"&quot;","'":"&#39;" }[m] || m)); }
 
 function renderOutputUI(payload){
   const {phaObj, pick, pctLineArr, warnings, explainLines, weights, daysLen, rawText, extraNote} = payload;
