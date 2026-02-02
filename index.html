@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
-  <title>Bùi Hào — Lotto ULTRA MASTER (OCR Gate FINAL v3 • GOD MODE)</title>
+  <title>Bùi Hào — Lotto ULTRA MASTER (OCR Gate FINAL v3 • GOD MODE • A-FULL)</title>
   <meta name="theme-color" content="#0b1220"/>
   <style>
     :root{
@@ -143,7 +143,6 @@
     .kpi .box .t{font-size:12px;color:var(--muted)}
     .kpi .box .v{font-size:16px;font-weight:900;margin-top:4px}
 
-    /* GOD MODE mini panel */
     .god{
       display:grid;
       grid-template-columns:1fr;
@@ -161,7 +160,6 @@
       line-height:1.45;
     }
 
-    /* OUTPUT UI (thương mại) */
     .krow{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
     .kcard{
       flex:1;min-width:220px;
@@ -195,7 +193,7 @@
        1) SCAN PRO (GIỮ NGUYÊN)
        ========================= -->
   <div class="card">
-    <h1>Bùi Hào — Lotto ULTRA MASTER (OCR Gate FINAL v3 • GOD MODE)</h1>
+    <h1>Bùi Hào — Lotto ULTRA MASTER (OCR Gate FINAL v3 • GOD MODE • A-FULL)</h1>
     <div class="pillrow">
       <div class="pill"><span class="dot g"></span>OpenCV</div>
       <div class="pill"><span class="dot g"></span>Tesseract OCR</div>
@@ -383,11 +381,6 @@
 
 <script>
 /* =========================================================
-   BUILD ID (SỬA #3: hiển thị để tránh cache)
-========================================================= */
-const BUILD_ID = "A-FULL-2026-02-02-01";
-
-/* =========================================================
    PHẦN 1 — SCAN PRO (GIỮ NGUYÊN LOGIC)
 ========================================================= */
 let cvReady = false;
@@ -511,15 +504,11 @@ function gateCheck(db5, g6_3, g7_4){
   return {ok:true, reason:"OK"};
 }
 
-/* =========================================================
-   SỬA #1: addLineToInput() PREPEND (newest ở trên)
-========================================================= */
 function addLineToInput(db5, g7, g6){
   const db2 = db5.slice(-2);
   const line = `DB ${db2} | G7: ${g7.join(" ")} | G6: ${g6.join(" ")}`;
   const cur = el("inputData").value.trim();
-  // PREPEND để newest ở trên (đúng như engine parseLines slice(0,win))
-  el("inputData").value = line + (cur ? "\n" + cur : "");
+  el("inputData").value = (cur ? cur + "\n" : "") + line;
 }
 
 async function runOCRFromBlob(blob){
@@ -847,7 +836,7 @@ function detectPhase(days){
 
   if(noise>0.82 && trucRatio<0.16 && g7Ratio<0.18){
     pha="P4"; dir="NHIU_NANG"; conf=0.78;
-    note="Nhiễu nặng – tín hiệu dẫn dắt yếu. Nên né hoặc đánh cực nhỏ.";
+    note="Nhiễu nặng – tín hiệu dẫn dắt yếu. Nên đánh nhỏ & ưu tiên số giao thoa.";
     return {pha,dir,conf,note,metrics:{trucRatio,ganRatio,g7Ratio,noise}, headTop, tailTop};
   }
 
@@ -917,7 +906,7 @@ function lockWeightsByPhase(phaObj){
 }
 
 /* =========================================================
-   SCORE (giữ nguyên để có meta HOT/GAN/TRỤC/PASCAL)
+   SCORE (giữ nguyên)
 ========================================================= */
 function scoreCandidates(days, phaObj, weights){
   const K = Math.min(Math.max(5, parseInt(el("phaseK").value||"9",10)), days.length);
@@ -987,13 +976,13 @@ function scoreCandidates(days, phaObj, weights){
 }
 
 /* =========================================================
-   WARNINGS (giữ nguyên)
+   WARNINGS
 ========================================================= */
 function buildWarnings(days, phaObj, meta){
   const warn = [];
 
   if(phaObj.pha==="P4"){
-    warn.push("⚠️ NHIỄU NẶNG: tín hiệu dẫn dắt yếu → nên NÉ hoặc đánh cực nhỏ.");
+    warn.push("⚠️ NHIỄU NẶNG: tín hiệu yếu → vẫn chốt 3 nhưng đánh nhỏ & ưu tiên số giao thoa.");
   }
 
   let topInf = 0;
@@ -1026,7 +1015,7 @@ function buildWarnings(days, phaObj, meta){
 }
 
 /* =========================================================
-   FULL PRO report (raw text) (giữ nguyên)
+   FULL PRO report (raw text)
 ========================================================= */
 function buildDeepLotoReport(days, phaObj, weights, meta, topPickObjs){
   const K = Math.min(Math.max(5, parseInt(el("phaseK").value||"9",10)), days.length);
@@ -1076,7 +1065,7 @@ wHot=${weights.wHot} | wGan=${weights.wGan} | wPas=${weights.wPas} | wTruc=${wei
 }
 
 /* =========================================================
-   OUTPUT UI renderer (SIMPLE / PRO) (giữ nguyên)
+   OUTPUT UI renderer
 ========================================================= */
 let VIEW_MODE = "simple";
 window.__lastRender = null;
@@ -1096,7 +1085,7 @@ setView("simple");
 function esc(s){ return String(s).replace(/[&<>"']/g, m=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[m])); }
 
 function renderOutputUI(payload){
-  const {phaObj, pick, pctLineArr, warnings, explainLines, weights, daysLen, rawText, extraNote} = payload;
+  const {phaObj, pick, pctLineArr, warnings, explainLines, weights, daysLen, rawText, extraNote, buildTag} = payload;
 
   const main = pick[0] || "--";
   const sub  = pick[1] || "--";
@@ -1145,7 +1134,7 @@ function renderOutputUI(payload){
       <div class="khead">3 CẢNH BÁO MẠNH</div>
       ${warnHtml}
       <div class="sep"></div>
-      <div class="metaLine">AI supervisor: <b>${weights.locked?"LOCKED":"OFF"}</b><br/>${esc(weightLine)}<br/>Tổng ngày dùng: ${daysLen}<br/>BUILD: <b>${esc(BUILD_ID)}</b></div>
+      <div class="metaLine">AI supervisor: <b>${weights.locked?"LOCKED":"OFF"}</b><br/>${esc(weightLine)}<br/>Tổng ngày dùng: ${daysLen}<br/>BUILD: ${esc(buildTag)}</div>
     </div>
   `;
 
@@ -1165,7 +1154,7 @@ function renderOutputUI(payload){
 }
 
 /* =========================================================
-   PATCH HIT@3>=2 — DROP-IN (GIỮ NGUYÊN)
+   PATCH HIT@3>=2 — DROP-IN
 ========================================================= */
 const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
 const sigmoid = (z) => 1 / (1 + Math.exp(-z));
@@ -1295,6 +1284,10 @@ function buildNumberProfile(ctx, n) {
   return { head, tail, feat };
 }
 
+/* =========================================================
+   ✅ FIX CHÍNH (CÁCH A):
+   - Nếu TRUC_MO => nới diversity (cho phép trùng đầu, nới ngưỡng sim)
+========================================================= */
 function pickTop3WithDiversity(ctx, pMap) {
   const arr = [...pMap.entries()]
     .sort((a, b) => b[1] - a[1])
@@ -1303,16 +1296,23 @@ function pickTop3WithDiversity(ctx, pMap) {
   const picked = [];
   const maxTry = Math.min(arr.length, 30);
 
+  const isTrucMo = /TRUC_MO/i.test(ctx.phaseHint?.huong || "");
+  const SIM_CAP = isTrucMo ? 0.70 : 0.55;       // P6 mở trục -> nới giống nhau
+  const ALLOW_SAME_HEAD = isTrucMo;             // P6 mở trục -> cho phép trùng đầu
+
   for (let i = 0; i < maxTry && picked.length < 3; i++) {
     const cand = arr[i];
     if (picked.length === 0) { picked.push(cand); continue; }
 
     let ok = true;
     for (const pk of picked) {
-      const sameTail = cand.prof.tail === pk.prof.tail;
+      const sameTail = cand.prof.tail === pk.prof.tail; // vẫn cấm trùng đuôi
+      const sameHead = cand.prof.head === pk.prof.head; // P6 có thể cho phép
       const sim = jaccard(cand.prof.feat, pk.prof.feat);
+
       if (sameTail) ok = false;
-      if (sim >= 0.55) ok = false;
+      if (!ALLOW_SAME_HEAD && sameHead) ok = false;
+      if (sim >= SIM_CAP) ok = false;
     }
     if (ok) picked.push(cand);
   }
@@ -1324,7 +1324,7 @@ function pickTop3WithDiversity(ctx, pMap) {
       let ok = true;
       for (const pk of picked) {
         const sim = jaccard(cand.prof.feat, pk.prof.feat);
-        if (sim >= 0.70) ok = false;
+        if (sim >= (isTrucMo ? 0.82 : 0.70)) ok = false;
       }
       if (ok) picked.push(cand);
     }
@@ -1333,15 +1333,19 @@ function pickTop3WithDiversity(ctx, pMap) {
 }
 
 /* =========================================================
-   SỬA #2: GIẢM NÉ NGÀY — ƯU TIÊN CHỐT 3
-   -> chỉ “né” khi dữ liệu quá ít/lỗi nặng.
+   ✅ GIẢM NÉ NGÀY: không khóa chốt nữa
+   - chỉ trả cảnh báo (flag), vẫn CHỐT 3
 ========================================================= */
 function shouldSkipDay(ctx, gate) {
   const conf = ctx.phaseHint?.tinCay ?? 0.0;
   const noise = gate.noise;
 
-  // Chỉ né khi cực đoan (rất nhiễu + pha cực thấp)
-  if (noise >= 0.78 && conf < 0.62) return { skip:true, reason:"NOISE rất cao + pha thấp" };
+  // "hard skip" chỉ khi cực đoan: noise rất cao và pha cực thấp
+  if (noise >= 0.82 && conf < 0.68) return { skip:true, reason:"CỰC NHIỄU + pha thấp" };
+
+  // còn lại: không skip, chỉ cảnh báo
+  if (noise >= 0.65 && conf < 0.80) return { skip:false, reason:"NOISE cao + pha chưa chắc (cảnh báo)" };
+  if (gate.isDaoXa && noise >= 0.55) return { skip:false, reason:"Pha đảo/xả + noise (cảnh báo)" };
 
   return { skip:false, reason:"OK" };
 }
@@ -1361,8 +1365,11 @@ function MASTER_HIT2OF3(ctx) {
 
   const skip = shouldSkipDay(ctx, gate);
 
-  // ƯU TIÊN CHỐT 3: kể cả khi skip, vẫn chốt nhưng gắn cảnh báo “đánh nhỏ”
-  const chot3 = pickTop3WithDiversity(ctx, p).map(x => x.n);
+  // ✅ ưu tiên chốt 3 luôn (trừ khi hard-skip cực đoan)
+  let chot3 = [];
+  if (!skip.skip) {
+    chot3 = pickTop3WithDiversity(ctx, p).map(x => x.n);
+  }
 
   const phaseConf = ctx.phaseHint?.tinCay ?? 0.75;
   const trust = clamp(0.55 + 0.35 * (1 - gate.noise) + 0.20 * (phaseConf - 0.75), 0.40, 0.92);
@@ -1371,7 +1378,7 @@ function MASTER_HIT2OF3(ctx) {
 }
 
 /* =========================================================
-   RUN FULL — main (HIT@3>=2 — ỔN ĐỊNH)
+   RUN FULL — main (HIT@3>=2 — A-FULL)
 ========================================================= */
 function runFULL(){
   const days = parseLines();
@@ -1381,11 +1388,20 @@ function runFULL(){
     return;
   }
 
+  const buildTag = "A-FULL-2026-02-02-02"; // bạn có thể đổi số build tùy ý
+
+  // 1) đọc pha
   const phaObj = detectPhase(days);
+
+  // 2) weights UI
   const weights = lockWeightsByPhase(phaObj);
+
+  // 3) meta full
   const meta = scoreCandidates(days, phaObj, weights);
 
+  // 4) ctx HIT@3>=2
   const candidates = Array.from({length:100},(_,i)=>pad2(i));
+
   const hotRank = new Map(candidates.map(n => [n, meta.freq[n] || 0]));
 
   const ganScore = new Map(candidates.map(n => {
@@ -1427,20 +1443,31 @@ function runFULL(){
 
   const patchOut = MASTER_HIT2OF3(ctxPatch);
 
+  // 5) warnings
   const warnings = buildWarnings(days, phaObj, meta);
 
+  // thêm cảnh báo nếu skip.reason là cảnh báo mềm
+  if(!patchOut.skip.skip && patchOut.skip.reason && patchOut.skip.reason !== "OK"){
+    warnings[0] = "⚠️ " + patchOut.skip.reason + " → vẫn CHỐT 3 (đánh nhỏ).";
+  }
+
+  // 6) TOP hiển thị theo PATCH
   const topN = Math.min(Math.max(4, parseInt(el("topN").value||"10",10)), 15);
   const topPickByProb = patchOut.top10.slice(0, topN);
+
   const maxP = Math.max(...topPickByProb.map(x=>x.prob), 0.0001);
   const pctLineArr = topPickByProb.map(x=>{
     const p = (x.prob / maxP) * 100;
     return `${x.n}(${p.toFixed(0)}%)`;
   });
 
-  // Luôn chốt 3
-  const pick = (patchOut.chot3 || []).slice(0,3);
+  // 7) pick 3 số (ưu tiên chốt)
+  const pick = (patchOut.chot3 && patchOut.chot3.length===3)
+    ? patchOut.chot3
+    : topPickByProb.slice(0,3).map(x=>x.n);
 
-  const explainLines = (pick.length ? pick : topPickByProb.slice(0,3).map(x=>x.n)).slice(0,3).map((n,i)=>{
+  // 8) explain lines
+  const explainLines = pick.slice(0,3).map((n,i)=>{
     const f = meta.features[n] || {hot:0,gan:999,pas:0,truc:false,g7:false};
     const ganTag = (meta.gan[n]===999) ? "∞" : meta.gan[n];
     const cum = (meta.cumList||[]).includes(n);
@@ -1449,17 +1476,19 @@ function runFULL(){
     return `${i+1}) ${n} | hot:${f.hot||0} | gan:${ganTag} | truc:${f.truc?"Y":"-"} | g7:${f.g7?"Y":"-"} | pas:${f.pas?"Y":"-"} | cum:${cum?"Y":"-"} | dau:${dau?"Y":"-"} | duoi:${duoi?"Y":"-"}`;
   });
 
-  const extraNote = patchOut.skip.skip
-    ? `🟠 CẢNH BÁO: ${patchOut.skip.reason} (vẫn chốt 3 nhưng đánh nhỏ). • MODE HIT@3>=2 • trust ${(patchOut.trust*100).toFixed(0)}% • noise ${(patchOut.gate.noise*100).toFixed(0)}% • BUILD ${BUILD_ID}`
-    : `✅ MODE: HIT@3>=2 • trust ${(patchOut.trust*100).toFixed(0)}% • noise ${(patchOut.gate.noise*100).toFixed(0)}% • BUILD ${BUILD_ID}`;
+  // 9) note
+  const trust = (patchOut.trust*100).toFixed(0);
+  const noisePct = (patchOut.gate.noise*100).toFixed(0);
+  const extraNote = `✅ MODE: HIT@3>=2 • trust ${trust}% • noise ${noisePct}% • BUILD ${buildTag}`;
 
+  // 10) raw text
   const main = pick[0] || "--";
   const sub  = pick[1] || "--";
   const kem  = pick[2] || "";
 
   const out =
 `===== KẾT QUẢ FULL (GOD MODE • MASTER+++ • HIT@3>=2) =====
-BUILD: ${BUILD_ID}
+BUILD: ${buildTag}
 Tổng ngày dùng: ${days.length}
 
 AI ĐỌC PHA:
@@ -1510,6 +1539,7 @@ wHot=${weights.wHot} | wGan=${weights.wGan} | wPas=${weights.wPas} | wTruc=${wei
   }));
   const rawText = out + "\n\n" + deep;
 
+  // 11) render
   window.__lastRender = ()=>renderOutputUI({
     phaObj,
     pick,
@@ -1519,7 +1549,8 @@ wHot=${weights.wHot} | wGan=${weights.wGan} | wPas=${weights.wPas} | wTruc=${wei
     weights,
     daysLen: days.length,
     rawText,
-    extraNote
+    extraNote,
+    buildTag
   });
   window.__lastRender();
 }
