@@ -190,7 +190,7 @@
 <div class="wrap">
 
   <!-- =========================
-       1) OCR GATE + SCALE/UPLOAD (ỔN ĐỊNH)
+       1) OCR GATE + SCALE/UPLOAD
        ========================= -->
   <div class="card">
     <h1>Bùi Hào — Lotto ULTRA MASTER (OCR Gate FINAL v3 • GOD MODE • HIT@3>=2)</h1>
@@ -202,6 +202,7 @@
       <div class="pill"><span class="dot y"></span>DB theo nhãn “ĐB/DB” + 5 số</div>
       <div class="pill"><span class="dot y"></span>G7/G6 theo pattern</div>
       <div class="pill"><span class="dot g"></span>✅ Không “né ngày” để trống</div>
+      <div class="pill"><span class="dot g"></span>✅ Auto “1 ngày / 1 dòng”</div>
     </div>
 
     <div class="hint">
@@ -286,7 +287,16 @@
        ========================= -->
   <div class="card">
     <h2 class="sectionTitle">Dữ liệu đầu vào (mỗi dòng = 1 ngày)</h2>
-    <div class="hint">Format chuẩn auto: <b>DB xx | G7: a b c d | G6: xxx yyy zzz</b> (newest ở trên)</div>
+    <div class="hint">
+      Format chuẩn: <b>DB xx | G7: a b c d | G6: xxx yyy zzz</b> (newest ở trên).
+      <br/>✅ Tool sẽ tự <b>gom 1 ngày / 1 dòng</b> trước khi chạy FULL.
+    </div>
+
+    <div class="row" style="margin-top:10px">
+      <button class="btn ghost" id="btnNormalize">🧹 Chuẩn hoá 1 ngày/1 dòng</button>
+      <button class="btn ghost" id="btnFixFormat">🛠️ Sửa format (DB/G7/G6) theo số</button>
+    </div>
+
     <div class="field" style="margin-top:10px">
       <textarea id="inputData" placeholder="Sau batch scan, tool tự đổ vào đây..."></textarea>
     </div>
@@ -308,12 +318,20 @@
         </select>
       </div>
       <div class="field">
-        <label>Ngưỡng TRỤC nổi (>=)</label>
-        <input id="trucThreshold" type="number" value="4" min="2" max="10" />
+        <label>Thu hẹp G6 (trong tính toán)</label>
+        <select id="g6Scope">
+          <option value="full" selected>FULL (G6 mọi ngày)</option>
+          <option value="newest_only">CHỈ ngày mới nhất</option>
+          <option value="off">TẮT G6</option>
+        </select>
       </div>
     </div>
 
     <div class="split" style="margin-top:10px">
+      <div class="field">
+        <label>Ngưỡng TRỤC nổi (>=)</label>
+        <input id="trucThreshold" type="number" value="4" min="2" max="10" />
+      </div>
       <div class="field">
         <label>K đọc pha (ngày gần nhất)</label>
         <input id="phaseK" type="number" value="9" min="5" max="20" />
@@ -326,9 +344,16 @@
         <label>Trọng số Gan</label>
         <input id="wGan" type="number" value="1.5" step="0.5" />
       </div>
+    </div>
+
+    <div class="split" style="margin-top:10px">
       <div class="field">
         <label>Trọng số Pascal</label>
         <input id="wPas" type="number" value="2" step="0.5" />
+      </div>
+      <div class="field">
+        <label>(ghi nhớ) Newest luôn ở trên</label>
+        <input value="OK" disabled />
       </div>
     </div>
 
@@ -339,8 +364,9 @@
         <br/><b>Quan trọng:</b> Bản này <b>KHÔNG “né ngày” để trống</b>. Ngày nhiễu vẫn chốt 3 nhưng sẽ gắn cảnh báo rủi ro.
       </div>
       <div class="callout">
-        <b>Khuyến nghị số ngày:</b> <b>20</b> là hợp lý nhất.<br/>
-        Nếu dữ liệu ít: 10–15. Nếu dài: tối đa 30 (tránh loãng/pha cũ).
+        <b>Mẹo dữ liệu:</b><br/>
+        • OCR hay làm vỡ dòng → bấm <b>🧹 Chuẩn hoá 1 ngày/1 dòng</b><br/>
+        • Nếu G6 hay gây nhiễu → chọn <b>CHỈ ngày mới nhất</b> hoặc <b>TẮT G6</b>
       </div>
     </div>
 
@@ -404,7 +430,61 @@ function showKPI(db2, g6, g7, gate){
 }
 
 /* =========================================================
-   PART 1 — OCR GATE (UPLOAD/SCALE/CROP ỔN ĐỊNH)
+   INPUT NORMALIZE — 1 NGÀY / 1 DÒNG (GIẢM NHIỄU)
+========================================================= */
+function normalizeInputToOneDayOneLine(rawText){
+  const lines = String(rawText||"")
+    .replace(/\r/g,"")
+    .split("\n")
+    .map(s=>s.trim())
+    .filter(Boolean);
+
+  const out = [];
+  for(const ln of lines){
+    const isNew = /(^|\s)DB\s*\d{0,2}\b/i.test(ln) || /(^|\s)ĐB\s*\d{0,2}\b/i.test(ln);
+    const hasG7 = /G7\s*:/i.test(ln);
+    const hasG6 = /G6\s*:/i.test(ln);
+
+    if(isNew && (hasG7 || hasG6)){
+      out.push(ln);
+    }else{
+      // dòng bị vỡ: nối vào dòng trước
+      if(out.length===0) out.push(ln);
+      else out[out.length-1] = (out[out.length-1] + " " + ln).replace(/\s+/g," ").trim();
+    }
+  }
+  return out.join("\n");
+}
+
+function normalizeRecordByDigits(line){
+  // ép line về chuẩn: DB xx | G7: aa bb cc dd | G6: xxx yyy zzz
+  const db2 = (line.match(/DB\s*([0-9]{1,2})/i)?.[1] || "").replace(/\D/g,"").slice(-2);
+  const g7 = (line.match(/G7\s*:\s*([^|]+)/i)?.[1] || "").match(/\b\d{2}\b/g) || [];
+  const g6 = (line.match(/G6\s*:\s*([^|]+)/i)?.[1] || "").match(/\b\d{3}\b/g) || [];
+
+  if(db2.length!==2 || g7.length<4 || g6.length<3){
+    return line.replace(/\s+/g," ").trim(); // không đủ thì giữ nguyên
+  }
+  return `DB ${pad2(db2)} | G7: ${g7.slice(0,4).map(pad2).join(" ")} | G6: ${g6.slice(0,3).join(" ")}`;
+}
+
+function fixInputFormat(){
+  const merged = normalizeInputToOneDayOneLine(el("inputData").value);
+  const fixed = merged
+    .split("\n")
+    .map(s=>normalizeRecordByDigits(s))
+    .join("\n");
+  el("inputData").value = fixed.trim();
+}
+
+/* nút normalize/fix */
+el("btnNormalize").onclick = ()=>{
+  el("inputData").value = normalizeInputToOneDayOneLine(el("inputData").value).trim();
+};
+el("btnFixFormat").onclick = ()=> fixInputFormat();
+
+/* =========================================================
+   PART 1 — OCR GATE
 ========================================================= */
 let cvReady = false;
 let lastImageBlob = null;
@@ -431,7 +511,6 @@ function preprocess(mat){
   const blur = new cv.Mat();
   cv.GaussianBlur(gray, blur, new cv.Size(3,3), 0, 0, cv.BORDER_DEFAULT);
 
-  // adaptive threshold giúp ăn chữ số tốt hơn
   const thr = new cv.Mat();
   cv.adaptiveThreshold(
     blur, thr, 255,
@@ -452,46 +531,23 @@ async function ocrText(canvas){
   return (res.data.text || "");
 }
 
-/* ==========================
-   PATCH 1: cleanOCR KHÔNG phá chữ "DB"
-   - bỏ .replace(/B/g,"8") (làm D8)
-   - chỉ đổi B<->8 khi đứng sát chữ số
-========================== */
 function cleanOCR(txt){
-  let s = String(txt)
+  return String(txt)
     .replace(/[Oo]/g,"0")
     .replace(/[Il|]/g,"1")
-    .replace(/S/g,"5");
-
-  // chỉ đổi B -> 8 khi sát số: 4B754->48754, nhưng "DB" vẫn giữ
-  s = s.replace(/(\d)B/g, "$18").replace(/B(\d)/g, "8$1");
-
-  // giữ lại chữ D/B/Đ/đ để bắt nhãn DB/ĐB
-  s = s
+    .replace(/S/g,"5")
+    .replace(/B/g,"8")
     .replace(/[^\d\s\nĐđDBdb]/g," ")
     .replace(/\s+\n/g,"\n")
     .replace(/\n\s+/g,"\n")
     .replace(/[ \t]+/g," ")
     .trim();
-  return s;
 }
 
-/* ==========================
-   PATCH 2: extractDB5 chịu được DB/ĐB + lỗi D8
-   - bắt: "DB 42754", "ĐB42754", "D8 42754"...
-========================== */
 function extractDB5_fromLabel(text){
   const t = text.replace(/\s+/g," ");
-
-  // DB/ĐB/D8 + 5 số
-  let m = t.match(/(?:Đ\s*B|D\s*B|D\s*8)\s*(\d{5})/);
+  let m = t.match(/(?:Đ\s*B|D\s*B)\s*(\d{5})/);
   if(m) return m[1];
-
-  // dạng dính liền
-  m = t.match(/(?:ĐB|DB|D8)(\d{5})/);
-  if(m) return m[1];
-
-  // fallback: 5 số đầu tiên
   m = t.match(/\b\d{5}\b/);
   return m ? m[0] : "";
 }
@@ -534,6 +590,9 @@ function addLineToInput(db5, g7, g6){
   const line = `DB ${db2} | G7: ${g7.join(" ")} | G6: ${g6.join(" ")}`;
   const cur = el("inputData").value.trim();
   el("inputData").value = (cur ? cur + "\n" : "") + line;
+
+  // auto gom lại để không vỡ dòng
+  el("inputData").value = normalizeInputToOneDayOneLine(el("inputData").value).trim();
 }
 
 async function runOCRFromBlob(blob){
@@ -562,7 +621,6 @@ async function runOCRFromBlob(blob){
   const ctx2d = canvas.getContext("2d");
   ctx2d.drawImage(img,0,0);
 
-  // ===== SCALE/CROP STABLE: crop 2% viền + tách upper/body theo tỉ lệ =====
   let src = cv.imread(canvas);
   const W = src.cols, H = src.rows;
 
@@ -573,12 +631,10 @@ async function runOCRFromBlob(blob){
   const crop = src.roi(new cv.Rect(x,y,w,h));
   src.delete(); src = crop;
 
-  // split vùng: upper (label + DB), body (G6/G7)
   const upH = Math.floor(src.rows * 0.55);
   const upper = src.roi(new cv.Rect(0,0, src.cols, upH));
   const body  = src.roi(new cv.Rect(0, Math.floor(src.rows*0.35), src.cols, Math.floor(src.rows*0.65)));
 
-  // OCR upper
   const upperBin = preprocess(upper);
   const upperCanvas = canvasFromMat(upperBin);
   const upperTxt1 = await ocrText(upperCanvas);
@@ -592,7 +648,6 @@ async function runOCRFromBlob(blob){
 
   upper.delete(); upperBin.delete(); upperInv.delete();
 
-  // OCR body
   const bodyBin = preprocess(body);
   const bodyCanvas = canvasFromMat(bodyBin);
   const bodyTxt1 = await ocrText(bodyCanvas);
@@ -710,28 +765,49 @@ DB 09 | G7: 90 11 27 63 | G6: 402 578 119`;
 };
 
 /* =========================================================
-   PART 2 — ENGINE (CHỐT 3 CON LUÔN, KHÔNG “NÉ NGÀY”)
+   PART 2 — ENGINE
 ========================================================= */
 
-/* Parse lines */
+/* Parse lines (NEW: 1ngay/1dong + Thu hẹp G6) */
 function parseLines(){
-  const raw = el("inputData").value.trim().split("\n").map(s=>s.trim()).filter(Boolean);
+  // luôn normalize trước
+  el("inputData").value = normalizeInputToOneDayOneLine(el("inputData").value).trim();
+
+  const raw = el("inputData").value
+    .trim()
+    .split("\n")
+    .map(s=>s.trim())
+    .filter(Boolean);
+
   const win = Math.min(Math.max(6, parseInt(el("winDays").value||"20",10)), 60);
   const slice = raw.slice(0, win); // newest ở trên
   const days = [];
 
-  for(const line of slice){
-    const dbm = line.match(/DB\s+(\d{2})/);
-    const g7m = line.match(/G7:\s*([0-9 ]+)/);
-    const g6m = line.match(/G6:\s*([0-9 ]+)/);
-    if(!dbm || !g7m || !g6m) continue;
+  const g6Mode = el("g6Scope").value; // full | newest_only | off
+
+  for(let idx=0; idx<slice.length; idx++){
+    const line = slice[idx];
+
+    const dbm = line.match(/DB\s+(\d{2})/i);
+    const g7m = line.match(/G7:\s*([0-9 ]+)/i);
+    const g6m = line.match(/G6:\s*([0-9 ]+)/i);
+    if(!dbm || !g7m) continue;
 
     const db2 = pad2(dbm[1]);
     const g7 = (g7m[1].match(/\b\d{2}\b/g)||[]).slice(0,4).map(pad2);
-    const g6 = (g6m[1].match(/\b\d{3}\b/g)||[]).slice(0,3);
+
+    // g6 theo mode
+    let g6 = [];
+    if(g6Mode !== "off" && g6m){
+      g6 = (g6m[1].match(/\b\d{3}\b/g)||[]).slice(0,3);
+    }
+    if(g6Mode === "newest_only" && idx>0){
+      g6 = []; // chỉ giữ G6 của ngày 0
+    }
+
     const g6_2 = g6.map(x=>pad2(String(x).slice(-2)));
 
-    // pool = DB2 + 4 số G7 + 3 số (2 số cuối G6)
+    // pool = DB2 + 4 số G7 + (tuỳ mode) G6_2
     const pool = [db2, ...g7, ...g6_2];
     days.push({db2, g7, g6_2, pool});
   }
@@ -804,7 +880,7 @@ function buildCumConfirm(scoreSorted){
   return Array.from(new Set(cum)).slice(0,8);
 }
 
-/* detect phase (hỗ trợ trọng số + cảnh báo) */
+/* detect phase */
 function detectPhase(days){
   const K = Math.min(Math.max(5, parseInt(el("phaseK").value||"9",10)), days.length);
   const ht = buildHeadTail(days, K);
@@ -900,14 +976,13 @@ function lockWeightsByPhase(phaObj){
     wTruc = 1.0;
     wG7 = 1.0;
   } else if(phaObj.pha==="P4"){
-    // nhiễu nặng: vẫn chốt 3 nhưng giảm “tự tin”
     wHot = 1.2; wGan = 1.1; wPas = 1.2;
     wTruc = 0.9; wG7 = 0.9;
   }
   return {wHot,wGan,wPas,wTruc,wG7, locked:true};
 }
 
-/* score candidates (meta) */
+/* score candidates */
 function scoreCandidates(days, phaObj, weights){
   const K = Math.min(Math.max(5, parseInt(el("phaseK").value||"9",10)), days.length);
   const threshold = Math.min(Math.max(2, parseInt(el("trucThreshold").value||"4",10)), 10);
@@ -994,7 +1069,7 @@ function buildWarnings(phaObj, meta){
 }
 
 /* =========================================================
-   HIT@3>=2 PATCH — LUÔN CHỐT 3 (KHÔNG TRỐNG)
+   HIT@3>=2 PATCH — LUÔN CHỐT 3
 ========================================================= */
 const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
 const sigmoid = (z) => 1 / (1 + Math.exp(-z));
@@ -1135,7 +1210,6 @@ function pickTop3WithDiversity(ctx, pMap) {
     if (ok) picked.push(cand);
   }
 
-  // fallback luôn đủ 3
   if (picked.length < 3) {
     for (let i = 0; i < maxTry && picked.length < 3; i++) {
       const cand = arr[i];
@@ -1159,13 +1233,11 @@ function MASTER_HIT2OF3(ctx) {
     .slice(0, 10)
     .map(([n, prob]) => ({ n, prob }));
 
-  // ===== KHÔNG “NÉ NGÀY” NỮA: LUÔN CHỐT 3 =====
   const chot3 = pickTop3WithDiversity(ctx, p).map(x => x.n);
 
   const phaseConf = ctx.phaseHint?.tinCay ?? 0.75;
   const trust = clamp(0.55 + 0.35 * (1 - gate.noise) + 0.20 * (phaseConf - 0.75), 0.40, 0.92);
 
-  // chỉ đưa cảnh báo risk
   const risk = (gate.noise >= 0.65 && phaseConf < 0.80) ? "RISK: noise cao + pha chưa chắc" :
                (gate.isDaoXa && gate.noise >= 0.55) ? "RISK: pha đảo/xả + noise" : "OK";
 
@@ -1226,6 +1298,7 @@ function renderOutputUI(payload){
   `;
 
   const weightLine = `wHot=${weights.wHot} • wGan=${weights.wGan} • wPas=${weights.wPas} • wTruc=${weights.wTruc} • wG7=${weights.wG7}`;
+  const g6Mode = el("g6Scope").value;
 
   const left = `
     <div class="kcard">
@@ -1241,7 +1314,12 @@ function renderOutputUI(payload){
       <div class="khead">3 CẢNH BÁO</div>
       ${warnHtml}
       <div class="sep"></div>
-      <div class="metaLine">AI supervisor: <b>${weights.locked?"LOCKED":"OFF"}</b><br/>${esc(weightLine)}<br/>Tổng ngày dùng: ${daysLen}</div>
+      <div class="metaLine">
+        AI supervisor: <b>${weights.locked?"LOCKED":"OFF"}</b><br/>
+        G6 scope: <b>${esc(g6Mode)}</b><br/>
+        ${esc(weightLine)}<br/>
+        Tổng ngày dùng: ${daysLen}
+      </div>
     </div>
   `;
 
@@ -1308,6 +1386,9 @@ wHot=${weights.wHot} | wGan=${weights.wGan} | wPas=${weights.wPas} | wTruc=${wei
    RUN FULL — MAIN
 ========================================================= */
 function runFULL(){
+  // luôn gom 1 ngày/1 dòng trước khi tính
+  el("inputData").value = normalizeInputToOneDayOneLine(el("inputData").value).trim();
+
   const days = parseLines();
   if(days.length < 6){
     el("outHtml").textContent = "❌ Thiếu dữ liệu: cần ≥6 ngày (khuyến nghị 20).";
@@ -1354,7 +1435,6 @@ function runFULL(){
   };
 
   const patchOut = MASTER_HIT2OF3(ctxPatch);
-
   const warnings = buildWarnings(phaObj, meta);
 
   const topN = Math.min(Math.max(4, parseInt(el("topN").value||"10",10)), 15);
@@ -1365,7 +1445,6 @@ function runFULL(){
     return `${x.n}(${p.toFixed(0)}%)`;
   });
 
-  // ===== CHỐT 3 LUÔN =====
   const pick = patchOut.chot3 || topPickByProb.slice(0,3).map(x=>x.n);
 
   const explainLines = pick.slice(0,3).map((n,i)=>{
@@ -1448,7 +1527,7 @@ wHot=${weights.wHot} | wGan=${weights.wGan} | wPas=${weights.wPas} | wTruc=${wei
 el("btnFull").onclick = runFULL;
 
 /* =========================================================
-   SAVE/LOAD/RESET (đỡ rối khi test thương mại)
+   SAVE/LOAD/RESET
 ========================================================= */
 const LS_KEY = "BH_ULTRA_MASTER_V3_DATA";
 
@@ -1459,6 +1538,7 @@ function saveData(){
       winDays: el("winDays").value,
       topN: el("topN").value,
       aiSup: el("aiSup").value,
+      g6Scope: el("g6Scope").value,
       trucThreshold: el("trucThreshold").value,
       phaseK: el("phaseK").value,
       wHot: el("wHot").value,
@@ -1480,12 +1560,16 @@ function loadData(){
     if(s.winDays!=null) el("winDays").value = s.winDays;
     if(s.topN!=null) el("topN").value = s.topN;
     if(s.aiSup!=null) el("aiSup").value = s.aiSup;
+    if(s.g6Scope!=null) el("g6Scope").value = s.g6Scope;
     if(s.trucThreshold!=null) el("trucThreshold").value = s.trucThreshold;
     if(s.phaseK!=null) el("phaseK").value = s.phaseK;
     if(s.wHot!=null) el("wHot").value = s.wHot;
     if(s.wGan!=null) el("wGan").value = s.wGan;
     if(s.wPas!=null) el("wPas").value = s.wPas;
     setBadge("stSave","● Save: loaded","ok");
+
+    // auto normalize để không vỡ dòng
+    el("inputData").value = normalizeInputToOneDayOneLine(el("inputData").value).trim();
   }catch(e){
     setBadge("stSave","● Save: corrupt","fail");
   }
@@ -1495,7 +1579,6 @@ function clearIO(){
   el("outRaw").textContent = "Chưa có dữ liệu.";
 }
 function resetAll(){
-  // reset app state
   el("inputData").value = "";
   el("dbg").textContent = "Chưa có OCR.";
   clearIO();
@@ -1505,7 +1588,6 @@ function resetAll(){
   setBadge("stGate","● Gate: waiting","warn");
   setBadge("stSave","● Save: --","warn");
   setStatus();
-  // nuke storage
   localStorage.removeItem(LS_KEY);
 }
 
@@ -1514,7 +1596,7 @@ el("btnLoad").onclick = loadData;
 el("btnClearData").onclick = ()=>{ el("inputData").value=""; clearIO(); };
 el("btnClearAll").onclick = resetAll;
 
-// auto load nếu có
+// auto load
 loadData();
 </script>
 </body>
