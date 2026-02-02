@@ -452,23 +452,46 @@ async function ocrText(canvas){
   return (res.data.text || "");
 }
 
+/* ==========================
+   PATCH 1: cleanOCR KHÔNG phá chữ "DB"
+   - bỏ .replace(/B/g,"8") (làm D8)
+   - chỉ đổi B<->8 khi đứng sát chữ số
+========================== */
 function cleanOCR(txt){
-  return String(txt)
+  let s = String(txt)
     .replace(/[Oo]/g,"0")
     .replace(/[Il|]/g,"1")
-    .replace(/S/g,"5")
-    .replace(/B/g,"8")
+    .replace(/S/g,"5");
+
+  // chỉ đổi B -> 8 khi sát số: 4B754->48754, nhưng "DB" vẫn giữ
+  s = s.replace(/(\d)B/g, "$18").replace(/B(\d)/g, "8$1");
+
+  // giữ lại chữ D/B/Đ/đ để bắt nhãn DB/ĐB
+  s = s
     .replace(/[^\d\s\nĐđDBdb]/g," ")
     .replace(/\s+\n/g,"\n")
     .replace(/\n\s+/g,"\n")
     .replace(/[ \t]+/g," ")
     .trim();
+  return s;
 }
 
+/* ==========================
+   PATCH 2: extractDB5 chịu được DB/ĐB + lỗi D8
+   - bắt: "DB 42754", "ĐB42754", "D8 42754"...
+========================== */
 function extractDB5_fromLabel(text){
   const t = text.replace(/\s+/g," ");
-  let m = t.match(/(?:Đ\s*B|D\s*B)\s*(\d{5})/);
+
+  // DB/ĐB/D8 + 5 số
+  let m = t.match(/(?:Đ\s*B|D\s*B|D\s*8)\s*(\d{5})/);
   if(m) return m[1];
+
+  // dạng dính liền
+  m = t.match(/(?:ĐB|DB|D8)(\d{5})/);
+  if(m) return m[1];
+
+  // fallback: 5 số đầu tiên
   m = t.match(/\b\d{5}\b/);
   return m ? m[0] : "";
 }
@@ -817,7 +840,6 @@ function detectPhase(days){
   const freq = {};
   days.slice(0,K).forEach(d=>d.pool.forEach(n=>freq[n]=(freq[n]||0)+1));
   const topHot = Object.values(freq).sort((a,b)=>b-a)[0] || 0;
-  const uniq = Object.keys(freq).length || 1;
   const noise = (1 - (topHot/(K*8)));
 
   let pha="P3", dir="GIAO_THAO", conf=0.62, note="Giao thoa – cần số giao ≥2 tiêu chí.";
